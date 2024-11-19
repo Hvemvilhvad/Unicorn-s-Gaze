@@ -25,7 +25,12 @@ namespace Unicorns_Gaze
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            Player player = new Player(10, new Vector2(500, 500), 500);
+
+            GameObjects = new List<GameObject>() { player };
+            GameObjectsToRemove = new List<GameObject>();
+            GameObjectsToAdd = new List<GameObject>();
+            
 
             base.Initialize();
         }
@@ -33,8 +38,13 @@ namespace Unicorns_Gaze
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            foreach (GameObject gameObject in gameObjects)
+            {
+                gameObject.LoadContent(Content);
+            }
 
-            // TODO: use this.Content to load your game content here
+
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -71,7 +81,14 @@ namespace Unicorns_Gaze
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            foreach (GameObject gameObject in GameObjects)
+            {
+                gameObject.Draw(_spriteBatch);
+            }
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

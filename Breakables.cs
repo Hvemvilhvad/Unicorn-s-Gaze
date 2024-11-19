@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    internal class Breakables
+    public class Breakables : Environment
     {
     }
 }
