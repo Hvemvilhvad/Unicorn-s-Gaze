@@ -4,9 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Unicorn's_Gaze
+namespace Unicorns_Gaze
 {
-    internal class GameObject
+    public class GameObject
 {
+        public void Update()
+        {
+            //add update logic here
+        }
+
+        public void CheckCollision(GameObject other)
+        {
+            //add collision logic here
+        }
 }
 }

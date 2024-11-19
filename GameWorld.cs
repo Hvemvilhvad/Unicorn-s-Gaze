@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Unicorns_Gaze
 {
@@ -8,7 +9,13 @@ namespace Unicorns_Gaze
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private static List<GameObject> gameObjectsToRemove;
+        private static List<GameObject> gameObjectsToAdd;
+        private static List<GameObject> gameObjects;
 
+        public static List<GameObject> GameObjects { get => gameObjects; set => gameObjects = value; }
+        public static List<GameObject> GameObjectsToAdd { get => gameObjectsToAdd; set => gameObjectsToAdd = value; }
+        public static List<GameObject> GameObjectsToRemove { get => gameObjectsToRemove; set => gameObjectsToRemove = value; }
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -35,7 +42,26 @@ namespace Unicorns_Gaze
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            foreach (GameObject gameObject in GameObjects)
+            {
+                gameObject.Update();
+
+                foreach (GameObject other in GameObjects)
+                {
+                    gameObject.CheckCollision(other);
+                }
+            }
+
+            // remove game objects
+            foreach (GameObject removedObject in GameObjectsToRemove)
+            {
+                GameObjects.Remove(removedObject);
+            }
+            GameObjectsToRemove.Clear();
+
+            // add game objects
+            GameObjects.AddRange(GameObjectsToAdd);
+            GameObjectsToAdd.Clear();
 
             base.Update(gameTime);
         }
