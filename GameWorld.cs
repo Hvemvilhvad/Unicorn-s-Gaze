@@ -42,9 +42,10 @@ namespace Unicorns_Gaze
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            Vector2 screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             foreach (GameObject gameObject in GameObjects)
             {
-                gameObject.Update();
+                gameObject.Update(gameTime, screenSize);
 
                 foreach (GameObject other in GameObjects)
                 {
