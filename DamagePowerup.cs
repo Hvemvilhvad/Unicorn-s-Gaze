@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    internal class DamagePowerup
+    internal class DamagePowerup : Powerup
     {
+
     }
 }

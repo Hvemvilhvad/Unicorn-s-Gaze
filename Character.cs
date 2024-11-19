@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    internal class Character
+    public class Character : GameObject
     {
+
+        public void Heal(int healedHP)
+        {
+            Health += healedHP;
+        }
     }
 }

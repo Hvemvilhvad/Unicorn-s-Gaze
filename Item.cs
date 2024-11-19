@@ -6,7 +6,25 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    internal class Item
+    public class Item : Environment
     {
+
+
+        public override void OnCollision(GameObject other)
+        {
+            base.OnCollision(other);
+            if (other is Player)
+            {
+                Use();
+            }
+        }
+
+        /// <summary>
+        /// Uses the item and removes it from the GameWorld if it was succesfully used.
+        /// </summary>
+        public virtual void Use()
+        {
+            RemoveThis();
+        }
     }
 }

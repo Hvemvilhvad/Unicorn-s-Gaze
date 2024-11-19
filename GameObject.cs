@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Unicorns_Gaze
 {
@@ -23,15 +21,23 @@ namespace Unicorns_Gaze
         public void CheckCollision(GameObject other)
         {
             //add collision logic here
-            if (Hitbox.IntersectsWith(other.Hitbox))
+            if (Hitbox.Intersects(other.Hitbox))
             {
                 OnCollision(other);
             }
         }
 
-        public void OnCollision(GameObject other)
+        public virtual void OnCollision(GameObject other)
         {
 
+        }
+
+        /// <summary>
+        /// Removes this object from the GameWorld.
+        /// </summary>
+        public void RemoveThis()
+        {
+            GameWorld.ActiveGameWorld.RemoveObject(this);
         }
     }
 }

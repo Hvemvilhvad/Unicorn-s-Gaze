@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    internal class Player
+    public class Player : Character
     {
+        private float CriticalMultiplier;
+        private float DamageRange;
     }
 }
