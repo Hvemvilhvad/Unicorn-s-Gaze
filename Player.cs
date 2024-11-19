@@ -12,7 +12,10 @@ namespace Unicorns_Gaze
     public class Player : Character
     {
         //Fields
-
+        private float CriticalMultiplier;
+        private float DamageRange;
+        
+        
         //Properties
         
 

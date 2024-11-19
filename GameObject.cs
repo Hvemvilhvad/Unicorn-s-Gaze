@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -55,6 +55,15 @@ namespace Unicorns_Gaze
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, SpriteEffects.None, 1);
+        }
+
+  
+        /// <summary>
+        /// Removes this object from the GameWorld.
+        /// </summary>
+        public void RemoveThis()
+        {
+            GameWorld.ActiveGameWorld.RemoveObject(this);
         }
     }
 }

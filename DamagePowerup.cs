@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
+
     public class DamagePowerup : Powerup
     {
+
     }
 }

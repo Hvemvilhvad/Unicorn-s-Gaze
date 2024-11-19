@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +49,10 @@ namespace Unicorns_Gaze
 
             Position += ((velocity * speed) * deltaTime);
         }
-
+        
+        public void Heal(int healedHP)
+        {
+            Health += healedHP;
+        }
     }
 }
