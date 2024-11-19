@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Unicorn_s_Gaze
+namespace Unicorns_Gaze
 {
     public class GameWorld : Game
     {
