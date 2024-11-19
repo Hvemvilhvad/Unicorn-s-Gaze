@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    internal class HealthPickup
+    public class HealthPickup : Item
     {
     }
 }

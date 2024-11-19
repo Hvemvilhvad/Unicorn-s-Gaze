@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -41,15 +42,19 @@ namespace Unicorns_Gaze
                 return;
             }
         }
-        public virtual void Update()
+        public virtual void LoadContent(ContentManager content)
+        {
+
+        }
+        public virtual void Update(GameTime gameTime, Vector2 screenSize)
         {
             //add update logic here
 
         }
 
-        public virtual void Draw()
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
-
+            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, SpriteEffects.None, 1);
         }
     }
 }
