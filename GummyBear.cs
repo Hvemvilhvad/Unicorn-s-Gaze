@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    public class GummyBear
+    public class GummyBear : Enemy
     {
     }
 }

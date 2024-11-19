@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    internal class HealthPowerup : Powerup
+    public class HealthPowerup : Powerup
     {
 
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    internal class HealthPickup : Item
+    public class HealthPickup : Item
     {
         private int HealAmount;
 

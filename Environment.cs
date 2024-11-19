@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    public class Environment :  GameObject
+    public class Environment : GameObject
     {
 
     }

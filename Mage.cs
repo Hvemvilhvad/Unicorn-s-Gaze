@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    public class Mage
+    public class Mage : Enemy
     {
     }
 }
