@@ -17,6 +17,9 @@ namespace Unicorns_Gaze
         private static GameWorld activeGameWorld;
         private static Random random;
         private static Player player;
+#if DEBUG
+        private Texture2D hitboxPixel;
+#endif
 
 
 
@@ -66,7 +69,7 @@ namespace Unicorns_Gaze
                 gameObject.LoadContent(Content);
             }
 
-
+            hitboxPixel = Content.Load<Texture2D>("Hitbox pixel");
             
         }
 
@@ -110,6 +113,26 @@ namespace Unicorns_Gaze
             {
                 gameObject.Draw(_spriteBatch);
             }
+#if DEBUG
+            foreach (GameObject gameObject in GameObjects)
+            {
+                Rectangle hitBox = gameObject.Hitbox;
+                Rectangle topline = new Rectangle(hitBox.X, hitBox.Y, hitBox.Width, 1);
+                Rectangle bottomline = new Rectangle(hitBox.X, hitBox.Y + hitBox.Height, hitBox.Width, 1);
+                Rectangle rightline = new Rectangle(hitBox.X + hitBox.Width, hitBox.Y, 1, hitBox.Height);
+                Rectangle leftline = new Rectangle(hitBox.X, hitBox.Y, 1, hitBox.Height);
+
+                _spriteBatch.Draw(hitboxPixel, topline, null, Color.White);
+                _spriteBatch.Draw(hitboxPixel, bottomline, null, Color.White);
+                _spriteBatch.Draw(hitboxPixel, rightline, null, Color.White);
+                _spriteBatch.Draw(hitboxPixel, leftline, null, Color.White);
+
+                Vector2 position = gameObject.Position;
+                Rectangle centerDot = new Rectangle((int)position.X - 1, (int)position.Y - 1, 3, 3);
+
+                _spriteBatch.Draw(hitboxPixel, centerDot, null, Color.White);
+            }
+#endif
 
             _spriteBatch.End();
 
