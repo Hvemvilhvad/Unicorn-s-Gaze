@@ -8,6 +8,7 @@ namespace Unicorns_Gaze
 {
     public class GameWorld : Game
     {
+        //Fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private static List<GameObject> gameObjectsToRemove;
@@ -22,7 +23,7 @@ namespace Unicorns_Gaze
 #endif
 
 
-
+        //Properties
         public static List<GameObject> GameObjects { get => gameObjects; set => gameObjects = value; }
         public static List<GameObject> GameObjectsToAdd { get => gameObjectsToAdd; set => gameObjectsToAdd = value; }
         public static List<GameObject> GameObjectsToRemove { get => gameObjectsToRemove; set => gameObjectsToRemove = value; }
@@ -31,14 +32,18 @@ namespace Unicorns_Gaze
         public static Player Player { get => player; private set => player = value; }
         public static Random Random { get => random; private set => random = value; }
 
-
+        /// <summary>
+        /// GameWorld constructor
+        /// </summary>
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-
+        /// <summary>
+        /// Initializes the screen size and instantiates lists
+        /// </summary>
         protected override void Initialize()
         {
             _graphics.PreferredBackBufferHeight = 1080;
@@ -60,7 +65,9 @@ namespace Unicorns_Gaze
             activeGameWorld = this;
             Random = new Random();
         }
-
+        /// <summary>
+        /// Loads textures
+        /// </summary>
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -72,7 +79,10 @@ namespace Unicorns_Gaze
             hitboxPixel = Content.Load<Texture2D>("Hitbox pixel");
             
         }
-
+        /// <summary>
+        /// Runs every frame and handles a lot of the methods
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -102,7 +112,10 @@ namespace Unicorns_Gaze
 
             base.Update(gameTime);
         }
-
+        /// <summary>
+        /// Draws out the gameObjects to the screen
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -139,12 +152,18 @@ namespace Unicorns_Gaze
             base.Draw(gameTime);
         }
 
-
+        /// <summary>
+        /// Method used for removing gameObjects
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void RemoveObject(GameObject gameObject)
         {
             GameObjectsToRemove.Add(gameObject);
         }
-
+        /// <summary>
+        /// Methods used for adding gameObjects
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void AddObject(GameObject gameObject)
         {
             GameObjectsToAdd.Add(gameObject);
