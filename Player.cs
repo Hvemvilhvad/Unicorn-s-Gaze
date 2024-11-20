@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,11 +45,40 @@ namespace Unicorns_Gaze
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
+            HandleInput();
+            Move(gameTime, screenSize);
             base.Update(gameTime, screenSize);
         }
         private void HandleInput()
         {
+            velocity = Vector2.Zero;
 
+            KeyboardState keyState = Keyboard.GetState();
+
+            if (keyState.IsKeyDown(Keys.W))
+            {
+                velocity += new Vector2(0, -1);
+            }
+
+            if (keyState.IsKeyDown(Keys.S))
+            {
+                velocity += new Vector2(0, 1);
+            }
+
+            if (keyState.IsKeyDown(Keys.A))
+            {
+                velocity += new Vector2(-1, 0);
+            }
+            
+            if (keyState.IsKeyDown(Keys.D))
+            {
+                velocity += new Vector2(1, 0);
+            }
+
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+            }
         }
     }
 }
