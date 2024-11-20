@@ -30,7 +30,10 @@ namespace Unicorns_Gaze
         }
 
         //Methods
-
+        /// <summary>
+        /// Checks whether hitboxes are colliding
+        /// </summary>
+        /// <param name="other"></param>
         public void CheckCollision(GameObject other)
         {
             //add collision logic here
@@ -39,9 +42,16 @@ namespace Unicorns_Gaze
                 OnCollision(other);
             }
         }
+<<<<<<< Updated upstream
 
         
 
+=======
+        /// <summary>
+        /// Runs if CheckCollision runs
+        /// </summary>
+        /// <param name="other"></param>
+>>>>>>> Stashed changes
         public virtual void OnCollision(GameObject other)
         {
             if (this == other)
