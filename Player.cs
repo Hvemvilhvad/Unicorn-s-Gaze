@@ -30,7 +30,7 @@ namespace Unicorns_Gaze
         }
 
         //Methods
-
+        
         public override void LoadContent(ContentManager content)
         {
             sprites = new Texture2D[1];
@@ -49,6 +49,9 @@ namespace Unicorns_Gaze
             Move(gameTime, screenSize);
             base.Update(gameTime, screenSize);
         }
+        /// <summary>
+        /// Handles player input
+        /// </summary>
         private void HandleInput()
         {
             velocity = Vector2.Zero;
