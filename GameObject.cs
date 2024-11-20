@@ -40,6 +40,8 @@ namespace Unicorns_Gaze
             }
         }
 
+        
+
         public virtual void OnCollision(GameObject other)
         {
             if (this == other)

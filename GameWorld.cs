@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection.Metadata;
 
 namespace Unicorns_Gaze
 {
@@ -17,10 +19,13 @@ namespace Unicorns_Gaze
         private static GameWorld activeGameWorld;
         private static Random random;
         private static Player player;
+        private static int topBoundary;
+        private static int bottomBoundary;
+        private Texture2D background;
+
 #if DEBUG
         private Texture2D hitboxPixel;
 #endif
-
 
 
         public static List<GameObject> GameObjects { get => gameObjects; set => gameObjects = value; }
@@ -31,12 +36,16 @@ namespace Unicorns_Gaze
         public static Player Player { get => player; private set => player = value; }
         public static Random Random { get => random; private set => random = value; }
 
+        public static int TopBoundary { get => topBoundary; }
+        public static int BottomBoundary { get => topBoundary; }
 
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+
         }
 
         protected override void Initialize()
@@ -71,6 +80,8 @@ namespace Unicorns_Gaze
 
             hitboxPixel = Content.Load<Texture2D>("Hitbox pixel");
             
+            background= Content.Load<Texture2D>("tempBackgroundLol");
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -106,9 +117,8 @@ namespace Unicorns_Gaze
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             _spriteBatch.Begin();
-
+            _spriteBatch.Draw(background, Vector2.Zero, null, Color.White, 0, new Vector2(background.Width / 2, background.Height / 2), 1, SpriteEffects.None, 1);
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Draw(_spriteBatch);
@@ -135,11 +145,8 @@ namespace Unicorns_Gaze
 #endif
 
             _spriteBatch.End();
-
             base.Draw(gameTime);
         }
-
-
         public void RemoveObject(GameObject gameObject)
         {
             GameObjectsToRemove.Add(gameObject);
