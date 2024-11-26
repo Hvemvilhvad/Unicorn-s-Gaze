@@ -16,6 +16,9 @@ namespace Unicorns_Gaze
 
 
         //Properties
+        /// <summary>
+        /// Checks if MaxHealth is exceeded
+        /// </summary>
         public virtual int Health 
         { 
             get => health;
@@ -43,13 +46,21 @@ namespace Unicorns_Gaze
             base.Update(gameTime, screenSize);
         }
 
+        /// <summary>
+        /// Defines movement for character classes
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="screenSize"></param>
         protected void Move(GameTime gameTime, Vector2 screenSize)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Position += ((velocity * speed) * deltaTime);
         }
-        
+        /// <summary>
+        /// Method used for healing items
+        /// </summary>
+        /// <param name="healedHP"></param>
         public void Heal(int healedHP)
         {
             Health += healedHP;
