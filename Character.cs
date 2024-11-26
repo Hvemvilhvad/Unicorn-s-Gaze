@@ -125,5 +125,10 @@ namespace Unicorns_Gaze
         {
             Health += healedHP;
         }
+
+        public void TakeDamage(int damage)
+        {
+            Health -= damage;
+        }
     }
 }
