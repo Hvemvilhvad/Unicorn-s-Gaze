@@ -17,12 +17,24 @@ namespace Unicorns_Gaze
         private static GameWorld activeGameWorld;
         private static Random random;
         private static Player player;
+        private static int topBoundary;
+        private static int bottomBoundary;
+        private static bool screenMoving;
+        private static int screenSpeed;
+        private Texture2D backgroundSprite;
+        private static int progress;
+        //x-positions at which the screen stops moving until enemies are defeated
+        private static int[] stopPositions = {50,200};
+        private static int nextStop;
+        //Where enemies spawn
+        private static int[] waves = {50,200};
+        private static int nextWave;
 #if DEBUG
         private Texture2D hitboxPixel;
 #endif
 
 
-
+        public bool ScreenMoving { get => screenMoving; set => screenMoving = value; }
         public static List<GameObject> GameObjects { get => gameObjects; set => gameObjects = value; }
         public static List<GameObject> GameObjectsToAdd { get => gameObjectsToAdd; set => gameObjectsToAdd = value; }
         public static List<GameObject> GameObjectsToRemove { get => gameObjectsToRemove; set => gameObjectsToRemove = value; }
@@ -30,6 +42,8 @@ namespace Unicorns_Gaze
         public static GameWorld ActiveGameWorld { get => activeGameWorld; private set => activeGameWorld = value; }
         public static Player Player { get => player; private set => player = value; }
         public static Random Random { get => random; private set => random = value; }
+        public static int TopBoundary { get => topBoundary; }
+        public static int BottomBoundary { get => bottomBoundary; }
 
 
         public GameWorld()
@@ -41,6 +55,7 @@ namespace Unicorns_Gaze
 
         protected override void Initialize()
         {
+            screenSpeed = 3;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.ApplyChanges();
@@ -48,17 +63,24 @@ namespace Unicorns_Gaze
             ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
             Vector2 playerPosition = new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2);
-            Player player = new Player(10, playerPosition, 500);
+            player = new Player(10, playerPosition, 500);            
 
             GameObjects = new List<GameObject>() { player };
             GameObjectsToRemove = new List<GameObject>();
             GameObjectsToAdd = new List<GameObject>();
-            
+
+            //defines the bounds of where the player/enemies/other gameobjects can be
+            topBoundary = _graphics.PreferredBackBufferHeight / 3;
+            bottomBoundary = _graphics.PreferredBackBufferHeight- (_graphics.PreferredBackBufferHeight / 5);
+
+            screenMoving = true;
 
             base.Initialize();
 
             activeGameWorld = this;
             Random = new Random();
+            nextStop = stopPositions[0];
+            nextWave = waves[0];
         }
 
         protected override void LoadContent()
@@ -70,7 +92,14 @@ namespace Unicorns_Gaze
             }
 
             hitboxPixel = Content.Load<Texture2D>("Hitbox pixel");
-            
+            backgroundSprite = Content.Load<Texture2D>("tempBackgroundLol");
+            Background background = new Background(backgroundSprite);
+            background.Position = new Vector2(0, screenSize.Y/2);
+            Background background2 = new Background(backgroundSprite);
+            background2.Position = new Vector2(screenSize.X, screenSize.Y / 2);
+
+            gameObjectsToAdd.Add(background);
+            gameObjectsToAdd.Add(background2);
         }
 
         protected override void Update(GameTime gameTime)
@@ -86,6 +115,36 @@ namespace Unicorns_Gaze
                 foreach (GameObject other in GameObjects)
                 {
                     gameObject.CheckCollision(other);
+                }
+            }
+
+            //move screen
+            if (screenMoving && Player.Position.X>(screenSize.X/2))
+            {
+                foreach (GameObject gameObject in GameObjects)
+                {
+                    float xPos=gameObject.Position.X-screenSpeed;
+                    gameObject.Position=new Vector2(xPos, gameObject.Position.Y);
+                    progress += screenSpeed;
+                }
+                if (progress >= nextStop)
+                {
+                    screenMoving = false;
+                    int temp = Array.FindIndex(stopPositions,(item)=>item==nextStop);
+                    if(temp != -1 && temp + 1 != stopPositions.Length)
+                    {
+                        nextStop = stopPositions[temp];
+                    }                    
+                }
+            }
+
+            //Waves :D
+            if (progress >= nextWave) 
+            {
+                int temp = Array.FindIndex(waves, (item) => item == nextStop);
+                if (temp != -1 && temp + 1 != waves.Length)
+                {
+                    nextWave = waves[temp];
                 }
             }
 
@@ -107,11 +166,11 @@ namespace Unicorns_Gaze
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.BackToFront);
 
             foreach (GameObject gameObject in GameObjects)
             {
-                gameObject.Draw(_spriteBatch);
+                    gameObject.Draw(_spriteBatch);            
             }
 #if DEBUG
             foreach (GameObject gameObject in GameObjects)
