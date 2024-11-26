@@ -41,6 +41,25 @@ namespace Unicorns_Gaze
         }
 
         /// <summary>
+        /// Gets a random damage value.
+        /// The randomization has a bellcurve distrubution.
+        /// </summary>
+        /// <param name="critMltplr">Critical multiplier.</param>
+        /// <param name="critChace">Critical chance.</param>
+        /// <returns>Returns a random damage value.</returns>
+        public int GetADamageValue(float critMltplr, byte critChace)
+        {
+            Random random = GameWorld.Random;
+            int damage = GetADamageValue();
+            if (random.Next(0, 101) <= critChace)
+            {
+                damage = (int)(damage * critMltplr);
+            }
+            return damage;
+        }
+
+
+        /// <summary>
         /// Offsets the upper- and lower bound and returns itself.
         /// </summary>
         /// <param name="deltaDamage">The amount that is offset by.</param>
@@ -57,13 +76,14 @@ namespace Unicorns_Gaze
     {
         //Fields
         private float criticalMultiplier;
+        private byte criticalChance;
         private DamageRange damageRange;
-        
-        
+
+
         //Properties
         public float CriticalMultiplier { get => criticalMultiplier; set => criticalMultiplier = value; }
         public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
-        
+
 
         //Constructor
         public Player(int health, Vector2 position, float speed)
@@ -83,7 +103,7 @@ namespace Unicorns_Gaze
 
             for (int i = 0; i < sprites.Length; i++)
             {
-                sprites[0] = content.Load<Texture2D>("unicorn_sprite"); 
+                sprites[0] = content.Load<Texture2D>("unicorn_sprite");
             }
             sprite = sprites[0];
             base.LoadContent(content);
@@ -93,7 +113,7 @@ namespace Unicorns_Gaze
         {
             base.Update(gameTime, screenSize);
         }
-        
+
         private void HandleInput()
         {
 

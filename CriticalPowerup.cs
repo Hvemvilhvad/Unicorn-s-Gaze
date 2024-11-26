@@ -11,7 +11,8 @@ namespace Unicorns_Gaze
 
         public override void Use()
         {
-            Player.
+            base.Use();
+            
         }
     }
 }
