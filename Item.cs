@@ -19,6 +19,7 @@ namespace Unicorns_Gaze
             }
         }
 
+
         /// <summary>
         /// Uses the item and removes it from the GameWorld if it was succesfully used.
         /// </summary>
