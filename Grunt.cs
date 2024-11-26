@@ -8,6 +8,8 @@ namespace Unicorns_Gaze
 {
     public class Grunt : Enemy
     {
-        
+        //Fields
+
+
     }
 }
