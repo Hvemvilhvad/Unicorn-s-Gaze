@@ -8,5 +8,7 @@ namespace Unicorns_Gaze
 {
     public class Enemy : Character
     {
+        //Fields
+        private DamageRange enemyRange;
     }
 }
