@@ -149,7 +149,7 @@ namespace Unicorns_Gaze
                 Rectangle rightline = new Rectangle(hitBox.X + hitBox.Width, hitBox.Y, 1, hitBox.Height);
                 Rectangle leftline = new Rectangle(hitBox.X, hitBox.Y, 1, hitBox.Height);
 
-                _spriteBatch.Draw(hitboxPixel, topline, null, Color.White);
+                _spriteBatch.Draw(hitboxPixel, topline, null, Color.White); 
                 _spriteBatch.Draw(hitboxPixel, bottomline, null, Color.White);
                 _spriteBatch.Draw(hitboxPixel, rightline, null, Color.White);
                 _spriteBatch.Draw(hitboxPixel, leftline, null, Color.White);
