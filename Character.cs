@@ -1,4 +1,6 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,14 +75,17 @@ namespace Unicorns_Gaze
         protected float speed;
         private int health;
         private int maxHealth;
+        private DamageRange damageRange;
+        protected bool isFacingRight;
+        protected Texture2D attackSprite;
 
 
         //Properties
         /// <summary>
         /// Checks if MaxHealth is exceeded
         /// </summary>
-        public virtual int Health 
-        { 
+        public virtual int Health
+        {
             get => health;
             set
             {
@@ -99,8 +104,16 @@ namespace Unicorns_Gaze
             }
         }
         public int MaxHealth { get => maxHealth; set => maxHealth = value; }
+        public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
+
 
         //Methods
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+            attackSprite = content.Load<Texture2D>("tile_arara_azul");
+        }
+
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
             base.Update(gameTime, screenSize);
@@ -117,6 +130,7 @@ namespace Unicorns_Gaze
 
             Position += ((velocity * speed) * deltaTime);
         }
+
         /// <summary>
         /// Method used for healing items
         /// </summary>

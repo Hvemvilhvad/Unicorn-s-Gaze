@@ -12,19 +12,16 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    
 
     public class Player : Character
     {
         //Fields
         private float criticalMultiplier;
         private byte criticalChance;
-        private DamageRange damageRange;
 
 
         //Properties
         public float CriticalMultiplier { get => criticalMultiplier; set => criticalMultiplier = value; }
-        public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
 
 
         //Constructor
@@ -34,11 +31,12 @@ namespace Unicorns_Gaze
             Position = position;
             this.speed = speed;
             MaxHealth = 10;
+            isFacingRight = true;
         }
 
 
         //Methods
-        
+
         public override void LoadContent(ContentManager content)
         {
             sprites = new Texture2D[1];
@@ -80,10 +78,12 @@ namespace Unicorns_Gaze
             if (keyState.IsKeyDown(Keys.A))
             {
                 velocity += new Vector2(-1, 0);
+                isFacingRight = false;
             }
             
             if (keyState.IsKeyDown(Keys.D))
             {
+                isFacingRight = true;
                 velocity += new Vector2(1, 0);
             }
 
@@ -91,6 +91,26 @@ namespace Unicorns_Gaze
             {
                 velocity.Normalize();
             }
+
+
+            if (keyState.IsKeyDown(Keys.J)) //small adac
+            {
+                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, false, attackSprite);
+                GameWorld.GameObjectsToAdd.Add(attack);
+            }
+
+            if (keyState.IsKeyDown(Keys.I)) //bick adac
+            {
+                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, true, attackSprite);
+                GameWorld.GameObjectsToAdd.Add(attack);
+            }
+
+            if (keyState.IsKeyDown(Keys.O)) // pick up thing
+            {
+
+            }
         }
+
+
     }
 }

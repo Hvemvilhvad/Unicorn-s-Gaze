@@ -14,7 +14,6 @@
 #---------------------------------- Content ---------------------------------#
 
 #begin Hitbox pixel.png
-#begin tempBackgroundLol.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -25,7 +24,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Hitbox pixel.png
-/build:tempBackgroundLol.jpg
 
 #begin tempBackgroundLol.jpg
 /importer:TextureImporter
@@ -38,6 +36,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:tempBackgroundLol.jpg
+
+#begin tile_arara_azul.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tile_arara_azul.png
 
 #begin unicorn_sprite.png
 /importer:TextureImporter

@@ -10,5 +10,12 @@ namespace Unicorns_Gaze
     {
         //Fields
         private DamageRange enemyRange;
+
+        public virtual void Attack()
+        {
+            MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(), false, isFacingRight, false, attackSprite);
+            GameWorld.GameObjectsToAdd.Add(attack);
+        }
+
     }
 }
