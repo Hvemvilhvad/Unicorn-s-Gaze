@@ -21,8 +21,9 @@ namespace Unicorns_Gaze
         protected Vector2 position;
         protected Vector2 origin;
         protected Vector2 velocity;
+        protected bool enteredField;
         //layer on which the sprite is drawn (higher means further back)
-        protected float layer=0.5f;
+        protected float layer=0.5f;        
 
         //Properties
         public Rectangle Hitbox { get => hitbox; set => hitbox = value; }
@@ -60,7 +61,11 @@ namespace Unicorns_Gaze
             if (this is not Background) 
             {
                 CheckBounds(screenSize);
-            }           
+            }
+            if (Position.X > 0 && Position.X < GameWorld.ScreenSize.X && Position.Y > GameWorld.TopBoundary && position.Y < GameWorld.BottomBoundary && !enteredField) 
+            {
+                enteredField = true;
+            }
 
         }
         /// <summary>
@@ -68,27 +73,27 @@ namespace Unicorns_Gaze
         /// </summary>
         public void CheckBounds(Vector2 screenSize)
         {
-            if (position.Y - (sprite.Height / 2) < GameWorld.TopBoundary)
+            if (position.Y - (sprite.Height / 2) < GameWorld.TopBoundary&&enteredField)
             {
                 position = new Vector2(position.X, GameWorld.TopBoundary + (sprite.Height / 2));
                 velocity.Y = 0;
                 Debug.WriteLine("Hit top boundary ("+GameWorld.TopBoundary.ToString()+")");
             }
 
-            if (position.Y + (sprite.Height / 2) > GameWorld.BottomBoundary)
+            if (position.Y + (sprite.Height / 2) > GameWorld.BottomBoundary&&enteredField)
             {
                 position = new Vector2(position.X, GameWorld.BottomBoundary - (sprite.Height / 2));
                 velocity.Y = 0;
                 Debug.WriteLine("Hit bottom boundary (" + GameWorld.TopBoundary.ToString() + ")");
             }
 
-            if(position.X + (sprite.Width / 2) > screenSize.X)
+            if(position.X + (sprite.Width / 2) > screenSize.X&&enteredField)
             {
                 position.X=screenSize.X- (sprite.Width / 2);
                 velocity.X = 0;
             }
 
-            if (position.X - (sprite.Width / 2) < 0)
+            if (position.X - (sprite.Width / 2) < 0&&enteredField)
             {
                 position.X =  sprite.Width / 2;
                 velocity.X = 0;

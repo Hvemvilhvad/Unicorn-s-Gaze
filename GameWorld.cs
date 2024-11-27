@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Unicorns_Gaze
 {
@@ -24,11 +25,10 @@ namespace Unicorns_Gaze
         private Texture2D backgroundSprite;
         private static int progress;
         //x-positions at which the screen stops moving until enemies are defeated
-        private static int[] stopPositions = {50,200};
-        private static int nextStop;
         //Where enemies spawn
-        private static int[] waves = {50,200};
+        private static int[] waves;
         private static int nextWave;
+        private static int currentWave;
 #if DEBUG
         private Texture2D hitboxPixel;
 #endif
@@ -79,7 +79,6 @@ namespace Unicorns_Gaze
 
             activeGameWorld = this;
             Random = new Random();
-            nextStop = stopPositions[0];
             nextWave = waves[0];
         }
 
@@ -100,6 +99,8 @@ namespace Unicorns_Gaze
 
             gameObjectsToAdd.Add(background);
             gameObjectsToAdd.Add(background2);
+            //to activate waves
+            SpawnWave();
         }
 
         protected override void Update(GameTime gameTime)
@@ -127,25 +128,17 @@ namespace Unicorns_Gaze
                     gameObject.Position=new Vector2(xPos, gameObject.Position.Y);
                     progress += screenSpeed;
                 }
-                if (progress >= nextStop)
-                {
-                    screenMoving = false;
-                    int temp = Array.FindIndex(stopPositions,(item)=>item==nextStop);
-                    if(temp != -1 && temp + 1 != stopPositions.Length)
-                    {
-                        nextStop = stopPositions[temp];
-                    }                    
-                }
             }
 
-            //Waves :D
+            //Waves 
             if (progress >= nextWave) 
             {
-                int temp = Array.FindIndex(waves, (item) => item == nextStop);
-                if (temp != -1 && temp + 1 != waves.Length)
-                {
-                    nextWave = waves[temp];
-                }
+                SpawnWave();
+            }
+            //if enemies are gone
+            if(!screenMoving && !gameObjects.OfType<Enemy>().Any())
+            {
+                screenMoving = true;
             }
 
             // remove game objects
@@ -207,6 +200,46 @@ namespace Unicorns_Gaze
         public void AddObject(GameObject gameObject)
         {
             GameObjectsToAdd.Add(gameObject);
+        }
+
+        private void SpawnWave()
+        {
+            if (progress==0) 
+            {
+                //where the waves happen
+                waves = new int[] { 50, 200 };
+                nextWave = waves[0];
+            }
+            else
+            {
+                //if we've reached the point where a wave should spawn
+                int temp = Array.FindIndex(waves, (item) => item == nextWave);
+                switch (temp)
+                {
+                    //remember to adjust 'waves'
+                    //also set screenMoving to false if the screen should stop during a wave
+                    case 0:
+                        //enemies & items spawn here
+                        break;
+                    case 1:
+                        //enemies & items spawn here
+                        break;
+                    case 2:
+                        //enemies & items spawn here
+                        break;
+                    case 3:
+                        //enemies & items spawn here
+                        break;
+                    default:
+                        break;
+                }
+
+                if (temp != -1 && temp + 1 != waves.Length)
+                {
+                    nextWave = waves[temp + 1];
+                }
+            }
+            
         }
     }
 }
