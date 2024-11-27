@@ -9,6 +9,16 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
+    public interface Damagable
+    {
+        public int Health { get; set; }
+
+        void TakeDamge(int damage)
+        {
+            Health -= damage;
+        }
+    }
+
     public class MeleeAttack : GameObject
     {
         private Character following;

@@ -106,7 +106,7 @@ namespace Unicorns_Gaze
                 }
             }
         }
-        public int MaxHealth { get => maxHealth; set => maxHealth = value; }
+        public int MaxHealth { get => maxHealth; private set => maxHealth = value; }
         public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
 
 
