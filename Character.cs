@@ -16,6 +16,7 @@ namespace Unicorns_Gaze
         private int health;
         private int maxHealth;
         private DamageRange damageRange;
+        protected bool isFacingRight;
         protected Texture2D attackSprite;
 
 

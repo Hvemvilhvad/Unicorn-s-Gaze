@@ -22,12 +22,12 @@ namespace Unicorns_Gaze
         public MeleeAttack(Character followedCharacter, int damage, bool isCrit, bool isFacingRight, bool isHeavyAttack, Texture2D sprite) : base()
         {
             following = followedCharacter;
+            characterPositionOffset = isFacingRight ? new Vector2(100, 0) : new Vector2(-100, 0);
             Position = followedCharacter.Position + characterPositionOffset;
             this.damage = damage;
             this.isCrit = isCrit;
             this.isFacingRight = isFacingRight;
             this.isHeavyAttack = isHeavyAttack;
-            characterPositionOffset = isFacingRight ? new Vector2(30, 0) : new Vector2(-30, 0);
 
             this.sprite = sprite;
         }
