@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-
     public class CriticalPowerup : Powerup
     {
 
+        public override void Use()
+        {
+            base.Use();
+            
+        }
     }
 }

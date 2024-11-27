@@ -34,7 +34,10 @@ namespace Unicorns_Gaze
         }
 
         //Methods
-
+        /// <summary>
+        /// Checks whether hitboxes are colliding
+        /// </summary>
+        /// <param name="other"></param>
         public void CheckCollision(GameObject other)
         {
             if (this is not Background && Hitbox.Intersects(other.Hitbox))

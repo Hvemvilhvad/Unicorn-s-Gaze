@@ -4,11 +4,14 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
+using System.Reflection.Metadata;
 
 namespace Unicorns_Gaze
 {
     public class GameWorld : Game
     {
+        //Fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private static List<GameObject> gameObjectsToRemove;
@@ -29,12 +32,15 @@ namespace Unicorns_Gaze
         private static int[] waves;
         private static int nextWave;
         private static int currentWave;
+
 #if DEBUG
         private Texture2D hitboxPixel;
 #endif
 
 
         public bool ScreenMoving { get => screenMoving; set => screenMoving = value; }
+
+        //Properties
         public static List<GameObject> GameObjects { get => gameObjects; set => gameObjects = value; }
         public static List<GameObject> GameObjectsToAdd { get => gameObjectsToAdd; set => gameObjectsToAdd = value; }
         public static List<GameObject> GameObjectsToRemove { get => gameObjectsToRemove; set => gameObjectsToRemove = value; }
@@ -46,13 +52,23 @@ namespace Unicorns_Gaze
         public static int BottomBoundary { get => bottomBoundary; }
 
 
+        /// <summary>
+        /// GameWorld constructor
+        /// </summary>
+        public static int TopBoundary { get => topBoundary; }
+        public static int BottomBoundary { get => topBoundary; }
+
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-        }
 
+
+        }
+        /// <summary>
+        /// Initializes the screen size and instantiates lists
+        /// </summary>
         protected override void Initialize()
         {
             screenSpeed = 3;
@@ -81,7 +97,9 @@ namespace Unicorns_Gaze
             Random = new Random();
             nextWave = waves[0];
         }
-
+        /// <summary>
+        /// Loads textures
+        /// </summary>
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -103,6 +121,11 @@ namespace Unicorns_Gaze
             SpawnWave();
         }
 
+        }
+        /// <summary>
+        /// Runs every frame and handles a lot of the methods
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -154,13 +177,16 @@ namespace Unicorns_Gaze
 
             base.Update(gameTime);
         }
-
+        /// <summary>
+        /// Draws out the gameObjects to the screen
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront);
-
+            _spriteBatch.Draw(background, Vector2.Zero, null, Color.White, 0, new Vector2(background.Width / 2, background.Height / 2), 1, SpriteEffects.None, 1);
             foreach (GameObject gameObject in GameObjects)
             {
                     gameObject.Draw(_spriteBatch);            
@@ -174,7 +200,7 @@ namespace Unicorns_Gaze
                 Rectangle rightline = new Rectangle(hitBox.X + hitBox.Width, hitBox.Y, 1, hitBox.Height);
                 Rectangle leftline = new Rectangle(hitBox.X, hitBox.Y, 1, hitBox.Height);
 
-                _spriteBatch.Draw(hitboxPixel, topline, null, Color.White);
+                _spriteBatch.Draw(hitboxPixel, topline, null, Color.White); 
                 _spriteBatch.Draw(hitboxPixel, bottomline, null, Color.White);
                 _spriteBatch.Draw(hitboxPixel, rightline, null, Color.White);
                 _spriteBatch.Draw(hitboxPixel, leftline, null, Color.White);
@@ -187,16 +213,22 @@ namespace Unicorns_Gaze
 #endif
 
             _spriteBatch.End();
-
             base.Draw(gameTime);
         }
 
 
+        /// <summary>
+        /// Method used for removing gameObjects
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void RemoveObject(GameObject gameObject)
         {
             GameObjectsToRemove.Add(gameObject);
         }
-
+        /// <summary>
+        /// Methods used for adding gameObjects
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void AddObject(GameObject gameObject)
         {
             GameObjectsToAdd.Add(gameObject);

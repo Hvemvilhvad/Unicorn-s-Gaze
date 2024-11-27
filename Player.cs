@@ -5,20 +5,27 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
+    
+
     public class Player : Character
     {
         //Fields
-        private float CriticalMultiplier;
-        private float DamageRange;
-        
-        
+        private float criticalMultiplier;
+        private byte criticalChance;
+        private DamageRange damageRange;
+
+
         //Properties
-        
+        public float CriticalMultiplier { get => criticalMultiplier; set => criticalMultiplier = value; }
+        public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
+
 
         //Constructor
         public Player(int health, Vector2 position, float speed)
@@ -29,15 +36,16 @@ namespace Unicorns_Gaze
             MaxHealth = 10;
         }
 
-        //Methods
 
+        //Methods
+        
         public override void LoadContent(ContentManager content)
         {
             sprites = new Texture2D[1];
 
             for (int i = 0; i < sprites.Length; i++)
             {
-                sprites[0] = content.Load<Texture2D>("unicorn_sprite"); 
+                sprites[0] = content.Load<Texture2D>("unicorn_sprite");
             }
             sprite = sprites[0];
             base.LoadContent(content);
@@ -49,6 +57,10 @@ namespace Unicorns_Gaze
             Move(gameTime, screenSize);
             base.Update(gameTime, screenSize);
         }
+
+        /// <summary>
+        /// Handles player input
+        /// </summary>
         private void HandleInput()
         {
             velocity = Vector2.Zero;
