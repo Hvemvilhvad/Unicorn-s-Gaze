@@ -18,6 +18,10 @@ namespace Unicorns_Gaze
         private bool isFacingRight;
         private bool isHeavyAttack;
         private float existanceTime;
+        private float cooldown;
+
+        public float ExistanceTime { get => existanceTime; private set => existanceTime = value; }
+        public float Cooldown { get => cooldown; set => cooldown = value; }
 
         public MeleeAttack(Character followedCharacter, int damage, bool isCrit, bool isFacingRight, bool isHeavyAttack, Texture2D sprite) : base()
         {
@@ -28,6 +32,9 @@ namespace Unicorns_Gaze
             this.isCrit = isCrit;
             this.isFacingRight = isFacingRight;
             this.isHeavyAttack = isHeavyAttack;
+            ExistanceTime = 0.5F;
+            cooldown = 0.2F;
+            Hitbox = new Rectangle(0, 0, 50, 100);
 
             this.sprite = sprite;
         }
@@ -37,8 +44,8 @@ namespace Unicorns_Gaze
             Position = following.Position + characterPositionOffset;
             base.Update(gameTime, screenSize);
 
-            existanceTime -= gameTime.ElapsedGameTime.Seconds;
-            if (existanceTime <= 0)
+            ExistanceTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (ExistanceTime <= 0)
             {
                 RemoveThis();
             }

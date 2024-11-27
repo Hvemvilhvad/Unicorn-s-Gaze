@@ -36,7 +36,6 @@ namespace Unicorns_Gaze
 
 
         //Methods
-
         public override void LoadContent(ContentManager content)
         {
             sprites = new Texture2D[1];
@@ -53,6 +52,7 @@ namespace Unicorns_Gaze
         {
             HandleInput();
             Move(gameTime, screenSize);
+            attackCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             base.Update(gameTime, screenSize);
         }
 
@@ -80,7 +80,7 @@ namespace Unicorns_Gaze
                 velocity += new Vector2(-1, 0);
                 isFacingRight = false;
             }
-            
+
             if (keyState.IsKeyDown(Keys.D))
             {
                 isFacingRight = true;
@@ -93,15 +93,17 @@ namespace Unicorns_Gaze
             }
 
 
-            if (keyState.IsKeyDown(Keys.J)) //small adac
+            if (keyState.IsKeyDown(Keys.J) & attackCooldown <= 0) //small adac
             {
                 MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, false, attackSprite);
+                attackCooldown = attack.ExistanceTime + attack.Cooldown;
                 GameWorld.GameObjectsToAdd.Add(attack);
             }
 
-            if (keyState.IsKeyDown(Keys.I)) //bick adac
+            if (keyState.IsKeyDown(Keys.I) & attackCooldown <= 0) //bick adac
             {
                 MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, true, attackSprite);
+                attackCooldown = attack.ExistanceTime + attack.Cooldown;
                 GameWorld.GameObjectsToAdd.Add(attack);
             }
 
