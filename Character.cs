@@ -45,13 +45,15 @@ namespace Unicorns_Gaze
         /// <param name="critMltplr">Critical multiplier.</param>
         /// <param name="critChace">Critical chance.</param>
         /// <returns>Returns a random damage value.</returns>
-        public int GetADamageValue(float critMltplr, byte critChace)
+        public int GetADamageValue(float critMltplr, byte critChace, out bool isCrit)
         {
             Random random = GameWorld.Random;
             int damage = GetADamageValue();
+            isCrit = false;
             if (random.Next(0, 101) <= critChace)
             {
                 damage = (int)(damage * critMltplr);
+                isCrit = true;
             }
             return damage;
         }
