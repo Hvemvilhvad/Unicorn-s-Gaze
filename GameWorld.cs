@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
@@ -55,9 +55,6 @@ namespace Unicorns_Gaze
         /// <summary>
         /// GameWorld constructor
         /// </summary>
-        public static int TopBoundary { get => topBoundary; }
-        public static int BottomBoundary { get => topBoundary; }
-
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -121,7 +118,7 @@ namespace Unicorns_Gaze
             SpawnWave();
         }
 
-        }
+        
         /// <summary>
         /// Runs every frame and handles a lot of the methods
         /// </summary>
@@ -186,7 +183,6 @@ namespace Unicorns_Gaze
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront);
-            _spriteBatch.Draw(background, Vector2.Zero, null, Color.White, 0, new Vector2(background.Width / 2, background.Height / 2), 1, SpriteEffects.None, 1);
             foreach (GameObject gameObject in GameObjects)
             {
                     gameObject.Draw(_spriteBatch);            
