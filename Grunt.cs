@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,13 @@ namespace Unicorns_Gaze
 
         public override void LoadContent(ContentManager content)
         {
+            sprites = new Texture2D[1];
+
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                sprites[0] = content.Load<Texture2D>("gummybear");
+            }
+            sprite = sprites[0];
             base.LoadContent(content);
         }
 
