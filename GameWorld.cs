@@ -32,8 +32,8 @@ namespace Unicorns_Gaze
         private static int[] waves;
         private static int nextWave;
         private static int currentWave;
-
         private static Texture2D noSprite;
+        private static Vector2 playerLocation;
 
 
 #if DEBUG
@@ -54,6 +54,7 @@ namespace Unicorns_Gaze
         public static int TopBoundary { get => topBoundary; }
         public static int BottomBoundary { get => bottomBoundary; }
         public static Texture2D NoSprite { get => noSprite; private set => noSprite = value; }
+        public static Vector2 PlayerLocation { get => playerLocation; set => playerLocation = value; }
 
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace Unicorns_Gaze
             Vector2 someTempPosition = new Vector2(ScreenSize.X / 2 + 300, ScreenSize.Y / 2 + 300);
             Breakable tempBreakable = new Breakable(someTempPosition);
             
-            Grunt grunt = new Grunt(10, playerPosition, 400);
+            Grunt grunt = new Grunt(playerPosition);
             
             GameObjects = new List<GameObject>() { player, tempBreakable, grunt };
 

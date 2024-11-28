@@ -10,20 +10,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    public interface Damagable
-    {
-        public int Health { get; set; }
-
-        /// <summary>
-        /// Lowers the health of the Damagable when it takes damage.
-        /// </summary>
-        /// <param name="damage">The amount to lower it by.</param>
-        void TakeDamage(int damage)
-        {
-            Health -= damage;
-        }
-    }
-
+    
     public class MeleeAttack : GameObject
     {
         private Character following;
@@ -68,9 +55,9 @@ namespace Unicorns_Gaze
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Damagable)
+            if (other is IDamagable)
             {
-                ((Damagable)other).TakeDamage(damage);
+                ((IDamagable)other).TakeDamage(damage);
                 if (following is not Player)
                 {
                     RemoveThis();
