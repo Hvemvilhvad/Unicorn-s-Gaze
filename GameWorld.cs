@@ -76,9 +76,10 @@ namespace Unicorns_Gaze
             ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
             Vector2 playerPosition = new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2);
-            player = new Player(10, playerPosition, 500);            
+            player = new Player(10, playerPosition, 500);
+            Grunt grunt = new Grunt(10, playerPosition, 400);
 
-            GameObjects = new List<GameObject>() { player };
+            GameObjects = new List<GameObject>() { player, grunt};
             GameObjectsToRemove = new List<GameObject>();
             GameObjectsToAdd = new List<GameObject>();
 

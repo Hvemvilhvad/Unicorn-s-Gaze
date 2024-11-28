@@ -43,7 +43,7 @@ namespace Unicorns_Gaze
 
             for (int i = 0; i < sprites.Length; i++)
             {
-                sprites[0] = content.Load<Texture2D>("unicorn_sprite");
+                sprites[i] = content.Load<Texture2D>("unicorn_sprite");
             }
             sprite = sprites[0];
             base.LoadContent(content);
