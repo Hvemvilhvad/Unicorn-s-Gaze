@@ -32,6 +32,7 @@ namespace Unicorns_Gaze
             this.speed = speed;
             MaxHealth = 10;
             isFacingRight = true;
+            DamageRange = new DamageRange(2, 5);
         }
 
 
@@ -109,7 +110,7 @@ namespace Unicorns_Gaze
 
             if (keyState.IsKeyDown(Keys.O)) // pick up thing
             {
-
+                ((Damagable)this).TakeDamage(5);
             }
         }
 

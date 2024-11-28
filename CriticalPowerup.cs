@@ -11,7 +11,6 @@ namespace Unicorns_Gaze
 
         public override void Use()
         {
-            base.Use();
             
         }
     }

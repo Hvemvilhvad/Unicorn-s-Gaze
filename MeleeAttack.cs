@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.DirectWrite;
 using System;
@@ -13,7 +14,11 @@ namespace Unicorns_Gaze
     {
         public int Health { get; set; }
 
-        void TakeDamge(int damage)
+        /// <summary>
+        /// Lowers the health of the Damagable when it takes damage.
+        /// </summary>
+        /// <param name="damage">The amount to lower it by.</param>
+        void TakeDamage(int damage)
         {
             Health -= damage;
         }
@@ -63,16 +68,15 @@ namespace Unicorns_Gaze
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Enemy & following is Player)
+            if (other is Damagable)
             {
-                ((Character)other).TakeDamage(damage);
+                ((Damagable)other).TakeDamage(damage);
+                if (following is not Player)
+                {
+                    RemoveThis();
+                }
+                base.OnCollision(other);
             }
-            else if (other is Player & following is Enemy)
-            {
-                ((Character)other).TakeDamage(damage);
-                RemoveThis();
-            }
-            base.OnCollision(other);
         }
     }
 }
