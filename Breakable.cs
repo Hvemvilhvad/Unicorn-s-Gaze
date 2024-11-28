@@ -18,6 +18,7 @@ namespace Unicorns_Gaze
             {
                 if (value < 0)
                 {
+                    SpawnItem();
                     RemoveThis();
                 }
                 else
@@ -34,5 +35,17 @@ namespace Unicorns_Gaze
             Health = 10;
         }
 
+
+        /// <summary>
+        /// When a breakable is broken there is a chance it will spawn an item.
+        /// </summary>
+        public void SpawnItem()
+        {
+            //60% chance
+            if (GameWorld.Random.Next(0, 3+1) >= 2)
+            {
+                GameWorld.GameObjectsToAdd.Add(Item.GetRandomItem(Position));
+            }
+        }
     }
 }

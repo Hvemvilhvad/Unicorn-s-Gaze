@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    internal interface IDamagable
+    public interface IDamagable
     {
         public int Health { get; set; }
 
