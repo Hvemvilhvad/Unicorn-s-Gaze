@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Unicorns_Gaze
 {
 
-    public class Player : Character
+    public class Player : Character, IDamagable
     {
         //Fields
         private float criticalMultiplier;
@@ -110,7 +110,7 @@ namespace Unicorns_Gaze
 
             if (keyState.IsKeyDown(Keys.O)) // pick up thing
             {
-                ((Damagable)this).TakeDamage(5);
+                ((IDamagable)this).TakeDamage(5);
             }
         }
 
