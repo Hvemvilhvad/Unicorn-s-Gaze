@@ -122,7 +122,6 @@ namespace Unicorns_Gaze
 
         }
 
-
         /// <summary>
         /// Removes this object from the GameWorld.
         /// </summary>
@@ -131,4 +130,5 @@ namespace Unicorns_Gaze
             GameWorld.ActiveGameWorld.RemoveObject(this);
         }
     }
+
 }

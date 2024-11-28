@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,10 @@ namespace Unicorns_Gaze
         /// Lowers the health of the Damagable when it takes damage.
         /// </summary>
         /// <param name="damage">The amount to lower it by.</param>
-        void TakeDamage(int damage)
+        public void TakeDamage(int damage)
         {
             Health -= damage;
         }
+
     }
 }
