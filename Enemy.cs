@@ -12,6 +12,7 @@ namespace Unicorns_Gaze
     {
         //Fields
         private DamageRange enemyRange;
+        protected float cooldown;
 
         //Constructor
         public Enemy(int health, Vector2 position, float speed)
@@ -34,6 +35,7 @@ namespace Unicorns_Gaze
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
             Move(gameTime, screenSize);
+
             base.Update(gameTime, screenSize);
         }
 
@@ -44,9 +46,12 @@ namespace Unicorns_Gaze
         public virtual void Attack()
         {
             MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(), false, isFacingRight, false, attackSprite);
+            attackCooldown = attack.ExistanceTime + attack.Cooldown;
             GameWorld.GameObjectsToAdd.Add(attack);
         }
-
+        /// <summary>
+        /// Allows enemies to move in the direction of the player
+        /// </summary>
         public virtual void Chase()
         {
             Vector2 direction = new Vector2(GameWorld.Player.Position.X - position.X, GameWorld.Player.Position.Y - position.Y);
