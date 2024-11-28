@@ -21,7 +21,8 @@ namespace Unicorns_Gaze
       
         public Grunt(Vector2 position) : base(position)
         {
-            Position = position;
+            Health = 10;
+            speed = 250;
         }
 
         public override void LoadContent(ContentManager content)
@@ -38,6 +39,7 @@ namespace Unicorns_Gaze
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
+            Chase();
             base.Update(gameTime, screenSize);
         }
 
@@ -45,5 +47,6 @@ namespace Unicorns_Gaze
         {
             base.OnCollision(other);
         }
+        
     }
 }

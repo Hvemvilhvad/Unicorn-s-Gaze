@@ -24,6 +24,7 @@ namespace Unicorns_Gaze
         }
     }
 
+
     public class MeleeAttack : GameObject
     {
         private Character following;

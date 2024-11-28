@@ -33,6 +33,7 @@ namespace Unicorns_Gaze
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
+            Move(gameTime, screenSize);
             base.Update(gameTime, screenSize);
         }
 
@@ -44,6 +45,17 @@ namespace Unicorns_Gaze
         {
             MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(), false, isFacingRight, false, attackSprite);
             GameWorld.GameObjectsToAdd.Add(attack);
+        }
+
+        public virtual void Chase()
+        {
+            Vector2 direction = new Vector2(GameWorld.Player.Position.X - position.X, GameWorld.Player.Position.Y - position.Y);
+            double test = Math.Atan2(direction.Y, direction.X);
+            float XDirection = (float)Math.Cos(test);
+            float YDirection = (float)Math.Sin(test);
+            direction = new Vector2(XDirection, YDirection);
+            velocity = (direction);
+            velocity.Normalize();
         }
 
     }

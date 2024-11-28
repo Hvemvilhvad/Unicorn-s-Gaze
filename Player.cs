@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Unicorns_Gaze
 {
 
-    public class Player : Character, IDamagable
+    public class Player : Character
     {
         //Fields
         private float criticalMultiplier;
