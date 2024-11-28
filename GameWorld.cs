@@ -35,7 +35,6 @@ namespace Unicorns_Gaze
         private static Texture2D noSprite;
         private static Vector2 playerLocation;
 
-
 #if DEBUG
         private Texture2D hitboxPixel;
 #endif
@@ -227,7 +226,6 @@ namespace Unicorns_Gaze
             base.Draw(gameTime);
         }
 
-
         /// <summary>
         /// Method used for removing gameObjects
         /// </summary>
@@ -236,6 +234,7 @@ namespace Unicorns_Gaze
         {
             GameObjectsToRemove.Add(gameObject);
         }
+
         /// <summary>
         /// Methods used for adding gameObjects
         /// </summary>

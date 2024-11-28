@@ -78,6 +78,7 @@ namespace Unicorns_Gaze
             }
 
         }
+
         /// <summary>
         /// Keeps the gameObject on the designated "street"
         /// </summary>
@@ -112,7 +113,13 @@ namespace Unicorns_Gaze
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            if (sprite is null)
+            {
+                sprite = GameWorld.NoSprite;
+            }
             spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, SpriteEffects.None, layer);
+
+
         }
 
 
