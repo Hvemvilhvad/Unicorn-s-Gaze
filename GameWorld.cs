@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 using System.Reflection.Metadata;
+using Unicorns_Gaze.states;
 
 namespace Unicorns_Gaze
 {
@@ -32,6 +33,9 @@ namespace Unicorns_Gaze
         private static int[] waves;
         private static int nextWave;
         private static int currentWave;
+        //states
+        private State currentState;
+        private State nextState;
 
 #if DEBUG
         private Texture2D hitboxPixel;
