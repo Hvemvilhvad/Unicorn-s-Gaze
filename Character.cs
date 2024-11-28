@@ -71,7 +71,8 @@ namespace Unicorns_Gaze
             return this;
         }
     }
-    public abstract class Character : GameObject
+
+    public abstract class Character : GameObject, Damagable
     {
         //Fields
         protected float speed;
@@ -80,13 +81,14 @@ namespace Unicorns_Gaze
         private DamageRange damageRange;
         protected bool isFacingRight;
         protected Texture2D attackSprite;
+        protected float attackCooldown;
 
 
         //Properties
         /// <summary>
         /// Checks if MaxHealth is exceeded
         /// </summary>
-        public virtual int Health
+        public int Health
         {
             get => health;
             set
@@ -94,10 +96,11 @@ namespace Unicorns_Gaze
                 if (value < 0)
                 {
                     health = 0;
+                    RemoveThis();
                 }
                 else if (value > MaxHealth)
                 {
-                    health = 10;
+                    health = MaxHealth;
                 }
                 else
                 {
@@ -142,9 +145,5 @@ namespace Unicorns_Gaze
             Health += healedHP;
         }
 
-        public void TakeDamage(int damage)
-        {
-            Health -= damage;
-        }
     }
 }

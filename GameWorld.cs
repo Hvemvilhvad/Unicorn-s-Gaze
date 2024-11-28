@@ -33,6 +33,9 @@ namespace Unicorns_Gaze
         private static int nextWave;
         private static int currentWave;
 
+        private static Texture2D noSprite;
+
+
 #if DEBUG
         private Texture2D hitboxPixel;
 #endif
@@ -50,6 +53,7 @@ namespace Unicorns_Gaze
         public static Random Random { get => random; private set => random = value; }
         public static int TopBoundary { get => topBoundary; }
         public static int BottomBoundary { get => bottomBoundary; }
+        public static Texture2D NoSprite { get => noSprite; private set => noSprite = value; }
 
 
         /// <summary>
@@ -60,9 +64,8 @@ namespace Unicorns_Gaze
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-
         }
+
         /// <summary>
         /// Initializes the screen size and instantiates lists
         /// </summary>
@@ -77,9 +80,15 @@ namespace Unicorns_Gaze
 
             Vector2 playerPosition = new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2);
             player = new Player(10, playerPosition, 500);
+            
+            Vector2 someTempPosition = new Vector2(ScreenSize.X / 2 + 300, ScreenSize.Y / 2 + 300);
+            Breakable tempBreakable = new Breakable(someTempPosition);
+            
             Grunt grunt = new Grunt(10, playerPosition, 400);
+            
+            GameObjects = new List<GameObject>() { player, tempBreakable, grunt };
 
-            GameObjects = new List<GameObject>() { player, grunt};
+
             GameObjectsToRemove = new List<GameObject>();
             GameObjectsToAdd = new List<GameObject>();
 
@@ -95,12 +104,15 @@ namespace Unicorns_Gaze
             Random = new Random();
             nextWave = waves[0];
         }
+
         /// <summary>
         /// Loads textures
         /// </summary>
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            NoSprite = Content.Load<Texture2D>("notexture");
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.LoadContent(Content);
@@ -175,6 +187,7 @@ namespace Unicorns_Gaze
 
             base.Update(gameTime);
         }
+
         /// <summary>
         /// Draws out the gameObjects to the screen
         /// </summary>
