@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    public interface Damagable
+    public interface IDamagable
     {
         public int Health { get; set; }
 
@@ -68,9 +68,9 @@ namespace Unicorns_Gaze
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Damagable)
+            if (other is IDamagable)
             {
-                ((Damagable)other).TakeDamage(damage);
+                ((IDamagable)other).TakeDamage(damage);
                 if (following is not Player)
                 {
                     RemoveThis();

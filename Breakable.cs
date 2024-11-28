@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    public class Breakable : Environment, Damagable
+    public class Breakable : Environment, IDamagable
     {
         private int health;
 

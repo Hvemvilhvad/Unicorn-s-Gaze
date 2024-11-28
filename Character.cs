@@ -72,7 +72,7 @@ namespace Unicorns_Gaze
         }
     }
 
-    public abstract class Character : GameObject, Damagable
+    public abstract class Character : GameObject, IDamagable
     {
         //Fields
         protected float speed;
