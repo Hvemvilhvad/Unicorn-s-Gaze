@@ -83,8 +83,12 @@ namespace Unicorns_Gaze
             
             Vector2 someTempPosition = new Vector2(ScreenSize.X / 2 + 300, ScreenSize.Y / 2 + 300);
             Breakable tempBreakable = new Breakable(someTempPosition);
+            
+            Grunt grunt = new Grunt(10, playerPosition, 400);
+            
+            GameObjects = new List<GameObject>() { player, tempBreakable, grunt };
 
-            GameObjects = new List<GameObject>() { player, tempBreakable };
+
             GameObjectsToRemove = new List<GameObject>();
             GameObjectsToAdd = new List<GameObject>();
 
