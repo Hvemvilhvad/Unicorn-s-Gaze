@@ -24,6 +24,11 @@ namespace Unicorns_Gaze
         protected bool enteredField;
         //layer on which the sprite is drawn (higher means further back)
         protected float layer = 0.5f;
+        protected float invincibilityFrames = 0.3f;
+        protected float invincibilityTimer;
+        protected bool takingDamage = false;
+        protected float hurtTimer;
+        protected float hurtTime = 0.15f;
 
         //Properties
         public Rectangle Hitbox { get => hitbox; set => hitbox = value; }
@@ -76,7 +81,7 @@ namespace Unicorns_Gaze
             {
                 enteredField = true;
             }
-
+            invincibilityTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         /// <summary>
@@ -126,6 +131,11 @@ namespace Unicorns_Gaze
         public void RemoveThis()
         {
             GameWorld.ActiveGameWorld.RemoveObject(this);
+        }
+
+        public virtual void GiveInvincibilityFrames(float invincibilityTime = 0)
+        {
+            invincibilityTimer = invincibilityTime == 0 ? invincibilityFrames : invincibilityTime;
         }
     }
 

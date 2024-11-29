@@ -11,7 +11,7 @@ namespace Unicorns_Gaze
     public class Enemy : Character
     {
         //Fields
-        private DamageRange enemyRange;
+        
         protected float cooldown;
 
         //Constructor
@@ -46,7 +46,7 @@ namespace Unicorns_Gaze
         /// </summary>
         public virtual void Attack()
         {
-            MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(), false, isFacingRight, false, attackSprite);
+            MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(), false, isFacingRight, false, attackSprite, 1);
             attackCooldown = attack.ExistanceTime + attack.Cooldown;
             GameWorld.GameObjectsToAdd.Add(attack);
         }

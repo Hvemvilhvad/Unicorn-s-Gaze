@@ -35,6 +35,7 @@ namespace Unicorns_Gaze
             DamageRange = new DamageRange(2, 5);
         }
 
+        
 
         //Methods
         public override void LoadContent(ContentManager content)
@@ -96,14 +97,14 @@ namespace Unicorns_Gaze
 
             if (keyState.IsKeyDown(Keys.J) & attackCooldown <= 0) //small adac
             {
-                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, false, attackSprite);
+                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, false, attackSprite, 1);
                 attackCooldown = attack.ExistanceTime + attack.Cooldown;
                 GameWorld.GameObjectsToAdd.Add(attack);
             }
 
             if (keyState.IsKeyDown(Keys.I) & attackCooldown <= 0) //bick adac
             {
-                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, true, attackSprite);
+                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, true, attackSprite, 2);
                 attackCooldown = attack.ExistanceTime + attack.Cooldown;
                 GameWorld.GameObjectsToAdd.Add(attack);
             }
