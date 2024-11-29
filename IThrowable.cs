@@ -27,7 +27,7 @@ namespace Unicorns_Gaze
 
                 if (Position.Y >= StartPosition.Y)
                 {
-                    TakeDamage(Health);
+                    TakeDamage(Health, false);
                 }
             }
         }
