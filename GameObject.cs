@@ -29,6 +29,7 @@ namespace Unicorns_Gaze
         protected bool takingDamage = false;
         protected float hurtTimer;
         protected float hurtTime = 0.15f;
+        protected float scale = 1;
 
         //Properties
         public Rectangle Hitbox { get => hitbox; set => hitbox = value; }
@@ -68,7 +69,7 @@ namespace Unicorns_Gaze
             }
 
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
-            Hitbox = new Rectangle((int)position.X - (int)((sprite.Width / 2)), (int)position.Y - (int)((sprite.Height / 2)), (int)(sprite.Width), (int)(sprite.Height));
+            Hitbox = new Rectangle((int)position.X - (int)((sprite.Width / 2)), (int)position.Y - (int)((sprite.Height / 2)), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
         }
 
         public virtual void Update(GameTime gameTime, Vector2 screenSize)
@@ -122,7 +123,7 @@ namespace Unicorns_Gaze
             {
                 sprite = GameWorld.NoSprite;
             }
-            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, SpriteEffects.None, layer);
+            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
 
 
         }
