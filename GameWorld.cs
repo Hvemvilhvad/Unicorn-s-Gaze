@@ -35,6 +35,7 @@ namespace Unicorns_Gaze
         private static Texture2D noSprite;
         private static Vector2 playerLocation;
         private static bool isAlive;
+        private int waveNr;
 
 #if DEBUG
         private Texture2D hitboxPixel;
@@ -86,9 +87,7 @@ namespace Unicorns_Gaze
             Vector2 someTempPosition = new Vector2(ScreenSize.X / 2 + 300, ScreenSize.Y / 2 + 300);
             Breakable tempBreakable = new Breakable(someTempPosition);
             
-            Grunt grunt = new Grunt(playerPosition);
-            
-            GameObjects = new List<GameObject>() { player, tempBreakable, grunt };
+            GameObjects = new List<GameObject>() { player, tempBreakable };
 
 
             GameObjectsToRemove = new List<GameObject>();
@@ -112,6 +111,7 @@ namespace Unicorns_Gaze
         /// </summary>
         protected override void LoadContent()
         {
+            SpawnWave();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             NoSprite = Content.Load<Texture2D>("notexture");
@@ -130,7 +130,6 @@ namespace Unicorns_Gaze
             gameObjectsToAdd.Add(background);
             gameObjectsToAdd.Add(background2);
             //to activate waves
-            SpawnWave();
         }
 
         
@@ -241,47 +240,58 @@ namespace Unicorns_Gaze
         /// Methods used for adding gameObjects
         /// </summary>
         /// <param name="gameObject"></param>
-        public void AddObject(GameObject gameObject)
+        public static void MakeObject(GameObject gameObject)
         {
+            gameObject.LoadContent(ActiveGameWorld.Content);
             GameObjectsToAdd.Add(gameObject);
         }
 
+        /// <summary>
+        /// Spawns enemies procedurally
+        /// </summary>
         private void SpawnWave()
         {
             if (progress==0) 
             {
                 //where the waves happen
-                waves = new int[] { 50, 200 };
+                waves = new int[] { 50, 1000 };
                 nextWave = waves[0];
             }
             else
             {
                 //if we've reached the point where a wave should spawn
-                int temp = Array.FindIndex(waves, (item) => item == nextWave);
-                switch (temp)
+                if (waveNr != -1 && waveNr <= waves.Length -1)
                 {
-                    //remember to adjust 'waves'
-                    //also set screenMoving to false if the screen should stop during a wave
-                    case 0:
-                        //enemies & items spawn here
-                        break;
-                    case 1:
-                        //enemies & items spawn here
-                        break;
-                    case 2:
-                        //enemies & items spawn here
-                        break;
-                    case 3:
-                        //enemies & items spawn here
-                        break;
-                    default:
-                        break;
+                    switch (waveNr)
+                    {
+                        //remember to adjust 'waves'
+                        //also set screenMoving to false if the screen should stop during a wave
+                        case 0:
+                            //enemies & items spawn here
+                            Grunt grunt = new Grunt(new Vector2(ScreenSize.X, ScreenSize.Y / 2));
+                            MakeObject(grunt);
+                            break;
+                        case 1:
+                            //enemies & items spawn here
+                            Grunt grunt1 = new Grunt(new Vector2(ScreenSize.X, ScreenSize.Y / 2));
+                            MakeObject(grunt1);
+                            break;
+                        case 2:
+                            //enemies & items spawn here
+                            break;
+                        case 3:
+                            //enemies & items spawn here
+                            break;
+                        default:
+                            break;
+                    }
+                    if (waveNr != -1 && waveNr +1 != waves.Length)
+                    {
+                        nextWave = waves[waveNr + 1];
+                    }
+                    waveNr++;
                 }
-
-                if (temp != -1 && temp + 1 != waves.Length)
-                {
-                    nextWave = waves[temp + 1];
-                }
+                
             }
             
         }
