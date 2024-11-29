@@ -32,9 +32,15 @@ namespace Unicorns_Gaze
                 }
             }
         }
+
         public Vector2 StartPosition { get => startPosition; set => startPosition = value; }
         public bool HasBeenThrown { get => hasBeenThrown; set => hasBeenThrown = value; }
         public float ThrowTime { get => throwTime; set => throwTime = value; }
+        public float InvincibilityTimer { get => invincibilityTimer; set => invincibilityTimer = value; }
+        public float InvincibilityFrames { get ; set ; }
+        public float HurtTimer { get ; set ; }
+        public float HurtTime { get ; set ; }
+        public bool TakingDamage { get; set; }
 
         public Breakable(Vector2 position) : base()
         {

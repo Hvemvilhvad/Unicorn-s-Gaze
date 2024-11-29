@@ -96,9 +96,9 @@ namespace Unicorns_Gaze
                 if (value < 0)
                 {
                     health = 0;
-                    RemoveThis();
+                  
                 }
-                else if (value > MaxHealth)
+                else if (value >= MaxHealth)
                 {
                     health = MaxHealth;
                 }
@@ -110,6 +110,11 @@ namespace Unicorns_Gaze
         }
         public int MaxHealth { get => maxHealth; set => maxHealth = value; }
         public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
+        public float InvincibilityTimer { get => invincibilityTimer; set => invincibilityTimer = value; }
+        public float InvincibilityFrames { get => invincibilityFrames ; set => invincibilityFrames = value; }
+        public float HurtTimer { get => hurtTimer; set => hurtTimer = value; }
+        public float HurtTime { get => hurtTime; set => hurtTime = value; }
+        public bool TakingDamage { get => takingDamage; set => takingDamage = value; }
 
 
         //Methods
