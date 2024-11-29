@@ -34,6 +34,7 @@ namespace Unicorns_Gaze
         private static int currentWave;
         private static Texture2D noSprite;
         private static Vector2 playerLocation;
+        private static bool isAlive;
 
 #if DEBUG
         private Texture2D hitboxPixel;
@@ -54,6 +55,7 @@ namespace Unicorns_Gaze
         public static int BottomBoundary { get => bottomBoundary; }
         public static Texture2D NoSprite { get => noSprite; private set => noSprite = value; }
         public static Vector2 PlayerLocation { get => playerLocation; set => playerLocation = value; }
+        public static bool IsAlive { get => isAlive; set => isAlive = value; }
 
 
         /// <summary>
