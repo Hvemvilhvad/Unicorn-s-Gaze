@@ -55,6 +55,8 @@ namespace Unicorns_Gaze
         public static int TopBoundary { get => topBoundary; }
         public static int BottomBoundary { get => bottomBoundary; }
 
+        public State NextState { set => nextState = value; }
+
 
         /// <summary>
         /// GameWorld constructor
@@ -64,8 +66,6 @@ namespace Unicorns_Gaze
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-
         }
         /// <summary>
         /// Initializes the screen size and instantiates lists
@@ -104,6 +104,8 @@ namespace Unicorns_Gaze
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            currentState = new Menu(this,Content);
+            currentState.LoadContent();
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.LoadContent(Content);
@@ -131,6 +133,8 @@ namespace Unicorns_Gaze
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            currentState.Update(gameTime);
 
             Vector2 screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             foreach (GameObject gameObject in GameObjects)
@@ -177,6 +181,12 @@ namespace Unicorns_Gaze
             GameObjectsToAdd.Clear();
 
             base.Update(gameTime);
+
+            if (nextState != null)
+            {
+                currentState = nextState;
+                nextState = null;
+            }
         }
         /// <summary>
         /// Draws out the gameObjects to the screen

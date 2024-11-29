@@ -1,8 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct2D1.Effects;
-using SharpDX.XInput;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,6 +21,7 @@ namespace Unicorns_Gaze
         protected Vector2 origin;
         protected Vector2 velocity;
         protected bool enteredField;
+        protected Color color = Color.White;
         //layer on which the sprite is drawn (higher means further back)
         protected float layer=0.5f;
 
@@ -106,7 +105,7 @@ namespace Unicorns_Gaze
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, SpriteEffects.None, layer);
+            spriteBatch.Draw(sprite, position, null, color, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, SpriteEffects.None, layer);
         }
 
 

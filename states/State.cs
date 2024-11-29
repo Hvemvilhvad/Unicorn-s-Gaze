@@ -21,5 +21,7 @@ namespace Unicorns_Gaze.states
 
         public abstract void LoadContent();
         public abstract void Update(GameTime gameTime);
+
+        public abstract void Draw(GameTime gameTime,SpriteBatch spriteBatch);
     }
 }
