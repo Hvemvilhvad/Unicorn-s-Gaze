@@ -115,5 +115,26 @@ namespace Unicorns_Gaze
         }
 
 
+        /// <summary>
+        /// Keeps the gameObject on the designated "street"
+        /// </summary>
+        public override void CheckBounds(Vector2 screenSize)
+        {
+            base.CheckBounds(screenSize);
+
+            if (position.X + (sprite.Width / 2) > screenSize.X && enteredField)
+            {
+                position.X = screenSize.X - (sprite.Width / 2);
+                velocity.X = 0;
+            }
+
+            if (position.X - (sprite.Width / 2) < 0 && enteredField)
+            {
+                position.X = sprite.Width / 2;
+                velocity.X = 0;
+            }
+        }
+
+
     }
 }
