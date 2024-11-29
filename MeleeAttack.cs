@@ -57,7 +57,7 @@ namespace Unicorns_Gaze
         {
             if (other is IDamagable)
             {
-                ((IDamagable)other).TakeDamage(damage);
+                (other as IDamagable).TakeDamage(damage);
                 if (following is not Player)
                 {
                     RemoveThis();

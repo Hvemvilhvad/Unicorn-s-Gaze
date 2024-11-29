@@ -27,10 +27,10 @@ namespace Unicorns_Gaze
         //Constructor
         public Player(int health, Vector2 position, float speed)
         {
+            MaxHealth = 10;
             Health = health;
             Position = position;
             this.speed = speed;
-            MaxHealth = 10;
             isFacingRight = true;
             DamageRange = new DamageRange(2, 5);
         }
@@ -110,7 +110,7 @@ namespace Unicorns_Gaze
 
             if (keyState.IsKeyDown(Keys.O)) // pick up thing
             {
-                ((IDamagable)this).TakeDamage(5);
+
             }
         }
 

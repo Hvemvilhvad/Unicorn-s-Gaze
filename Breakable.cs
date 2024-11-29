@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.VisualBasic.Logging;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +8,19 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
-    public class Breakable : Environment, IDamagable
+    public class Breakable : Environment, IDamagable, IThrowable
     {
         private int health;
+        private Vector2 startPosition;
+        private bool hasBeenThrown;
+        private float throwTime;
 
         public int Health
         {
             get => health;
             set
             {
-                if (value < 0)
+                if (value <= 0)
                 {
                     SpawnItem();
                     RemoveThis();
@@ -24,15 +28,20 @@ namespace Unicorns_Gaze
                 else
                 {
                     health = value;
+                    ((IThrowable)this).Throw();
                 }
             }
         }
-
+        public Vector2 StartPosition { get => startPosition; set => startPosition = value; }
+        public bool HasBeenThrown { get => hasBeenThrown; set => hasBeenThrown = value; }
+        public float ThrowTime { get => throwTime; set => throwTime = value; }
 
         public Breakable(Vector2 position) : base()
         {
             Position = position;
             Health = 10;
+            hasBeenThrown = false;
+            throwTime = 0;
         }
 
 
@@ -42,10 +51,16 @@ namespace Unicorns_Gaze
         public void SpawnItem()
         {
             //60% chance
-            if (GameWorld.Random.Next(0, 3+1) >= 2)
+            if (GameWorld.Random.Next(0, 3 + 1) >= 2)
             {
                 GameWorld.GameObjectsToAdd.Add(Item.GetRandomItem(Position));
             }
+        }
+
+        public override void Update(GameTime gameTime, Vector2 screenSize)
+        {
+            ((IThrowable)this).UpdateThrow(gameTime, screenSize);
+            base.Update(gameTime, screenSize);
         }
     }
 }
