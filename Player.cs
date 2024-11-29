@@ -111,7 +111,7 @@ namespace Unicorns_Gaze
 
             if (keyState.IsKeyDown(Keys.O)) // pick up thing
             {
-                ((IDamagable)this).TakeDamage(5, true);
+
             }
         }
 

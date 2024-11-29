@@ -123,10 +123,7 @@ namespace Unicorns_Gaze
                 sprite = GameWorld.NoSprite;
             }
             spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, SpriteEffects.None, layer);
-
-
         }
-
 
         /// <summary>
         /// Removes this object from the GameWorld.
@@ -141,4 +138,5 @@ namespace Unicorns_Gaze
             invincibilityTimer = invincibilityTime == 0 ? invincibilityFrames : invincibilityTime;
         }
     }
+
 }

@@ -129,6 +129,8 @@ namespace Unicorns_Gaze
             base.Update(gameTime, screenSize);
         }
 
+
+
         /// <summary>
         /// Defines movement for character classes
         /// </summary>
