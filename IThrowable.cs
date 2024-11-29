@@ -22,7 +22,7 @@ namespace Unicorns_Gaze
         {
             if (HasBeenThrown)
             {
-                ThrowTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 5;
+                ThrowTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
                 ThrowPositionFunction();
 
                 if (Position.Y >= StartPosition.Y)

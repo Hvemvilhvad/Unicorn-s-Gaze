@@ -83,11 +83,13 @@ namespace Unicorns_Gaze
 
             Vector2 playerPosition = new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2);
             player = new Player(10, playerPosition, 500);
-            
+
             Vector2 someTempPosition = new Vector2(ScreenSize.X / 2 + 300, ScreenSize.Y / 2 + 300);
             Breakable tempBreakable = new Breakable(someTempPosition);
-            
-            GameObjects = new List<GameObject>() { player, tempBreakable };
+
+            Grunt grunt = new Grunt(playerPosition);
+
+            GameObjects = new List<GameObject>() { player, tempBreakable, grunt };
 
 
             GameObjectsToRemove = new List<GameObject>();
@@ -95,7 +97,7 @@ namespace Unicorns_Gaze
 
             //defines the bounds of where the player/enemies/other gameobjects can be
             topBoundary = _graphics.PreferredBackBufferHeight / 3;
-            bottomBoundary = _graphics.PreferredBackBufferHeight- (_graphics.PreferredBackBufferHeight / 5);
+            bottomBoundary = _graphics.PreferredBackBufferHeight - (_graphics.PreferredBackBufferHeight / 5);
 
             screenMoving = true;
 
@@ -123,7 +125,7 @@ namespace Unicorns_Gaze
             hitboxPixel = Content.Load<Texture2D>("Hitbox pixel");
             backgroundSprite = Content.Load<Texture2D>("tempBackgroundLol");
             Background background = new Background(backgroundSprite);
-            background.Position = new Vector2(0, screenSize.Y/2);
+            background.Position = new Vector2(0, screenSize.Y / 2);
             Background background2 = new Background(backgroundSprite);
             background2.Position = new Vector2(screenSize.X, screenSize.Y / 2);
 
@@ -132,7 +134,7 @@ namespace Unicorns_Gaze
             //to activate waves
         }
 
-        
+
         /// <summary>
         /// Runs every frame and handles a lot of the methods
         /// </summary>
@@ -154,23 +156,26 @@ namespace Unicorns_Gaze
             }
 
             //move screen
-            if (screenMoving && Player.Position.X>(screenSize.X/2))
+            if (screenMoving && Player.Position.X > (screenSize.X / 2))
             {
                 foreach (GameObject gameObject in GameObjects)
                 {
-                    float xPos=gameObject.Position.X-screenSpeed;
-                    gameObject.Position=new Vector2(xPos, gameObject.Position.Y);
+                    gameObject.Position -= new Vector2(screenSpeed, 0);
+                    if (gameObject is IThrowable)
+                    {
+                        (gameObject as IThrowable).StartPosition -= new Vector2(screenSpeed, 0);
+                    }
                     progress += screenSpeed;
                 }
             }
 
             //Waves 
-            if (progress >= nextWave) 
+            if (progress >= nextWave)
             {
                 SpawnWave();
             }
             //if enemies are gone
-            if(!screenMoving && !gameObjects.OfType<Enemy>().Any())
+            if (!screenMoving && !gameObjects.OfType<Enemy>().Any())
             {
                 screenMoving = true;
             }
@@ -200,7 +205,7 @@ namespace Unicorns_Gaze
             _spriteBatch.Begin(SpriteSortMode.BackToFront);
             foreach (GameObject gameObject in GameObjects)
             {
-                    gameObject.Draw(_spriteBatch);            
+                gameObject.Draw(_spriteBatch);
             }
 #if DEBUG
             foreach (GameObject gameObject in GameObjects)
@@ -211,7 +216,7 @@ namespace Unicorns_Gaze
                 Rectangle rightline = new Rectangle(hitBox.X + hitBox.Width, hitBox.Y, 1, hitBox.Height);
                 Rectangle leftline = new Rectangle(hitBox.X, hitBox.Y, 1, hitBox.Height);
 
-                _spriteBatch.Draw(hitboxPixel, topline, null, Color.White); 
+                _spriteBatch.Draw(hitboxPixel, topline, null, Color.White);
                 _spriteBatch.Draw(hitboxPixel, bottomline, null, Color.White);
                 _spriteBatch.Draw(hitboxPixel, rightline, null, Color.White);
                 _spriteBatch.Draw(hitboxPixel, leftline, null, Color.White);
@@ -251,7 +256,7 @@ namespace Unicorns_Gaze
         /// </summary>
         private void SpawnWave()
         {
-            if (progress==0) 
+            if (progress == 0)
             {
                 //where the waves happen
                 waves = new int[] { 50, 1000 };
@@ -291,9 +296,8 @@ namespace Unicorns_Gaze
                     }
                     waveNr++;
                 }
-                
             }
-            
+
         }
     }
 }
