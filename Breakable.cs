@@ -28,6 +28,11 @@ namespace Unicorns_Gaze
             }
         }
 
+        public float InvincibilityTimer { get => invincibilityTimer; set => invincibilityTimer = value; }
+        public float InvincibilityFrames { get ; set ; }
+        public float HurtTimer { get ; set ; }
+        public float HurtTime { get ; set ; }
+        public bool TakingDamage { get; set; }
 
         public Breakable(Vector2 position) : base()
         {
