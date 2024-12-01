@@ -5,29 +5,135 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Content;
+using System.Drawing;
+using System.Reflection.Metadata;
 
 namespace Unicorns_Gaze.states
 {
     public class Gameplay: State
     {
+        //Fields
+        private Player player;
+        private static int topBoundary;
+        private static int bottomBoundary;
+        private static bool screenMoving;
+        private static int screenSpeed;
+        private Texture2D backgroundSprite;
+        private static int progress;
+        //x-positions at which the screen stops moving until enemies are defeated
+        //Where enemies spawn
+        private static int[] waves;
+        private static int nextWave;
+        private static int currentWave;
+        //Properties
+        public bool ScreenMoving { get => screenMoving; set => screenMoving = value; }
+        public static int TopBoundary { get => topBoundary; }
+        public static int BottomBoundary { get => bottomBoundary; }
+
+        //Constructors
         public Gameplay(GameWorld gameworld, ContentManager contentmanager) : base(gameworld, contentmanager)
         {
             this.contentmanager = contentmanager;
             this.gameworld=gameworld;
         }
 
+        //Methods
         public override void LoadContent()
         {
+            screenSpeed = 3;
+            Vector2 playerPosition = new Vector2(GameWorld.ScreenSize.X / 2, GameWorld.ScreenSize.Y / 2);
+            player = new Player(10, playerPosition, 500);
+            GameWorld.Player = player;
 
+            //defines the bounds of where the player/enemies/other gameobjects can be
+            topBoundary = (int)GameWorld.ScreenSize.Y / 3;
+            bottomBoundary = (int)GameWorld.ScreenSize.Y - ((int)GameWorld.ScreenSize.Y / 5);
+            screenMoving = true;
+
+            backgroundSprite = contentmanager.Load<Texture2D>("tempBackgroundLol");
+            Background background = new Background(backgroundSprite);
+            background.Position = new Vector2(0, GameWorld.ScreenSize.Y / 2);
+            Background background2 = new Background(backgroundSprite);
+            background2.Position = new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2);
+
+            player.LoadContent(contentmanager);
+            background.LoadContent(contentmanager);
+            background2.LoadContent(contentmanager);
+
+            GameWorld.GameObjectsToAdd.Add(player);
+            GameWorld.GameObjectsToAdd.Add(background);
+            GameWorld.GameObjectsToAdd.Add(background2);
+            //to activate waves
+            SpawnWave();
         }
 
         public override void Update(GameTime gameTime)
         {
+            //move screen
+            if (screenMoving && player.Position.X > (GameWorld.ScreenSize.X / 2))
+            {
+                foreach (GameObject gameObject in GameWorld.GameObjects)
+                {
+                    float xPos = gameObject.Position.X - screenSpeed;
+                    gameObject.Position = new Vector2(xPos, gameObject.Position.Y);
+                    progress += screenSpeed;
+                }
+            }
 
+            //Waves 
+            if (progress >= nextWave)
+            {
+                SpawnWave();
+            }
+            //if enemies are gone
+            if (!screenMoving && !GameWorld.GameObjects.OfType<Enemy>().Any())
+            {
+                screenMoving = true;
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+
+        }
+
+        private void SpawnWave()
+        {
+            if (progress == 0)
+            {
+                //where the waves happen
+                waves = new int[] { 50, 200 };
+                nextWave = waves[0];
+            }
+            else
+            {
+                //if we've reached the point where a wave should spawn
+                int temp = Array.FindIndex(waves, (item) => item == nextWave);
+                switch (temp)
+                {
+                    //remember to adjust 'waves'
+                    //also set screenMoving to false if the screen should stop during a wave
+                    case 0:
+                        //enemies & items spawn here
+                        break;
+                    case 1:
+                        //enemies & items spawn here
+                        break;
+                    case 2:
+                        //enemies & items spawn here
+                        break;
+                    case 3:
+                        //enemies & items spawn here
+                        break;
+                    default:
+                        break;
+                }
+
+                if (temp != -1 && temp + 1 != waves.Length)
+                {
+                    nextWave = waves[temp + 1];
+                }
+            }
 
         }
     }

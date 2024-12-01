@@ -13,6 +13,7 @@ namespace Unicorns_Gaze
         public Background(Texture2D sprite) 
         { 
             this.sprite = sprite;
+            scale = GameWorld.ScreenSize.Y / this.sprite.Height;
             layer = 0.9f;
         }
 

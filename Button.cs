@@ -39,14 +39,30 @@ namespace Unicorns_Gaze
             this.game = game;
             contentManager = game.Content;
             layer = 0;
+            scale = 0.1f;
         }
 
         //Methods
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
+            mouseState=Mouse.GetState();
+
+            Rectangle mouseHitbox=new Rectangle(mouseState.X,mouseState.Y,2,2);
+            isHovering=false;
+
+            if (mouseHitbox.Intersects(Hitbox)) 
+            { 
+                isHovering = true;
+                if (mouseState.LeftButton == ButtonState.Pressed) 
+                { 
+                    Clicked = true;
+                }
+            }
+
             if (isHovering)
             {
                 color = Color.Gray;
+                
             }
             else
             {
@@ -57,6 +73,7 @@ namespace Unicorns_Gaze
             {
                 game.NextState = new Gameplay(game,contentManager);
             }
+            base.Update(gameTime, screenSize);
         }
 
     }

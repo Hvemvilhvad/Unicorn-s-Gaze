@@ -24,6 +24,7 @@ namespace Unicorns_Gaze
         protected Color color = Color.White;
         //layer on which the sprite is drawn (higher means further back)
         protected float layer=0.5f;
+        protected float scale = 1;
 
         //Properties
         public Rectangle Hitbox { get => hitbox; set => hitbox = value; }
@@ -57,7 +58,7 @@ namespace Unicorns_Gaze
         public virtual void LoadContent(ContentManager content)
         {
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
-            Hitbox = new Rectangle((int)position.X - (int)((sprite.Width / 2)), (int)position.Y - (int)((sprite.Height / 2)), (int)(sprite.Width), (int)(sprite.Height));
+            Hitbox = new Rectangle((int)position.X - (int)((sprite.Width / 2)*scale), (int)position.Y - (int)((sprite.Height / 2)*scale), (int)(sprite.Width*scale), (int)(sprite.Height*scale));
         }
         public virtual void Update(GameTime gameTime, Vector2 screenSize)
         {
@@ -105,7 +106,7 @@ namespace Unicorns_Gaze
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, color, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, SpriteEffects.None, layer);
+            spriteBatch.Draw(sprite, position, null, color, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
         }
 
 
