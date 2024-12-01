@@ -24,6 +24,9 @@ namespace Unicorns_Gaze
         private static Random random;
         private static int topBoundary;
         private static int bottomBoundary;
+        private static Texture2D noSprite;
+        private static Vector2 playerLocation;
+        private static bool isAlive;
         //states
         private State currentState;
         private State nextState;
@@ -79,8 +82,6 @@ namespace Unicorns_Gaze
             Vector2 someTempPosition = new Vector2(ScreenSize.X / 2 + 300, ScreenSize.Y / 2 + 300);
             Breakable tempBreakable = new Breakable(someTempPosition);
 
-            Grunt grunt = new Grunt(playerPosition);
-
             base.Initialize();
 
             activeGameWorld = this;
@@ -93,7 +94,6 @@ namespace Unicorns_Gaze
         /// </summary>
         protected override void LoadContent()
         {
-            SpawnWave();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             currentState = new Menu(this,Content);
             currentState.LoadContent();
@@ -146,27 +146,6 @@ namespace Unicorns_Gaze
                 nextState = null;                
             }
 
-            //move screen
-            if (screenMoving && Player.Position.X > (screenSize.X / 2))
-            {
-                gameObject.Position -= new Vector2(screenSpeed, 0);
-                if (gameObject is IThrowable)
-                {
-                    (gameObject as IThrowable).StartPosition -= new Vector2(screenSpeed, 0);
-                }
-                progress += screenSpeed;
-            }
-
-            //Waves 
-            if (progress >= nextWave)
-            {
-                SpawnWave();
-            }
-            //if enemies are gone
-            if (!screenMoving && !gameObjects.OfType<Enemy>().Any())
-            {
-                screenMoving = true;
-            }
 
             // remove game objects
             foreach (GameObject removedObject in GameObjectsToRemove)
@@ -181,7 +160,6 @@ namespace Unicorns_Gaze
 
             currentState.Update(gameTime);
             base.Update(gameTime);
-
             
         }
 
@@ -240,55 +218,6 @@ namespace Unicorns_Gaze
         {
             gameObject.LoadContent(ActiveGameWorld.Content);
             GameObjectsToAdd.Add(gameObject);
-        }
-
-        /// <summary>
-        /// Spawns enemies procedurally
-        /// </summary>
-        private void SpawnWave()
-        {
-            if (progress == 0)
-            {
-                //where the waves happen
-                waves = new int[] { 50, 1000 };
-                nextWave = waves[0];
-            }
-            else
-            {
-                //if we've reached the point where a wave should spawn
-                if (waveNr != -1 && waveNr <= waves.Length -1)
-                {
-                    switch (waveNr)
-                    {
-                        //remember to adjust 'waves'
-                        //also set screenMoving to false if the screen should stop during a wave
-                        case 0:
-                            //enemies & items spawn here
-                            Grunt grunt = new Grunt(new Vector2(ScreenSize.X, ScreenSize.Y / 2));
-                            MakeObject(grunt);
-                            break;
-                        case 1:
-                            //enemies & items spawn here
-                            Grunt grunt1 = new Grunt(new Vector2(ScreenSize.X, ScreenSize.Y / 2));
-                            MakeObject(grunt1);
-                            break;
-                        case 2:
-                            //enemies & items spawn here
-                            break;
-                        case 3:
-                            //enemies & items spawn here
-                            break;
-                        default:
-                            break;
-                    }
-                    if (waveNr != -1 && waveNr +1 != waves.Length)
-                    {
-                        nextWave = waves[waveNr + 1];
-                    }
-                    waveNr++;
-                }
-            }
-
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Unicorns_Gaze
         protected Vector2 velocity;
         protected bool enteredField;
         protected Color color = Color.White;
+        protected float scale = 1;
         //layer on which the sprite is drawn (higher means further back)
         protected float layer = 0.5f;
         protected float invincibilityFrames = 0.3f;
@@ -35,7 +36,7 @@ namespace Unicorns_Gaze
         public Vector2 Position
         {
             get => position;
-            set { position = value; Hitbox = new Rectangle((int)value.X - (Hitbox.Width / 2), (int)value.Y - (Hitbox.Height / 2), Hitbox.Width, Hitbox.Height); }
+            set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2)*scale), (int)(value.Y - (Hitbox.Height / 2)*scale), (int)(Hitbox.Width*scale), (int)(Hitbox.Height*scale)); }
         }
 
         //Methods
@@ -108,7 +109,7 @@ namespace Unicorns_Gaze
             {
                 sprite = GameWorld.NoSprite;
             }
-            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, SpriteEffects.None, layer);
+            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
         }
 
         /// <summary>

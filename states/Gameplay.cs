@@ -19,12 +19,12 @@ namespace Unicorns_Gaze.states
         private static bool screenMoving;
         private static int screenSpeed;
         private Texture2D backgroundSprite;
-        private static int progress;
+        private static int progress;        
         //x-positions at which the screen stops moving until enemies are defeated
         //Where enemies spawn
         private static int[] waves;
         private static int nextWave;
-        private static int currentWave;
+        private int waveNr;
         //Properties
         public bool ScreenMoving { get => screenMoving; set => screenMoving = value; }
         public static int TopBoundary { get => topBoundary; }
@@ -56,13 +56,18 @@ namespace Unicorns_Gaze.states
             Background background2 = new Background(backgroundSprite);
             background2.Position = new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2);
 
-            player.LoadContent(contentmanager);
-            background.LoadContent(contentmanager);
-            background2.LoadContent(contentmanager);
+            Grunt grunt = new Grunt(playerPosition);
+
 
             GameWorld.GameObjectsToAdd.Add(player);
             GameWorld.GameObjectsToAdd.Add(background);
             GameWorld.GameObjectsToAdd.Add(background2);
+            GameWorld.GameObjectsToAdd.Add(grunt);
+
+            foreach (GameObject item in GameWorld.GameObjectsToAdd)
+            {
+                item.LoadContent(contentmanager);
+            }
             //to activate waves
             SpawnWave();
         }
@@ -97,41 +102,50 @@ namespace Unicorns_Gaze.states
 
         }
 
+        /// <summary>
+        /// Spawns enemies procedurally
+        /// </summary>
         private void SpawnWave()
         {
             if (progress == 0)
             {
                 //where the waves happen
-                waves = new int[] { 50, 200 };
+                waves = new int[] { 50, 1000 };
                 nextWave = waves[0];
             }
             else
             {
                 //if we've reached the point where a wave should spawn
-                int temp = Array.FindIndex(waves, (item) => item == nextWave);
-                switch (temp)
+                if (waveNr != -1 && waveNr <= waves.Length - 1)
                 {
-                    //remember to adjust 'waves'
-                    //also set screenMoving to false if the screen should stop during a wave
-                    case 0:
-                        //enemies & items spawn here
-                        break;
-                    case 1:
-                        //enemies & items spawn here
-                        break;
-                    case 2:
-                        //enemies & items spawn here
-                        break;
-                    case 3:
-                        //enemies & items spawn here
-                        break;
-                    default:
-                        break;
-                }
-
-                if (temp != -1 && temp + 1 != waves.Length)
-                {
-                    nextWave = waves[temp + 1];
+                    switch (waveNr)
+                    {
+                        //remember to adjust 'waves'
+                        //also set screenMoving to false if the screen should stop during a wave
+                        case 0:
+                            //enemies & items spawn here
+                            Grunt grunt = new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
+                            GameWorld.MakeObject(grunt);
+                            break;
+                        case 1:
+                            //enemies & items spawn here
+                            Grunt grunt1 = new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
+                            GameWorld.MakeObject(grunt1);
+                            break;
+                        case 2:
+                            //enemies & items spawn here
+                            break;
+                        case 3:
+                            //enemies & items spawn here
+                            break;
+                        default:
+                            break;
+                    }
+                    if (waveNr != -1 && waveNr + 1 != waves.Length)
+                    {
+                        nextWave = waves[waveNr + 1];
+                    }
+                    waveNr++;
                 }
             }
 
