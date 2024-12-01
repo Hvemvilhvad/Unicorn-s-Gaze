@@ -28,6 +28,7 @@ namespace Unicorns_Gaze
         private State currentState;
         private State nextState;
 
+
 #if DEBUG
         private Texture2D hitboxPixel;
 #endif
@@ -47,6 +48,10 @@ namespace Unicorns_Gaze
         public static GameWorld ActiveGameWorld { get => activeGameWorld; private set => activeGameWorld = value; }
 
         public State NextState { set => nextState = value; }
+        public static Texture2D NoSprite { get => noSprite; private set => noSprite = value; }
+        public static Vector2 PlayerLocation { get => playerLocation; set => playerLocation = value; }
+        public static bool IsAlive { get => isAlive; set => isAlive = value; }
+
 
 
         /// <summary>
@@ -58,6 +63,7 @@ namespace Unicorns_Gaze
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
+
         /// <summary>
         /// Initializes the screen size and instantiates lists
         /// </summary>
@@ -70,6 +76,10 @@ namespace Unicorns_Gaze
             GameObjectsToRemove = new List<GameObject>();
             GameObjectsToAdd = new List<GameObject>();
             ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            Vector2 someTempPosition = new Vector2(ScreenSize.X / 2 + 300, ScreenSize.Y / 2 + 300);
+            Breakable tempBreakable = new Breakable(someTempPosition);
+
+            Grunt grunt = new Grunt(playerPosition);
 
             base.Initialize();
 
@@ -77,14 +87,18 @@ namespace Unicorns_Gaze
             Random = new Random();
             
         }
+
         /// <summary>
         /// Loads textures
         /// </summary>
         protected override void LoadContent()
         {
+            SpawnWave();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             currentState = new Menu(this,Content);
             currentState.LoadContent();
+
+            NoSprite = Content.Load<Texture2D>("notexture");
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.LoadContent(Content);
@@ -93,7 +107,7 @@ namespace Unicorns_Gaze
             hitboxPixel = Content.Load<Texture2D>("Hitbox pixel");
         }
 
-        
+
         /// <summary>
         /// Runs every frame and handles a lot of the methods
         /// </summary>
@@ -129,7 +143,29 @@ namespace Unicorns_Gaze
                 }
                 
                 currentState.LoadContent();
-                nextState = null;
+                nextState = null;                
+            }
+
+            //move screen
+            if (screenMoving && Player.Position.X > (screenSize.X / 2))
+            {
+                gameObject.Position -= new Vector2(screenSpeed, 0);
+                if (gameObject is IThrowable)
+                {
+                    (gameObject as IThrowable).StartPosition -= new Vector2(screenSpeed, 0);
+                }
+                progress += screenSpeed;
+            }
+
+            //Waves 
+            if (progress >= nextWave)
+            {
+                SpawnWave();
+            }
+            //if enemies are gone
+            if (!screenMoving && !gameObjects.OfType<Enemy>().Any())
+            {
+                screenMoving = true;
             }
 
             // remove game objects
@@ -148,6 +184,7 @@ namespace Unicorns_Gaze
 
             
         }
+
         /// <summary>
         /// Draws out the gameObjects to the screen
         /// </summary>
@@ -159,7 +196,7 @@ namespace Unicorns_Gaze
             _spriteBatch.Begin(SpriteSortMode.BackToFront);
             foreach (GameObject gameObject in GameObjects)
             {
-                    gameObject.Draw(_spriteBatch);            
+                gameObject.Draw(_spriteBatch);
             }
 #if DEBUG
             foreach (GameObject gameObject in GameObjects)
@@ -170,7 +207,7 @@ namespace Unicorns_Gaze
                 Rectangle rightline = new Rectangle(hitBox.X + hitBox.Width, hitBox.Y, 1, hitBox.Height);
                 Rectangle leftline = new Rectangle(hitBox.X, hitBox.Y, 1, hitBox.Height);
 
-                _spriteBatch.Draw(hitboxPixel, topline, null, Color.White); 
+                _spriteBatch.Draw(hitboxPixel, topline, null, Color.White);
                 _spriteBatch.Draw(hitboxPixel, bottomline, null, Color.White);
                 _spriteBatch.Draw(hitboxPixel, rightline, null, Color.White);
                 _spriteBatch.Draw(hitboxPixel, leftline, null, Color.White);
@@ -186,7 +223,6 @@ namespace Unicorns_Gaze
             base.Draw(gameTime);
         }
 
-
         /// <summary>
         /// Method used for removing gameObjects
         /// </summary>
@@ -195,14 +231,64 @@ namespace Unicorns_Gaze
         {
             GameObjectsToRemove.Add(gameObject);
         }
+
         /// <summary>
         /// Methods used for adding gameObjects
         /// </summary>
         /// <param name="gameObject"></param>
-        public void AddObject(GameObject gameObject)
+        public static void MakeObject(GameObject gameObject)
         {
+            gameObject.LoadContent(ActiveGameWorld.Content);
             GameObjectsToAdd.Add(gameObject);
         }
 
+        /// <summary>
+        /// Spawns enemies procedurally
+        /// </summary>
+        private void SpawnWave()
+        {
+            if (progress == 0)
+            {
+                //where the waves happen
+                waves = new int[] { 50, 1000 };
+                nextWave = waves[0];
+            }
+            else
+            {
+                //if we've reached the point where a wave should spawn
+                if (waveNr != -1 && waveNr <= waves.Length -1)
+                {
+                    switch (waveNr)
+                    {
+                        //remember to adjust 'waves'
+                        //also set screenMoving to false if the screen should stop during a wave
+                        case 0:
+                            //enemies & items spawn here
+                            Grunt grunt = new Grunt(new Vector2(ScreenSize.X, ScreenSize.Y / 2));
+                            MakeObject(grunt);
+                            break;
+                        case 1:
+                            //enemies & items spawn here
+                            Grunt grunt1 = new Grunt(new Vector2(ScreenSize.X, ScreenSize.Y / 2));
+                            MakeObject(grunt1);
+                            break;
+                        case 2:
+                            //enemies & items spawn here
+                            break;
+                        case 3:
+                            //enemies & items spawn here
+                            break;
+                        default:
+                            break;
+                    }
+                    if (waveNr != -1 && waveNr +1 != waves.Length)
+                    {
+                        nextWave = waves[waveNr + 1];
+                    }
+                    waveNr++;
+                }
+            }
+
+        }
     }
 }

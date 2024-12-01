@@ -71,7 +71,8 @@ namespace Unicorns_Gaze
             return this;
         }
     }
-    public abstract class Character : GameObject
+
+    public abstract class Character : GameObject, IDamagable
     {
         //Fields
         protected float speed;
@@ -80,13 +81,14 @@ namespace Unicorns_Gaze
         private DamageRange damageRange;
         protected bool isFacingRight;
         protected Texture2D attackSprite;
+        protected float attackCooldown;
 
 
         //Properties
         /// <summary>
         /// Checks if MaxHealth is exceeded
         /// </summary>
-        public virtual int Health
+        public int Health
         {
             get => health;
             set
@@ -94,10 +96,11 @@ namespace Unicorns_Gaze
                 if (value < 0)
                 {
                     health = 0;
+                  
                 }
-                else if (value > MaxHealth)
+                else if (value >= MaxHealth)
                 {
-                    health = 10;
+                    health = MaxHealth;
                 }
                 else
                 {
@@ -107,6 +110,11 @@ namespace Unicorns_Gaze
         }
         public int MaxHealth { get => maxHealth; set => maxHealth = value; }
         public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
+        public float InvincibilityTimer { get => invincibilityTimer; set => invincibilityTimer = value; }
+        public float InvincibilityFrames { get => invincibilityFrames ; set => invincibilityFrames = value; }
+        public float HurtTimer { get => hurtTimer; set => hurtTimer = value; }
+        public float HurtTime { get => hurtTime; set => hurtTime = value; }
+        public bool TakingDamage { get => takingDamage; set => takingDamage = value; }
 
 
         //Methods
@@ -120,6 +128,8 @@ namespace Unicorns_Gaze
         {
             base.Update(gameTime, screenSize);
         }
+
+
 
         /// <summary>
         /// Defines movement for character classes
@@ -142,9 +152,5 @@ namespace Unicorns_Gaze
             Health += healedHP;
         }
 
-        public void TakeDamage(int damage)
-        {
-            Health -= damage;
-        }
     }
 }

@@ -11,6 +11,9 @@ namespace Unicorns_Gaze
     public class Environment : GameObject
     {
 
+        public Environment() : base()
+        {
 
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.DirectWrite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Unicorns_Gaze
 {
+
+
     public class MeleeAttack : GameObject
     {
         private Character following;
@@ -18,8 +20,12 @@ namespace Unicorns_Gaze
         private bool isFacingRight;
         private bool isHeavyAttack;
         private float existanceTime;
+        private float cooldown;
 
-        public MeleeAttack(Character followedCharacter, int damage, bool isCrit, bool isFacingRight, bool isHeavyAttack, Texture2D sprite) : base()
+        public float ExistanceTime { get => existanceTime; private set => existanceTime = value; }
+        public float Cooldown { get => cooldown; set => cooldown = value; }
+
+        public MeleeAttack(Character followedCharacter, int damage, bool isCrit, bool isFacingRight, bool isHeavyAttack, Texture2D sprite, float cooldown) : base()
         {
             following = followedCharacter;
             characterPositionOffset = isFacingRight ? new Vector2(100, 0) : new Vector2(-100, 0);
@@ -28,6 +34,9 @@ namespace Unicorns_Gaze
             this.isCrit = isCrit;
             this.isFacingRight = isFacingRight;
             this.isHeavyAttack = isHeavyAttack;
+            ExistanceTime = 0.5F;
+            Cooldown = cooldown;
+            Hitbox = new Rectangle(0, 0, 50, 100);
 
             this.sprite = sprite;
         }
@@ -37,8 +46,8 @@ namespace Unicorns_Gaze
             Position = following.Position + characterPositionOffset;
             base.Update(gameTime, screenSize);
 
-            existanceTime -= gameTime.ElapsedGameTime.Seconds;
-            if (existanceTime <= 0)
+            ExistanceTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (ExistanceTime <= 0)
             {
                 RemoveThis();
             }
@@ -46,16 +55,15 @@ namespace Unicorns_Gaze
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Enemy & following is Player)
+            if (other is IDamagable)
             {
-                ((Character)other).TakeDamage(damage);
+                ((IDamagable)other).TakeDamage(damage, true);
+                if (following is not Player)
+                {
+                    RemoveThis();
+                }
+                base.OnCollision(other);
             }
-            else if (other is Player & following is Enemy)
-            {
-                ((Character)other).TakeDamage(damage);
-                RemoveThis();
-            }
-            base.OnCollision(other);
         }
     }
 }

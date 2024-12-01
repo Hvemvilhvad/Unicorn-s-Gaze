@@ -27,23 +27,24 @@ namespace Unicorns_Gaze
         //Constructor
         public Player(int health, Vector2 position, float speed)
         {
+            MaxHealth = 10;
             Health = health;
             Position = position;
             this.speed = speed;
-            MaxHealth = 10;
             isFacingRight = true;
+            DamageRange = new DamageRange(2, 5);
         }
 
+        
 
         //Methods
-
         public override void LoadContent(ContentManager content)
         {
             sprites = new Texture2D[1];
 
             for (int i = 0; i < sprites.Length; i++)
             {
-                sprites[0] = content.Load<Texture2D>("unicorn_sprite");
+                sprites[i] = content.Load<Texture2D>("unicorn_sprite");
             }
             sprite = sprites[0];
             base.LoadContent(content);
@@ -53,6 +54,7 @@ namespace Unicorns_Gaze
         {
             HandleInput();
             Move(gameTime, screenSize);
+            attackCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             base.Update(gameTime, screenSize);
         }
 
@@ -80,7 +82,7 @@ namespace Unicorns_Gaze
                 velocity += new Vector2(-1, 0);
                 isFacingRight = false;
             }
-            
+
             if (keyState.IsKeyDown(Keys.D))
             {
                 isFacingRight = true;
@@ -93,21 +95,44 @@ namespace Unicorns_Gaze
             }
 
 
-            if (keyState.IsKeyDown(Keys.J)) //small adac
+            if (keyState.IsKeyDown(Keys.J) & attackCooldown <= 0) //small adac
             {
-                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, false, attackSprite);
+                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, false, attackSprite, 1);
+                attackCooldown = attack.ExistanceTime + attack.Cooldown;
                 GameWorld.GameObjectsToAdd.Add(attack);
             }
 
-            if (keyState.IsKeyDown(Keys.I)) //bick adac
+            if (keyState.IsKeyDown(Keys.I) & attackCooldown <= 0) //bick adac
             {
-                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, true, attackSprite);
+                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, true, attackSprite, 2);
+                attackCooldown = attack.ExistanceTime + attack.Cooldown;
                 GameWorld.GameObjectsToAdd.Add(attack);
             }
 
             if (keyState.IsKeyDown(Keys.O)) // pick up thing
             {
 
+            }
+        }
+
+
+        /// <summary>
+        /// Keeps the gameObject on the designated "street"
+        /// </summary>
+        public override void CheckBounds(Vector2 screenSize)
+        {
+            base.CheckBounds(screenSize);
+
+            if (position.X + (sprite.Width / 2) > screenSize.X && enteredField)
+            {
+                position.X = screenSize.X - (sprite.Width / 2);
+                velocity.X = 0;
+            }
+
+            if (position.X - (sprite.Width / 2) < 0 && enteredField)
+            {
+                position.X = sprite.Width / 2;
+                velocity.X = 0;
             }
         }
 
