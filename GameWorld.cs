@@ -120,10 +120,14 @@ namespace Unicorns_Gaze
             if (nextState != null)
             {
                 currentState = nextState;
-                foreach (GameObject item in gameObjects)
+                if(currentState is not GameOver)
                 {
-                    gameObjectsToRemove.Add(item);
+                    foreach (GameObject item in gameObjects)
+                    {
+                        gameObjectsToRemove.Add(item);
+                    }
                 }
+                
                 currentState.LoadContent();
                 nextState = null;
             }
