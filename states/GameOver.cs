@@ -24,6 +24,7 @@ namespace Unicorns_Gaze.states
             menuButton.LoadContent(contentmanager);
             Texture2D backgroundTexture = contentmanager.Load<Texture2D>("game over temp img");
             Background gameOverBackground = new Background(backgroundTexture);
+            gameOverBackground.Position = new Vector2(GameWorld.ScreenSize.X / 2, GameWorld.ScreenSize.Y / 2);
             GameWorld.GameObjectsToAdd.Add(gameOverBackground);
         }
 

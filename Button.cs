@@ -38,7 +38,7 @@ namespace Unicorns_Gaze
         public Button(Texture2D texture,GameWorld game,State.ButtonPurpose purpose)
         {
             this.sprite = texture;
-            purpose = buttonPurpose;
+            buttonPurpose = purpose;
             this.game = game;
             contentManager = game.Content;
             layer = 0;
@@ -74,8 +74,12 @@ namespace Unicorns_Gaze
 
             if (Clicked) 
             {
-                if(buttonPurpose==ButtonPurpose.StartGame)
-                game.NextState = new Gameplay(game,contentManager);
+                if(buttonPurpose==State.ButtonPurpose.StartGame)
+                {
+                    Gameplay newGame= new Gameplay(game, contentManager);
+                    game.NextState = newGame;
+                    GameWorld.IsAlive = true;
+                }
             }
             base.Update(gameTime, screenSize);
         }
