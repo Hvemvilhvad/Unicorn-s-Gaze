@@ -51,6 +51,7 @@ namespace Unicorns_Gaze
                 moveCooldown = 0;
             }
 
+            //Checks the distance between the player and the enemy, and runs appropriate methods
             float distance = Distance(GameWorld.Player);
             if (distance <= 150)
             {
@@ -95,6 +96,10 @@ namespace Unicorns_Gaze
             }
         }
 
+        /// <summary>
+        /// Runs the attack and resets attackCooldown
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void GruntAttack(GameTime gameTime)
         {
             Attack();
