@@ -79,7 +79,7 @@ namespace Unicorns_Gaze
         private int health;
         private int maxHealth;
         private DamageRange damageRange;
-        protected bool isFacingRight;
+        private bool isFacingRight;
         protected Texture2D attackSprite;
         protected float attackCooldown;
 
@@ -115,6 +115,7 @@ namespace Unicorns_Gaze
         public float HurtTimer { get => hurtTimer; set => hurtTimer = value; }
         public float HurtTime { get => hurtTime; set => hurtTime = value; }
         public bool TakingDamage { get => takingDamage; set => takingDamage = value; }
+        public bool IsFacingRight { get => isFacingRight; protected set => isFacingRight = value; }
 
 
         //Methods
@@ -150,6 +151,16 @@ namespace Unicorns_Gaze
         public void Heal(int healedHP)
         {
             Health += healedHP;
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (sprite is null)
+            {
+                sprite = GameWorld.NoSprite;
+            }
+            SpriteEffects flip = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, flip, layer);
         }
 
     }

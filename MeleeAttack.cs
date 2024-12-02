@@ -34,7 +34,7 @@ namespace Unicorns_Gaze
             this.isCrit = isCrit;
             this.isFacingRight = isFacingRight;
             this.isHeavyAttack = isHeavyAttack;
-            ExistanceTime = 0.5F;
+            ExistanceTime = 0.2F;
             Cooldown = cooldown;
             Hitbox = new Rectangle(0, 0, 50, 100);
 
