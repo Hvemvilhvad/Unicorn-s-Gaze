@@ -56,13 +56,10 @@ namespace Unicorns_Gaze.states
             Background background2 = new Background(backgroundSprite);
             background2.Position = new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2);
 
-            Grunt grunt = new Grunt(playerPosition);
-
 
             GameWorld.GameObjectsToAdd.Add(player);
             GameWorld.GameObjectsToAdd.Add(background);
             GameWorld.GameObjectsToAdd.Add(background2);
-            GameWorld.GameObjectsToAdd.Add(grunt);
 
             foreach (GameObject item in GameWorld.GameObjectsToAdd)
             {
