@@ -35,6 +35,7 @@ namespace Unicorns_Gaze
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
+            depth = Position.Y / 864;
             Move(gameTime, screenSize);
             Stun();
 
