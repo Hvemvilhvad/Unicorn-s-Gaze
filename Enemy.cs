@@ -12,7 +12,7 @@ namespace Unicorns_Gaze
     {
         //Fields
         
-        protected float cooldown;
+        protected float moveCooldown;
 
         //Constructor
         public Enemy(int health, Vector2 position, float speed)
@@ -36,6 +36,7 @@ namespace Unicorns_Gaze
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
             Move(gameTime, screenSize);
+            Stun();
 
             base.Update(gameTime, screenSize);
         }
@@ -62,7 +63,22 @@ namespace Unicorns_Gaze
             direction = new Vector2(XDirection, YDirection);
             velocity = (direction);
             velocity.Normalize();
+            isFacingRight = velocity.X >= 0;
         }
 
+        /// <summary>
+        /// Checks if the enemy is taking damage, and delays their own attack
+        /// </summary>
+        public void Stun()
+        {
+            if (takingDamage)
+            {
+                attackCooldown = 1;
+                moveCooldown = 1;
+                takingDamage = false;
+            }
+        }
+
+        
     }
 }
