@@ -82,6 +82,7 @@ namespace Unicorns_Gaze
         protected bool isFacingRight;
         protected Texture2D attackSprite;
         protected float attackCooldown = 0.5f;
+        protected int
 
 
         //Properties
