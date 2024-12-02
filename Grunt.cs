@@ -45,12 +45,34 @@ namespace Unicorns_Gaze
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
             Chase();
-            cooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            attackCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (cooldown <= 0)
+            moveCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (moveCooldown <= 0)
             {
-                cooldown = 0;
+                moveCooldown = 0;
             }
+
+            //Checks the distance between the player and the enemy, and runs appropriate methods
+            float distance = Distance(GameWorld.Player);
+            if (distance <= 150)
+            {
+                moveCooldown = 2;
+                attackCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                velocity = Vector2.Zero;
+                if (attackCooldown <= 0)
+                {
+                    GruntAttack(gameTime);
+                }
+              
+                
+            }
+
+            if (attackCooldown <= 0)
+            {
+                attackCooldown = 0;
+            }
+
+            
+            
             base.Update(gameTime, screenSize);
         }
 
@@ -59,12 +81,7 @@ namespace Unicorns_Gaze
             if (other is Player)
             {
                 velocity = Vector2.Zero;
-                cooldown = 2;
-                if (attackCooldown <= 0)
-                {
-                    Attack();
-                }
-                
+                moveCooldown = 2;
             }
             base.OnCollision(other);
         }
@@ -73,11 +90,23 @@ namespace Unicorns_Gaze
         /// </summary>
         public override void Chase()
         {
-            if (cooldown <= 0)
+            if (moveCooldown <= 0)
             {
                 base.Chase();
             }
         }
+
+        /// <summary>
+        /// Runs the attack and resets attackCooldown
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void GruntAttack(GameTime gameTime)
+        {
+            Attack();
+            attackCooldown = 2;
+        }
+
+        
 
     }
 }

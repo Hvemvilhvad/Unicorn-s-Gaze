@@ -26,7 +26,7 @@ namespace Unicorns_Gaze
         /// Lowers the health of the Damagable when it takes damage.
         /// </summary>
         /// <param name="damage">The amount to lower it by.</param>
-        void TakeDamage(int damage, bool IsMeleeAttack)
+        virtual void TakeDamage(int damage, bool IsMeleeAttack)
         {
             if (InvincibilityTimer <= 0)
             {
@@ -37,6 +37,7 @@ namespace Unicorns_Gaze
                 }
                 TakingDamage = true;
                 HurtTimer = HurtTime;
+                
                 if (Health <= 0)
                 {
                     if (this is Enemy || this is Breakable)
