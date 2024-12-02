@@ -20,6 +20,8 @@ namespace Unicorns_Gaze
 
         private GameWorld game;
         private ContentManager contentManager;
+        
+        private State.ButtonPurpose buttonPurpose;
 
         //Properties
         public bool Clicked {  get; private set; }
@@ -33,9 +35,10 @@ namespace Unicorns_Gaze
         }
 
         //Constructors
-        public Button(Texture2D texture,GameWorld game)
+        public Button(Texture2D texture,GameWorld game,State.ButtonPurpose purpose)
         {
             this.sprite = texture;
+            purpose = buttonPurpose;
             this.game = game;
             contentManager = game.Content;
             layer = 0;
@@ -71,6 +74,7 @@ namespace Unicorns_Gaze
 
             if (Clicked) 
             {
+                if(buttonPurpose==ButtonPurpose.StartGame)
                 game.NextState = new Gameplay(game,contentManager);
             }
             base.Update(gameTime, screenSize);

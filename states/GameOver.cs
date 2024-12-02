@@ -18,7 +18,7 @@ namespace Unicorns_Gaze.states
         public override void LoadContent()
         {
             Texture2D startButtonTexture = contentmanager.Load<Texture2D>("tempButton");
-            Button menuButton = new Button(startButtonTexture, gameworld);
+            Button menuButton = new Button(startButtonTexture, gameworld, ButtonPurpose.StartGame);
             menuButton.Position = new Vector2(GameWorld.ScreenSize.X / 2, 800);
             GameWorld.GameObjectsToAdd.Add(menuButton);
             menuButton.LoadContent(contentmanager);

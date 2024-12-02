@@ -10,6 +10,7 @@ namespace Unicorns_Gaze.states
 {
     public abstract class State
     {
+        public enum ButtonPurpose { StartGame, None }
         protected GameWorld gameworld;
         protected ContentManager contentmanager;
 
