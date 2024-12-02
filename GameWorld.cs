@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 using System.Reflection.Metadata;
+using Unicorns_Gaze.states;
 
 namespace Unicorns_Gaze
 {
     public class GameWorld : Game
     {
         //Fields
+        private static Player player;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private static List<GameObject> gameObjectsToRemove;
@@ -20,43 +22,39 @@ namespace Unicorns_Gaze
         private static Vector2 screenSize;
         private static GameWorld activeGameWorld;
         private static Random random;
-        private static Player player;
         private static int topBoundary;
         private static int bottomBoundary;
-        private static bool screenMoving;
-        private static int screenSpeed;
-        private Texture2D backgroundSprite;
-        private static int progress;
-        //x-positions at which the screen stops moving until enemies are defeated
-        //Where enemies spawn
-        private static int[] waves;
-        private static int nextWave;
-        private static int currentWave;
         private static Texture2D noSprite;
         private static Vector2 playerLocation;
         private static bool isAlive;
-        private int waveNr;
+        //states
+        private State currentState;
+        private State nextState;
+
 
 #if DEBUG
         private Texture2D hitboxPixel;
 #endif
 
-
-        public bool ScreenMoving { get => screenMoving; set => screenMoving = value; }
-
         //Properties
+        public static Random Random { get => random; private set => random = value; }
+
+        public static Player Player { get => player; set => player = value; }
+        public static int TopBoundary { get=>topBoundary; set => topBoundary = value; }
+        public static int BottomBoundary { get => bottomBoundary; set => bottomBoundary = value; }
+
+
         public static List<GameObject> GameObjects { get => gameObjects; set => gameObjects = value; }
         public static List<GameObject> GameObjectsToAdd { get => gameObjectsToAdd; set => gameObjectsToAdd = value; }
         public static List<GameObject> GameObjectsToRemove { get => gameObjectsToRemove; set => gameObjectsToRemove = value; }
         public static Vector2 ScreenSize { get => screenSize; set => screenSize = value; }
         public static GameWorld ActiveGameWorld { get => activeGameWorld; private set => activeGameWorld = value; }
-        public static Player Player { get => player; private set => player = value; }
-        public static Random Random { get => random; private set => random = value; }
-        public static int TopBoundary { get => topBoundary; }
-        public static int BottomBoundary { get => bottomBoundary; }
+
+        public State NextState { set => nextState = value; }
         public static Texture2D NoSprite { get => noSprite; private set => noSprite = value; }
         public static Vector2 PlayerLocation { get => playerLocation; set => playerLocation = value; }
         public static bool IsAlive { get => isAlive; set => isAlive = value; }
+
 
 
         /// <summary>
@@ -74,38 +72,21 @@ namespace Unicorns_Gaze
         /// </summary>
         protected override void Initialize()
         {
-            screenSpeed = 3;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.ApplyChanges();
-
-            ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-
-            Vector2 playerPosition = new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2);
-            player = new Player(10, playerPosition, 500);
-
-            Vector2 someTempPosition = new Vector2(ScreenSize.X / 2 + 300, ScreenSize.Y / 2 + 300);
-            Breakable tempBreakable = new Breakable(someTempPosition);
-
-            Grunt grunt = new Grunt(playerPosition);
-
-            GameObjects = new List<GameObject>() { player, tempBreakable, grunt };
-
-
+            GameObjects = new List<GameObject>();
             GameObjectsToRemove = new List<GameObject>();
             GameObjectsToAdd = new List<GameObject>();
-
-            //defines the bounds of where the player/enemies/other gameobjects can be
-            topBoundary = _graphics.PreferredBackBufferHeight / 3;
-            bottomBoundary = _graphics.PreferredBackBufferHeight - (_graphics.PreferredBackBufferHeight / 5);
-
-            screenMoving = true;
+            ScreenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            Vector2 someTempPosition = new Vector2(ScreenSize.X / 2 + 300, ScreenSize.Y / 2 + 300);
+            Breakable tempBreakable = new Breakable(someTempPosition);
 
             base.Initialize();
 
             activeGameWorld = this;
             Random = new Random();
-            nextWave = waves[0];
+            
         }
 
         /// <summary>
@@ -113,8 +94,9 @@ namespace Unicorns_Gaze
         /// </summary>
         protected override void LoadContent()
         {
-            SpawnWave();
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            currentState = new Menu(this,Content);
+            currentState.LoadContent();
 
             NoSprite = Content.Load<Texture2D>("notexture");
             foreach (GameObject gameObject in gameObjects)
@@ -123,15 +105,6 @@ namespace Unicorns_Gaze
             }
 
             hitboxPixel = Content.Load<Texture2D>("Hitbox pixel");
-            backgroundSprite = Content.Load<Texture2D>("tempBackgroundLol");
-            Background background = new Background(backgroundSprite);
-            background.Position = new Vector2(0, screenSize.Y / 2);
-            Background background2 = new Background(backgroundSprite);
-            background2.Position = new Vector2(screenSize.X, screenSize.Y / 2);
-
-            gameObjectsToAdd.Add(background);
-            gameObjectsToAdd.Add(background2);
-            //to activate waves
         }
 
 
@@ -144,6 +117,8 @@ namespace Unicorns_Gaze
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            currentState.Update(gameTime);
+
             Vector2 screenSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             foreach (GameObject gameObject in GameObjects)
             {
@@ -155,30 +130,22 @@ namespace Unicorns_Gaze
                 }
             }
 
-            //move screen
-            if (screenMoving && Player.Position.X > (screenSize.X / 2))
+            //change states if necessary
+            if (nextState != null)
             {
-                foreach (GameObject gameObject in GameObjects)
+                currentState = nextState;
+                if(currentState is not GameOver)
                 {
-                    gameObject.Position -= new Vector2(screenSpeed, 0);
-                    if (gameObject is IThrowable)
+                    foreach (GameObject item in gameObjects)
                     {
-                        (gameObject as IThrowable).StartPosition -= new Vector2(screenSpeed, 0);
+                        gameObjectsToRemove.Add(item);
                     }
-                    progress += screenSpeed;
                 }
+                
+                currentState.LoadContent();
+                nextState = null;                
             }
 
-            //Waves 
-            if (progress >= nextWave)
-            {
-                SpawnWave();
-            }
-            //if enemies are gone
-            if (!screenMoving && !gameObjects.OfType<Enemy>().Any())
-            {
-                screenMoving = true;
-            }
 
             // remove game objects
             foreach (GameObject removedObject in GameObjectsToRemove)
@@ -191,7 +158,9 @@ namespace Unicorns_Gaze
             GameObjects.AddRange(GameObjectsToAdd);
             GameObjectsToAdd.Clear();
 
+            currentState.Update(gameTime);
             base.Update(gameTime);
+            
         }
 
         /// <summary>
@@ -249,56 +218,6 @@ namespace Unicorns_Gaze
         {
             gameObject.LoadContent(ActiveGameWorld.Content);
             GameObjectsToAdd.Add(gameObject);
-        }
-
-        /// <summary>
-        /// Spawns enemies procedurally
-        /// </summary>
-        private void SpawnWave()
-        {
-            if (progress == 0)
-            {
-                //where the waves happen
-                waves = new int[] { 50, 1000 };
-                nextWave = waves[0];
-            }
-            else
-            {
-                //if we've reached the point where a wave should spawn
-                if (waveNr != -1 && waveNr <= waves.Length -1)
-                {
-                    Vector2 enemyPosition = new Vector2();
-                    Grunt grunt = new Grunt(enemyPosition);
-                    grunt.Position = new Vector2(ScreenSize.X, ScreenSize.Y / 2);
-                    switch (waveNr)
-                    {
-                        //remember to adjust 'waves'
-                        //also set screenMoving to false if the screen should stop during a wave
-                        case 0:
-                            //enemies & items spawn here
-                            MakeObject(grunt);
-                            break;
-                        case 1:
-                            //enemies & items spawn here
-                            MakeObject(grunt);
-                            break;
-                        case 2:
-                            //enemies & items spawn here
-                            break;
-                        case 3:
-                            //enemies & items spawn here
-                            break;
-                        default:
-                            break;
-                    }
-                    if (waveNr != -1 && waveNr +1 != waves.Length)
-                    {
-                        nextWave = waves[waveNr + 1];
-                    }
-                    waveNr++;
-                }
-            }
-
         }
     }
 }
