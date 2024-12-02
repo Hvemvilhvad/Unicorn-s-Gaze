@@ -14,6 +14,8 @@ namespace Unicorns_Gaze
         private Vector2 startPosition;
         private bool hasBeenThrown;
         private float throwTime;
+        private bool pickedUp;
+        private Character following;
 
         public int Health
         {
@@ -28,7 +30,6 @@ namespace Unicorns_Gaze
                 else
                 {
                     health = value;
-                    ((IThrowable)this).Throw();
                 }
             }
         }
@@ -41,6 +42,9 @@ namespace Unicorns_Gaze
         public float HurtTimer { get ; set ; }
         public float HurtTime { get ; set ; }
         public bool TakingDamage { get; set; }
+        public bool IsGoingRight { get; set; }
+        public bool PickedUp { get => pickedUp; set => pickedUp = value; }
+        public Character Following { get => following; set => following = value; }
 
         public Breakable(Vector2 position) : base()
         {

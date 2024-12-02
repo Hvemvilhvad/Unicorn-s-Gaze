@@ -16,13 +16,16 @@ namespace Unicorns_Gaze
         public Vector2 StartPosition { get; set; }
         public bool HasBeenThrown { get; set; }
         public float ThrowTime { get; set; }
+        public bool IsGoingRight { get; set; }
+        public bool PickedUp { get; set; }
+        public Character Following { get; set; }
 
 
         public void UpdateThrow(GameTime gameTime, Vector2 screenSize)
         {
             if (HasBeenThrown)
             {
-                ThrowTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
+                ThrowTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 ThrowPositionFunction();
 
                 if (Position.Y >= StartPosition.Y)
@@ -30,20 +33,35 @@ namespace Unicorns_Gaze
                     TakeDamage(Health, false);
                 }
             }
+            else if (PickedUp)
+            {
+                int holdReach = Following.Hitbox.Width / 2 + ((GameObject)this).Hitbox.Width / 2;
+                Position = Following.Position + (Following.IsFacingRight ? new Vector2(holdReach, -50) : new Vector2(-holdReach, -50));
+            }
+        }
+
+        private void ThrowPositionFunction()
+        {
+            float xPosition = ThrowTime * (IsGoingRight ? 1 : -1);
+            Position = new Vector2(xPosition, -((float)(-0.00045 * Math.Pow(ThrowTime, 2)) + 0.25F * ThrowTime + 50)) + StartPosition;
         }
 
         public void Throw()
         {
             StartPosition = Position;
-            Position += new Vector2(0,-50);
+            Position += new Vector2(0, -50);
             HasBeenThrown = true;
             ThrowTime = 0;
+            IsGoingRight = Following.IsFacingRight;
         }
 
-        private void ThrowPositionFunction()
+        public void PickUp(Character pickUpper)
         {
-            Position = new Vector2(ThrowTime, -((float)(-0.00045 * Math.Pow(ThrowTime, 2)) + 0.25F * ThrowTime + 50)) + StartPosition;
+            Following = pickUpper;
+            PickedUp = true;
         }
+
+
     }
 
 

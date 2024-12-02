@@ -18,6 +18,7 @@ namespace Unicorns_Gaze
         //Fields
         private float criticalMultiplier;
         private byte criticalChance;
+        private IThrowable heldObject;
 
 
         //Properties
@@ -31,11 +32,11 @@ namespace Unicorns_Gaze
             Health = health;
             Position = position;
             this.speed = speed;
-            isFacingRight = true;
+            IsFacingRight = true;
             DamageRange = new DamageRange(2, 5);
         }
 
-        
+
 
         //Methods
         public override void LoadContent(ContentManager content)
@@ -80,12 +81,12 @@ namespace Unicorns_Gaze
             if (keyState.IsKeyDown(Keys.A))
             {
                 velocity += new Vector2(-1, 0);
-                isFacingRight = false;
+                IsFacingRight = false;
             }
 
             if (keyState.IsKeyDown(Keys.D))
             {
-                isFacingRight = true;
+                IsFacingRight = true;
                 velocity += new Vector2(1, 0);
             }
 
@@ -97,22 +98,49 @@ namespace Unicorns_Gaze
 
             if (keyState.IsKeyDown(Keys.J) & attackCooldown <= 0) //small adac
             {
-                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, false, attackSprite, 0.5f);
-                attackCooldown = attack.ExistanceTime + attack.Cooldown;
-                GameWorld.GameObjectsToAdd.Add(attack);
+                if (heldObject is null)
+                {
+                    MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, IsFacingRight, false, attackSprite, 0.2F);
+                    attackCooldown = attack.ExistanceTime + attack.Cooldown;
+                    GameWorld.GameObjectsToAdd.Add(attack);
+                }
+                else
+                {
+                    heldObject.Throw();
+                    heldObject = null;
+                }
             }
 
             if (keyState.IsKeyDown(Keys.I) & attackCooldown <= 0) //bick adac
             {
-                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, true, attackSprite, 2);
-                attackCooldown = attack.ExistanceTime + attack.Cooldown;
-                GameWorld.GameObjectsToAdd.Add(attack);
+                if (heldObject is null)
+                {
+                    MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, IsFacingRight, true, attackSprite, 0.5F);
+                    attackCooldown = attack.ExistanceTime + attack.Cooldown;
+                    GameWorld.GameObjectsToAdd.Add(attack);
+                }
+                else
+                {
+                    heldObject.Throw();
+                    heldObject = null;
+                }
             }
 
             if (keyState.IsKeyDown(Keys.O)) // pick up thing
             {
-
+                foreach (GameObject other in GameWorld.GameObjects)
+                {
+                    if (other is IThrowable)
+                    {
+                        if (Distance(other) <= 100)
+                        {
+                            (other as IThrowable).PickUp(this);
+                            heldObject = (other as IThrowable);
+                        }
+                    }
+                }
             }
+
         }
 
 

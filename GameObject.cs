@@ -142,6 +142,7 @@ namespace Unicorns_Gaze
             Vector2 difference = other.Position - Position;
             return (float)Math.Sqrt(Math.Pow(difference.X, 2) + Math.Pow(difference.Y, 2));
         }
+
     }
 
 }
