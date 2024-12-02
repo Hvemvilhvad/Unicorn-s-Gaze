@@ -63,6 +63,7 @@ namespace Unicorns_Gaze
             direction = new Vector2(XDirection, YDirection);
             velocity = (direction);
             velocity.Normalize();
+            isFacingRight = velocity.X >= 0;
         }
 
         /// <summary>
