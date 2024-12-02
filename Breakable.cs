@@ -72,5 +72,14 @@ namespace Unicorns_Gaze
             ((IThrowable)this).UpdateThrow(gameTime, screenSize);
             base.Update(gameTime, screenSize);
         }
+
+        public override void OnCollision(GameObject other)
+        {
+            base.OnCollision(other);
+            if (this is IThrowable & this != other)
+            {
+                (this as IThrowable).OnThrownCollision(other);
+            }
+        }
     }
 }
