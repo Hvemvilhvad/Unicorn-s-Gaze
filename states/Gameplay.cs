@@ -30,11 +30,13 @@ namespace Unicorns_Gaze.states
         public static int TopBoundary { get => topBoundary; }
         public static int BottomBoundary { get => bottomBoundary; }
 
+
         //Constructors
         public Gameplay(GameWorld gameworld, ContentManager contentmanager) : base(gameworld, contentmanager)
         {
             this.contentmanager = contentmanager;
             this.gameworld=gameworld;
+            progress = 0;
         }
 
         //Methods
@@ -91,6 +93,13 @@ namespace Unicorns_Gaze.states
             if (!screenMoving && !GameWorld.GameObjects.OfType<Enemy>().Any())
             {
                 screenMoving = true;
+            }
+
+            //switch to gameover if the player is dead
+            if (!GameWorld.IsAlive)
+            {
+                GameOver gameOver = new GameOver(gameworld, contentmanager);
+                gameworld.NextState = gameOver;
             }
         }
 

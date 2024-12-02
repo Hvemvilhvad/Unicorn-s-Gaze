@@ -26,7 +26,7 @@ namespace Unicorns_Gaze
         private static int bottomBoundary;
         private static Texture2D noSprite;
         private static Vector2 playerLocation;
-        private static bool isAlive;
+        private static bool isAlive = true;
         //states
         private State currentState;
         private State nextState;
