@@ -81,7 +81,7 @@ namespace Unicorns_Gaze
         private DamageRange damageRange;
         protected bool isFacingRight;
         protected Texture2D attackSprite;
-        protected float attackCooldown;
+        protected float attackCooldown = 0.5f;
 
 
         //Properties

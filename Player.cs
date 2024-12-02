@@ -97,7 +97,7 @@ namespace Unicorns_Gaze
 
             if (keyState.IsKeyDown(Keys.J) & attackCooldown <= 0) //small adac
             {
-                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, false, attackSprite, 1);
+                MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, isFacingRight, false, attackSprite, 0.5f);
                 attackCooldown = attack.ExistanceTime + attack.Cooldown;
                 GameWorld.GameObjectsToAdd.Add(attack);
             }
