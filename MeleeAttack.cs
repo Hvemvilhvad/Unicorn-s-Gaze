@@ -29,13 +29,14 @@ namespace Unicorns_Gaze
         public MeleeAttack(Character followedCharacter, int damage, bool isCrit, bool isFacingRight, bool isHeavyAttack, Texture2D sprite, float cooldown) : base()
         {
             following = followedCharacter;
-            characterPositionOffset = isFacingRight ? new Vector2(100, 0) : new Vector2(-100, 0);
+            int reach = followedCharacter.Hitbox.Width / 2 + 25;
+            characterPositionOffset = isFacingRight ? new Vector2(reach, 0) : new Vector2(-reach, 0);
             Position = followedCharacter.Position + characterPositionOffset;
             this.damage = damage;
             this.isCrit = isCrit;
             this.isFacingRight = isFacingRight;
             this.isHeavyAttack = isHeavyAttack;
-            ExistanceTime = 0.5F;
+            ExistanceTime = 0.1F;
             Cooldown = cooldown;
             Hitbox = new Rectangle(0, 0, 50, 100);
 
@@ -59,10 +60,6 @@ namespace Unicorns_Gaze
             if (other is IDamagable)
             {
                 ((IDamagable)other).TakeDamage(damage, true);
-                if (following is not Player)
-                {
-                    RemoveThis();
-                }
                 base.OnCollision(other);
             }
         }
