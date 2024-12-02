@@ -40,6 +40,18 @@ namespace Unicorns_Gaze
             }
         }
 
+        public void OnThrownCollision(GameObject other)
+        {
+            if (HasBeenThrown)
+            {
+                TakeDamage(Health, false);
+                if (other is IDamagable)
+                {
+                    (other as IDamagable).TakeDamage(10, true);
+                }
+            }
+        }
+
         private void ThrowPositionFunction()
         {
             float xPosition = ThrowTime * (IsGoingRight ? 1 : -1);
