@@ -262,19 +262,20 @@ namespace Unicorns_Gaze
                 //if we've reached the point where a wave should spawn
                 if (waveNr != -1 && waveNr <= waves.Length -1)
                 {
+                    Vector2 enemyPosition = new Vector2();
+                    Grunt grunt = new Grunt(enemyPosition);
+                    grunt.Position = new Vector2(ScreenSize.X, ScreenSize.Y / 2);
                     switch (waveNr)
                     {
                         //remember to adjust 'waves'
                         //also set screenMoving to false if the screen should stop during a wave
                         case 0:
                             //enemies & items spawn here
-                            Grunt grunt = new Grunt(new Vector2(ScreenSize.X, ScreenSize.Y / 2));
                             MakeObject(grunt);
                             break;
                         case 1:
                             //enemies & items spawn here
-                            Grunt grunt1 = new Grunt(new Vector2(ScreenSize.X, ScreenSize.Y / 2));
-                            MakeObject(grunt1);
+                            MakeObject(grunt);
                             break;
                         case 2:
                             //enemies & items spawn here
