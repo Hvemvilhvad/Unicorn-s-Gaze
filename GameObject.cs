@@ -83,6 +83,18 @@ namespace Unicorns_Gaze
                 enteredField = true;
             }
             invincibilityTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if(invincibilityTimer <= 0 && takingDamage)
+            {
+                takingDamage = false;
+            }
+            if (takingDamage)
+            {
+                color=Color.Red;
+            }
+            else if(this is not Button)
+            {
+                color=Color.White;
+            }
         }
 
         /// <summary>
