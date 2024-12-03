@@ -76,7 +76,7 @@ namespace Unicorns_Gaze
         public override void OnCollision(GameObject other)
         {
             base.OnCollision(other);
-            if (this is IThrowable & this != other)
+            if (this is IThrowable & this != other & other is not Background)
             {
                 (this as IThrowable).OnThrownCollision(other);
             }
