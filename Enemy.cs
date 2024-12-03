@@ -52,6 +52,7 @@ namespace Unicorns_Gaze
             attackCooldown = attack.ExistanceTime + attack.Cooldown;
             GameWorld.GameObjectsToAdd.Add(attack);
         }
+        
         /// <summary>
         /// Allows enemies to move in the direction of the player
         /// </summary>

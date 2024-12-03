@@ -82,6 +82,11 @@ namespace Unicorns_Gaze
         protected bool isFacingRight;
         protected Texture2D attackSprite;
         protected float attackCooldown = 0.5f;
+        private int walkState;
+        private float walkStateUpdateCountdown;
+        private float spriteRotation;
+        private float spriteYOffset;
+        private bool doWalkAnimation;
 
 
         //Properties
@@ -96,7 +101,7 @@ namespace Unicorns_Gaze
                 if (value < 0)
                 {
                     health = 0;
-                  
+
                 }
                 else if (value >= MaxHealth)
                 {
@@ -111,11 +116,43 @@ namespace Unicorns_Gaze
         public int MaxHealth { get => maxHealth; set => maxHealth = value; }
         public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
         public float InvincibilityTimer { get => invincibilityTimer; set => invincibilityTimer = value; }
-        public float InvincibilityFrames { get => invincibilityFrames ; set => invincibilityFrames = value; }
+        public float InvincibilityFrames { get => invincibilityFrames; set => invincibilityFrames = value; }
         public float HurtTimer { get => hurtTimer; set => hurtTimer = value; }
         public float HurtTime { get => hurtTime; set => hurtTime = value; }
         public bool TakingDamage { get => takingDamage; set => takingDamage = value; }
         public bool IsFacingRight { get => isFacingRight; protected set => isFacingRight = value; }
+        protected int WalkState
+        {
+            get => walkState;
+            set
+            {
+                if (value > 4)
+                {
+                    walkState = 1;
+                }
+                else
+                {
+                    walkState = value;
+                }
+            }
+        }
+        public float WalkStateUpdateCountdown
+        {
+            get => walkStateUpdateCountdown;
+            set
+            {
+                if (value <= 0)
+                {
+                    WalkStateUpdateCountdown = 0.15F;
+                    NextWalkState();
+                }
+                else
+                {
+                    walkStateUpdateCountdown = value;
+                }
+
+            }
+        }
 
 
         //Methods
@@ -130,7 +167,24 @@ namespace Unicorns_Gaze
             base.Update(gameTime, screenSize);
         }
 
-
+        private void NextWalkState()
+        {
+            WalkState++;
+            spriteRotation = ((float)GameWorld.Random.NextDouble() / 4F) - 0.125F;
+            spriteYOffset = 0;
+            switch (walkState)
+            {
+                case 1:
+                    spriteRotation -= 0.25F;
+                    break;
+                case 3:
+                    spriteRotation += 0.25F;
+                    break;
+                default:
+                    spriteYOffset = -15;
+                    break;
+            }
+        }
 
         /// <summary>
         /// Defines movement for character classes
@@ -141,7 +195,14 @@ namespace Unicorns_Gaze
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            Position += ((velocity * speed) * deltaTime);
+            Vector2 change = ((velocity * speed) * deltaTime);
+            Position += change;
+
+            doWalkAnimation = change != Vector2.Zero;
+            if (doWalkAnimation)
+            {
+                WalkStateUpdateCountdown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
         }
 
         /// <summary>
@@ -160,7 +221,9 @@ namespace Unicorns_Gaze
                 sprite = GameWorld.NoSprite;
             }
             SpriteEffects flip = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(sprite, position, null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, flip, layer);
+            Vector2 offset = doWalkAnimation ? new Vector2(0, spriteYOffset) : Vector2.Zero;
+            float rotation = doWalkAnimation ? spriteRotation : 0;
+            spriteBatch.Draw(sprite, position + offset, null, Color.White, rotation, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, flip, layer);
         }
 
     }
