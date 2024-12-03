@@ -95,6 +95,7 @@ namespace Unicorns_Gaze
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+           
             currentState = new Menu(this,Content);
             currentState.LoadContent();
 
@@ -105,6 +106,7 @@ namespace Unicorns_Gaze
             }
 
             hitboxPixel = Content.Load<Texture2D>("Hitbox pixel");
+
         }
 
 
@@ -176,6 +178,9 @@ namespace Unicorns_Gaze
             {
                 gameObject.Draw(_spriteBatch);
             }
+
+            //Text UI
+
 #if DEBUG
             foreach (GameObject gameObject in GameObjects)
             {
@@ -196,7 +201,7 @@ namespace Unicorns_Gaze
                 _spriteBatch.Draw(hitboxPixel, centerDot, null, Color.White);
             }
 #endif
-
+            currentState.Draw(gameTime, _spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
