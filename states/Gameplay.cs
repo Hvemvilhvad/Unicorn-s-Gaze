@@ -89,8 +89,10 @@ namespace Unicorns_Gaze.states
             {
                 SpawnWave();
             }
+
+
             //if enemies are gone
-            if (!screenMoving && !GameWorld.GameObjects.OfType<Enemy>().Any())
+            if (!screenMoving & !(GameWorld.GameObjects.Any((gameObject)=> gameObject.GetType().IsSubclassOf(typeof(Enemy))) | GameWorld.GameObjectsToAdd.Any((gameObject) => gameObject.GetType().IsSubclassOf(typeof(Enemy)))))
             {
                 screenMoving = true;
             }
@@ -124,6 +126,7 @@ namespace Unicorns_Gaze.states
                 //if we've reached the point where a wave should spawn
                 if (waveNr != -1 && waveNr <= waves.Length - 1)
                 {
+                    screenMoving = false;
                     switch (waveNr)
                     {
                         //remember to adjust 'waves'
@@ -132,6 +135,11 @@ namespace Unicorns_Gaze.states
                             //enemies & items spawn here
                             Grunt grunt = new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
                             GameWorld.MakeObject(grunt);
+
+
+                            Breakable breakable = new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 20));
+                            GameWorld.MakeObject(breakable);
+
                             break;
                         case 1:
                             //enemies & items spawn here
