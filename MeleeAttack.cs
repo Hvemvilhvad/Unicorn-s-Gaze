@@ -54,13 +54,17 @@ namespace Unicorns_Gaze
             }
         }
 
-        public override void OnCollision(GameObject other)
+        public override bool OnCollision(GameObject other)
         {
-            if (other is IDamagable)
+            if (base.OnCollision(other))
             {
-                ((IDamagable)other).TakeDamage(damage, true);
-                base.OnCollision(other);
+                if (other is IDamagable)
+                {
+                    ((IDamagable)other).TakeDamage(damage, true);
+                    return true;
+                }
             }
+            return false;
         }
     }
 }

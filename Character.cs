@@ -167,6 +167,9 @@ namespace Unicorns_Gaze
             base.Update(gameTime, screenSize);
         }
 
+        /// <summary>
+        /// Changes the state of the bobbing when the character is moving.
+        /// </summary>
         private void NextWalkState()
         {
             WalkState++;

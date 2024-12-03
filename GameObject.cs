@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using Unicorns_Gaze.states;
 
 namespace Unicorns_Gaze
 {
@@ -24,7 +25,8 @@ namespace Unicorns_Gaze
         protected Color color = Color.White;
         protected float scale = 1;
         //layer on which the sprite is drawn (higher means further back)
-        protected float layer = 0.5f;
+        protected float layer;
+        protected bool doDynamicLayer = true;
         protected float invincibilityFrames = 0.3f;
         protected float invincibilityTimer;
         protected bool takingDamage = false;
@@ -36,8 +38,17 @@ namespace Unicorns_Gaze
         public Vector2 Position
         {
             get => position;
-            set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2)*scale), (int)(value.Y - (Hitbox.Height / 2)*scale), (int)(Hitbox.Width*scale), (int)(Hitbox.Height*scale)); }
+            set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2) * scale), (int)(value.Y - (Hitbox.Height / 2) * scale), (int)(Hitbox.Width * scale), (int)(Hitbox.Height * scale)); }
         }
+
+        public GameObject()
+        {
+            if (doDynamicLayer)
+            {
+                layer = Math.Abs(1 - (Gameplay.TopBoundary - Position.Y) / (Gameplay.TopBoundary - Gameplay.BottomBoundary));
+            }
+        }
+
 
         //Methods
         /// <summary>
@@ -53,12 +64,13 @@ namespace Unicorns_Gaze
 
         }
 
-        public virtual void OnCollision(GameObject other)
+        public virtual bool OnCollision(GameObject other)
         {
-            if (this == other)
+            if (this == other | other is Background)
             {
-                return;
+                return false;
             }
+            return true;
         }
 
         public virtual void LoadContent(ContentManager content)
@@ -69,7 +81,7 @@ namespace Unicorns_Gaze
             }
 
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
-            Hitbox = new Rectangle((int)position.X - (int)((sprite.Width / 2)*scale), (int)position.Y - (int)((sprite.Height / 2)*scale), (int)(sprite.Width*scale), (int)(sprite.Height*scale));
+            Hitbox = new Rectangle((int)position.X - (int)((sprite.Width / 2) * scale), (int)position.Y - (int)((sprite.Height / 2) * scale), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
         }
 
         public virtual void Update(GameTime gameTime, Vector2 screenSize)
@@ -78,22 +90,24 @@ namespace Unicorns_Gaze
             {
                 CheckBounds(screenSize);
             }
-            if (Position.X > 0 && Position.X < GameWorld.ScreenSize.X && Position.Y > GameWorld.TopBoundary && position.Y < GameWorld.BottomBoundary && !enteredField)
+
+            if (Position.X > 0 && Position.X < GameWorld.ScreenSize.X && Position.Y > Gameplay.TopBoundary && position.Y < Gameplay.BottomBoundary && !enteredField)
             {
                 enteredField = true;
             }
+
             invincibilityTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if(invincibilityTimer <= 0 && takingDamage)
+            if (invincibilityTimer <= 0 && takingDamage)
             {
                 takingDamage = false;
             }
             if (takingDamage)
             {
-                color=Color.Red;
+                color = Color.Red;
             }
-            else if(this is not Button)
+            else if (this is not Button)
             {
-                color=Color.White;
+                color = Color.White;
             }
         }
 
@@ -102,15 +116,15 @@ namespace Unicorns_Gaze
         /// </summary>
         public virtual void CheckBounds(Vector2 screenSize)
         {
-            if (position.Y - (sprite.Height / 2) < GameWorld.TopBoundary && enteredField)
+            if (position.Y - (sprite.Height / 2) < Gameplay.TopBoundary && enteredField)
             {
-                position = new Vector2(position.X, GameWorld.TopBoundary + (sprite.Height / 2));
+                position = new Vector2(position.X, Gameplay.TopBoundary + (sprite.Height / 2));
                 velocity.Y = 0;
             }
 
-            if (position.Y + (sprite.Height / 2) > GameWorld.BottomBoundary && enteredField)
+            if (position.Y + (sprite.Height / 2) > Gameplay.BottomBoundary && enteredField)
             {
-                position = new Vector2(position.X, GameWorld.BottomBoundary - (sprite.Height / 2));
+                position = new Vector2(position.X, Gameplay.BottomBoundary - (sprite.Height / 2));
                 velocity.Y = 0;
             }
         }

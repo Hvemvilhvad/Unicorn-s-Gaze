@@ -22,8 +22,6 @@ namespace Unicorns_Gaze
         private static Vector2 screenSize;
         private static GameWorld activeGameWorld;
         private static Random random;
-        private static int topBoundary;
-        private static int bottomBoundary;
         private static Texture2D noSprite;
         private static Vector2 playerLocation;
         private static bool isAlive = true;
@@ -40,9 +38,6 @@ namespace Unicorns_Gaze
         public static Random Random { get => random; private set => random = value; }
 
         public static Player Player { get => player; set => player = value; }
-        public static int TopBoundary { get=>topBoundary; set => topBoundary = value; }
-        public static int BottomBoundary { get => bottomBoundary; set => bottomBoundary = value; }
-
 
         public static List<GameObject> GameObjects { get => gameObjects; set => gameObjects = value; }
         public static List<GameObject> GameObjectsToAdd { get => gameObjectsToAdd; set => gameObjectsToAdd = value; }

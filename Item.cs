@@ -52,13 +52,17 @@ namespace Unicorns_Gaze
         }
 
 
-        public override void OnCollision(GameObject other)
+        public override bool OnCollision(GameObject other)
         {
-            base.OnCollision(other);
-            if (other is Player)
+            if (base.OnCollision(other))
             {
-                Use();
+                if (other is Player)
+                {
+                    Use();
+                    return true;
+                }
             }
+            return false;
         }
 
 

@@ -10,7 +10,7 @@ using System.Reflection.Metadata;
 
 namespace Unicorns_Gaze.states
 {
-    public class Gameplay: State
+    public class Gameplay : State
     {
         //Fields
         private Player player;
@@ -38,6 +38,7 @@ namespace Unicorns_Gaze.states
             this.gameworld=gameworld;
             progress = 0;
         }
+
 
         //Methods
         public override void LoadContent()

@@ -42,6 +42,7 @@ namespace Unicorns_Gaze
             this.game = game;
             contentManager = game.Content;
             layer = 0;
+            doDynamicLayer = false;
             scale = 0.1f;
         }
 

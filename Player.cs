@@ -34,6 +34,8 @@ namespace Unicorns_Gaze
             this.speed = speed;
             IsFacingRight = true;
             DamageRange = new DamageRange(2, 5);
+            criticalChance = 10;
+            criticalMultiplier = 1.5F;
         }
 
 

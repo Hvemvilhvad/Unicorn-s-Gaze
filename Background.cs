@@ -14,7 +14,8 @@ namespace Unicorns_Gaze
         { 
             this.sprite = sprite;
             scale = GameWorld.ScreenSize.Y / this.sprite.Height;
-            layer = 0.9f;
+            layer = 1f;
+            doDynamicLayer = false;
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
