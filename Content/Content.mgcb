@@ -13,11 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-
 #begin game over temp img.jpg
-
-#begin gummybear.png
-
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -27,11 +23,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-
 /build:game over temp img.jpg
 
+#begin gummybear.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
 /build:gummybear.png
-
 
 #begin Hitbox pixel.png
 /importer:TextureImporter
@@ -92,6 +96,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:tempMenuBackground.jpg
+
+#begin textfont_ui.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:textfont_ui.spritefont
 
 #begin tile_arara_azul.png
 /importer:TextureImporter

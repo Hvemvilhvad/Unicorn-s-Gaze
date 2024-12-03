@@ -31,6 +31,8 @@ namespace Unicorns_Gaze
             if (InvincibilityTimer <= 0)
             {
                 Health -= damage;
+                SplashText damageText = new SplashText(damage + " taken", Color.Red, GameWorld.Player);
+                GameWorld.MakeObject(damageText);
                 if (IsMeleeAttack)
                 {
                     GiveInvincibilityFrames();
