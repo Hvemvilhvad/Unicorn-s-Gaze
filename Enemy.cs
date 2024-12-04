@@ -14,12 +14,16 @@ namespace Unicorns_Gaze
         //Fields
         protected Texture2D rangedAttackSprite;
         protected float moveCooldown;
+        protected bool beingBuffed;
+        protected DamageRange baseDamageRange;
+        private Mage buffingMage;
 
+        public bool BeingBuffed { get => beingBuffed; set => beingBuffed = value; }
         //Constructor
         public Enemy(int health, Vector2 position, float speed)
         {
             MaxHealth = 10;
-            Health = health;
+            NormalHealth = health;
             Position = position;
             this.speed = speed;
         }
@@ -33,10 +37,28 @@ namespace Unicorns_Gaze
         {
             base.LoadContent(content);
             rangedAttackSprite = content.Load<Texture2D>("notexture");
+            baseDamageRange = DamageRange;
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
+            if (beingBuffed)
+            {
+                Health = (int)(NormalHealth*1.5f);
+                DamageRange = new DamageRange((int)(baseDamageRange.LowerBound * 1.5f), (int)(baseDamageRange.UpperBound * 1.5f));
+                normalColor = Color.Black;
+
+                if (buffingMage == null|| buffingMage.Position.X - position.X > 300 || buffingMage.Position.Y - position.Y > 300)
+                {
+                    beingBuffed = false;
+                }
+            }
+            else
+            {
+                Health = NormalHealth;
+                DamageRange = baseDamageRange;
+                normalColor = Color.White;
+            }
             depth = Position.Y / 864;
             Move(gameTime, screenSize);
             Stun();
@@ -90,6 +112,11 @@ namespace Unicorns_Gaze
             }
         }
 
-        
+        public virtual void BuffEnemy(Mage mage)
+        {
+            //maybe add effect here?
+            beingBuffed = true;
+            buffingMage = mage;
+        }
     }
 }

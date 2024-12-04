@@ -14,6 +14,9 @@ namespace Unicorns_Gaze
         private int lowerBound;
         private int upperBound;
 
+        public int UpperBound {  get { return upperBound; } }
+        public int LowerBound { get { return lowerBound; } }
+
         /// <summary>
         /// A DamageRange is an interval for damage-values.
         /// Its used to track and make damage-values.
@@ -77,8 +80,10 @@ namespace Unicorns_Gaze
         //Fields
         protected float speed;
         private int health;
+        private int normalHealth;
         private int maxHealth;
         private DamageRange damageRange;
+        private DamageRange normalDamageRange;
         protected bool isFacingRight;
         protected Texture2D attackSprite;
         protected float attackCooldown = 0.5f;
@@ -113,8 +118,27 @@ namespace Unicorns_Gaze
                 }
             }
         }
+
+        public int NormalHealth
+        {
+            get => normalHealth;
+            set
+            {
+                if (value < 0)
+                {
+                    normalHealth = 0;
+
+                }
+                else
+                {
+                    normalHealth = value;
+                }
+            }
+        }
         public int MaxHealth { get => maxHealth; set => maxHealth = value; }
+
         public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
+        public DamageRange NormalDamageRange { get => damageRange; set => damageRange = value; }
         public float InvincibilityTimer { get => invincibilityTimer; set => invincibilityTimer = value; }
         public float InvincibilityFrames { get => invincibilityFrames; set => invincibilityFrames = value; }
         public float HurtTimer { get => hurtTimer; set => hurtTimer = value; }

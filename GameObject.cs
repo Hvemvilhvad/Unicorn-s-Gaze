@@ -21,6 +21,7 @@ namespace Unicorns_Gaze
         protected Vector2 origin;
         protected Vector2 velocity;
         protected bool enteredField;
+        protected Color normalColor= Color.White;
         protected Color color = Color.White;
         protected float scale = 1;
         //layer on which the sprite is drawn (higher means further back)
@@ -91,11 +92,11 @@ namespace Unicorns_Gaze
             }
             if (takingDamage)
             {
-                color=Color.Red;
+                color = Color.Red;
             }
             else if(this is not Button)
             {
-                color=Color.White;
+                color = normalColor;
             }
         }
 
