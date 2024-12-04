@@ -27,11 +27,11 @@ namespace Unicorns_Gaze
             MaxHealth = 10;
             Health = 10;
             speed = 150;
-            DamageRange = new DamageRange(2, 5);
         }
 
         public override void LoadContent(ContentManager content)
         {
+            DamageRange = new DamageRange(2, 5);
             sprites = new Texture2D[1];
 
             for (int i = 0; i < sprites.Length; i++)

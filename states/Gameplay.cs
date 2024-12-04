@@ -146,6 +146,8 @@ namespace Unicorns_Gaze.states
                             //enemies & items spawn here
                             Grunt grunt1 = new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
                             GameWorld.MakeObject(grunt1);
+                            Brute brute = new Brute(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
+                            GameWorld.MakeObject(brute);
                             break;
                         case 2:
                             //enemies & items spawn here
