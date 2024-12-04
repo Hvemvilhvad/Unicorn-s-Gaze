@@ -20,6 +20,7 @@ namespace Unicorns_Gaze
             Health = health;
             Position = position;
             this.speed = speed;
+            attackCooldown = 2;
         }
       
         public Grunt(Vector2 position) : base(position)
@@ -28,6 +29,7 @@ namespace Unicorns_Gaze
             Health = 10;
             speed = 150;
             DamageRange = new DamageRange(2, 5);
+            attackCooldown = 1;
         }
 
         public override void LoadContent(ContentManager content)
@@ -103,7 +105,8 @@ namespace Unicorns_Gaze
         public void GruntAttack(GameTime gameTime)
         {
             Attack();
-            attackCooldown = 2;
+            
+            attackCooldown = 1;
         }
 
         
