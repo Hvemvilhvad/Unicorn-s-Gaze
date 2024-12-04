@@ -33,7 +33,7 @@ namespace Unicorns_Gaze
                 Health -= damage;
                 if (damageTarget is not null)
                 {
-                    SplashText damageText = new SplashText(damage + " taken", Color.Red, damageTarget);
+                    SplashText damageText = new SplashText(damage + " DAMAGE", Color.Red, damageTarget);
                     GameWorld.MakeObject(damageText);
                 }
                 if (IsMeleeAttack)
