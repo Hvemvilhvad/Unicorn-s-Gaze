@@ -41,6 +41,15 @@ namespace Unicorns_Gaze
             Move(gameTime, screenSize);
             Stun();
 
+            if (GameWorld.Player.Position.X > Position.X)
+            {
+                IsFacingRight = true;
+            }
+            else if (GameWorld.Player.Position.X < Position.X)
+            {
+                IsFacingRight = false;
+            }
+
             base.Update(gameTime, screenSize);
         }
 
@@ -50,7 +59,7 @@ namespace Unicorns_Gaze
         /// </summary>
         public virtual void Attack()
         {
-            MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(), false, IsFacingRight, false, attackSprite, 1);
+            MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(), false, IsFacingRight, false, attackSprite, 1, false);
             attackCooldown = attack.ExistanceTime + attack.Cooldown;
             GameWorld.GameObjectsToAdd.Add(attack);
         }
@@ -74,7 +83,7 @@ namespace Unicorns_Gaze
             direction = new Vector2(XDirection, YDirection);
             velocity = (direction);
             velocity.Normalize();
-            isFacingRight = velocity.X >= 0;
+            
         }
 
         /// <summary>
