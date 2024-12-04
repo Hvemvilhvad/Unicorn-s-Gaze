@@ -108,9 +108,9 @@ namespace Unicorns_Gaze
                 }
                 else
                 {
+                    attackCooldown = 0.5F;
                     heldObject.Throw();
                     heldObject = null;
-                    attackCooldown = 0.1F;
                 }
             }
 
@@ -124,9 +124,9 @@ namespace Unicorns_Gaze
                 }
                 else
                 {
+                    attackCooldown = 0.5F;
                     heldObject.Throw();
                     heldObject = null;
-                    attackCooldown = 0.1F;
                 }
             }
 

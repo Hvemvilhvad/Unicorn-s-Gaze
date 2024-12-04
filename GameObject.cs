@@ -27,6 +27,7 @@ namespace Unicorns_Gaze
         //layer on which the sprite is drawn (higher means further back)
         protected float layer;
         protected bool doDynamicLayer = true;
+        private float height = 0;
         protected float invincibilityFrames = 0.3f;
         protected float invincibilityTimer;
         protected bool takingDamage = false;
@@ -38,15 +39,13 @@ namespace Unicorns_Gaze
         public Vector2 Position
         {
             get => position;
-            set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2) * scale), (int)(value.Y - (Hitbox.Height / 2) * scale), (int)(Hitbox.Width * scale), (int)(Hitbox.Height * scale)); }
+            set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2) * scale), (int)((value.Y + Height) - (Hitbox.Height / 2) * scale), (int)(Hitbox.Width * scale), (int)(Hitbox.Height * scale)); }
         }
+        public float Height { get => height; set => height = value; }
+
 
         public GameObject()
         {
-            if (doDynamicLayer)
-            {
-                layer = Math.Abs(1 - (Gameplay.TopBoundary - Position.Y) / (Gameplay.TopBoundary - Gameplay.BottomBoundary));
-            }
         }
 
 
@@ -66,7 +65,7 @@ namespace Unicorns_Gaze
 
         public virtual bool OnCollision(GameObject other)
         {
-            if (this == other | other is Background)
+            if (Math.Abs(layer - other.layer) > 0.2F | this == other | other is Background)
             {
                 return false;
             }
@@ -82,6 +81,7 @@ namespace Unicorns_Gaze
 
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
             Hitbox = new Rectangle((int)position.X - (int)((sprite.Width / 2) * scale), (int)position.Y - (int)((sprite.Height / 2) * scale), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
+
         }
 
         public virtual void Update(GameTime gameTime, Vector2 screenSize)
@@ -109,6 +109,11 @@ namespace Unicorns_Gaze
             {
                 color = Color.White;
             }
+
+            if (doDynamicLayer)
+            {
+                layer = Math.Abs(1 - (Gameplay.TopBoundary - Position.Y) / (Gameplay.TopBoundary - Gameplay.BottomBoundary));
+            }
         }
 
         /// <summary>
@@ -135,7 +140,7 @@ namespace Unicorns_Gaze
             {
                 sprite = GameWorld.NoSprite;
             }
-            spriteBatch.Draw(sprite, position, null, color, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
+            spriteBatch.Draw(sprite, position + new Vector2(0, Height), null, color, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
         }
 
         /// <summary>

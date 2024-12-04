@@ -77,7 +77,7 @@ namespace Unicorns_Gaze
         {
             if (base.OnCollision(other))
             {
-                if (this is IThrowable & this != other & other is not Background)
+                if (this is IThrowable)
                 {
                     (this as IThrowable).OnThrownCollision(other);
                     return true;
