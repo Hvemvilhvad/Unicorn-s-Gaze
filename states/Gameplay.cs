@@ -136,7 +136,8 @@ namespace Unicorns_Gaze.states
                             //enemies & items spawn here
                             Grunt grunt = new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
                             GameWorld.MakeObject(grunt);
-
+                            Ranged ranged = new Ranged(new Vector2(GameWorld.ScreenSize.X-50, GameWorld.ScreenSize.Y / 2));
+                            GameWorld.MakeObject(ranged);
 
                             Breakable breakable = new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 20));
                             GameWorld.MakeObject(breakable);
