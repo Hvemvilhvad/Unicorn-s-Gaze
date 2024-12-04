@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,10 @@ namespace Unicorns_Gaze
 {
     public class Ranged : Enemy
     {
+        //Fields
+        private int aimRange = 10;
+
+        //Constructor
         public Ranged(int health, Vector2 position, float speed) : base(health, position, speed)
         {
             Health = health;
@@ -19,6 +25,96 @@ namespace Unicorns_Gaze
         public Ranged(Vector2 position) : base(position)
         {
             Position = position;
+            MaxHealth = 10;
+            Health = 10;
+            speed = 150;
         }
+
+        public override void LoadContent(ContentManager content)
+        {
+            DamageRange = new DamageRange(2, 5);
+            sprites = new Texture2D[1];
+
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                sprites[0] = content.Load<Texture2D>("notexture");
+            }
+            sprite = sprites[0];
+            base.LoadContent(content);
+        }
+
+        public override void Update(GameTime gameTime, Vector2 screenSize)
+        {
+            velocity = Vector2.Zero;
+            moveCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            attackCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (moveCooldown <= 0)
+            {
+                moveCooldown = 0;
+            }
+
+            if (attackCooldown <= 0)
+            {
+                attackCooldown = 0;
+            }
+
+            if (GameWorld.Player.Position.Y > position.Y+aimRange|| GameWorld.Player.Position.Y < position.Y - aimRange) 
+            {
+                Chase();
+                if (GameWorld.Player.Position.X > position.X) 
+                { 
+                    IsFacingRight = true;
+                }
+                else if(GameWorld.Player.Position.X < position.X)
+                {
+                    IsFacingRight = false; 
+                }
+            }
+
+            if (attackCooldown <= 0&& GameWorld.Player.Position.Y > position.Y - aimRange&& GameWorld.Player.Position.Y < position.Y + aimRange) 
+            {
+                RangedAttack();
+            }
+
+            base.Update(gameTime, screenSize);
+        }
+
+        public override void OnCollision(GameObject other)
+        {
+            if (other is Player)
+            {
+                velocity = Vector2.Zero;
+                moveCooldown = 2;
+            }
+            base.OnCollision(other);
+        }
+        /// <summary>
+        /// Override of the chase method, which makes this enemy only move up & down
+        /// </summary>
+        public override void Chase()
+        {
+            if (moveCooldown <= 0)
+            {
+                Vector2 direction = new Vector2(GameWorld.Player.Position.X-position.Y, GameWorld.Player.Position.Y - position.Y);
+                double test = Math.Atan2(direction.Y, direction.X);
+                float YDirection = (float)Math.Sin(test);
+                direction = new Vector2(0, YDirection);
+                velocity = (direction);
+                velocity.Normalize();
+            }
+        }
+
+        /// <summary>
+        /// Runs the attack and resets attackCooldown
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void RangedAttack(GameTime gameTime)
+        {
+            Attack();
+            attackCooldown = 2;
+        }
+
+
+
     }
 }

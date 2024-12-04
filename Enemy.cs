@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Unicorns_Gaze
     public class Enemy : Character
     {
         //Fields
-        
+        protected Texture2D rangedAttackSprite;
         protected float moveCooldown;
 
         //Constructor
@@ -31,6 +32,7 @@ namespace Unicorns_Gaze
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
+            rangedAttackSprite = content.Load<Texture2D>("notexture");
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
@@ -60,6 +62,13 @@ namespace Unicorns_Gaze
             MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(), false, IsFacingRight, false, attackSprite, 1, false);
             attackCooldown = attack.ExistanceTime + attack.Cooldown;
             GameWorld.GameObjectsToAdd.Add(attack);
+        }
+
+        public virtual void RangedAttack()
+        {
+            Projectile projectile = new Projectile(position, DamageRange.GetADamageValue(), false, IsFacingRight, false, rangedAttackSprite, 1.5f);
+            attackCooldown = projectile.Cooldown;
+            GameWorld.GameObjectsToAdd.Add(projectile);
         }
         
         /// <summary>

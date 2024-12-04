@@ -34,6 +34,7 @@ namespace Unicorns_Gaze
 
         public override void LoadContent(ContentManager content)
         {
+            DamageRange = new DamageRange(2, 5);
             sprites = new Texture2D[1];
 
             for (int i = 0; i < sprites.Length; i++)
