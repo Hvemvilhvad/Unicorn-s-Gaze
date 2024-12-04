@@ -58,7 +58,7 @@ namespace Unicorns_Gaze
         {
             if (other is IDamagable)
             {
-                ((IDamagable)other).TakeDamage(damage, true);
+                ((IDamagable)other).TakeDamage(damage, true, other);
                 base.OnCollision(other);
             }
         }

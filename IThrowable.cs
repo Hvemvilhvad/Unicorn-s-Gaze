@@ -44,10 +44,10 @@ namespace Unicorns_Gaze
         {
             if (HasBeenThrown)
             {
-                TakeDamage(Health, false);
+                TakeDamage(Health, false, other);
                 if (other is IDamagable)
                 {
-                    (other as IDamagable).TakeDamage(10, true);
+                    (other as IDamagable).TakeDamage(10, true, other);
                 }
             }
         }

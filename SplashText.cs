@@ -15,7 +15,7 @@ namespace Unicorns_Gaze
         private string text;
         private Color textColor;
         private GameObject target;
-        private float textTimer = 2;
+        private float textTimer = 0.25f;
         public string Text { get => text; set => text = value; }
         public Color TextColor { get => textColor; set => textColor = value; }
         public GameObject Target { get => target; set => target = value; }
