@@ -38,7 +38,7 @@ namespace Unicorns_Gaze
             {
                 sprites[0] = content.Load<Texture2D>("gummybear");
             }
-            sprite = sprites[0];
+            Sprite = sprites[0];
             base.LoadContent(content);
         }
 

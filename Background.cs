@@ -12,17 +12,17 @@ namespace Unicorns_Gaze
     {
         public Background(Texture2D sprite) 
         { 
-            this.sprite = sprite;
-            scale = GameWorld.ScreenSize.Y / this.sprite.Height;
+            this.Sprite = sprite;
+            scale = GameWorld.ScreenSize.Y / this.Sprite.Height;
             layer = 1f;
             doDynamicLayer = false;
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
-            if (position.X <= -(sprite.Width/2))
+            if (position.X <= -(Sprite.Width/2))
             {
-                Position = new Vector2(screenSize.X+(sprite.Width/2), screenSize.Y / 2);
+                Position = new Vector2(screenSize.X+(Sprite.Width/2), screenSize.Y/2);
             }
             base.Update(gameTime, screenSize);
         }

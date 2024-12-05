@@ -23,6 +23,7 @@ namespace Unicorns_Gaze
         private static GameWorld activeGameWorld;
         private static Random random;
         private static Texture2D noSprite;
+        private static Texture2D shadowSprite;
         private static Vector2 playerLocation;
         private static bool isAlive = true;
         //states
@@ -47,6 +48,7 @@ namespace Unicorns_Gaze
 
         public State NextState { set => nextState = value; }
         public static Texture2D NoSprite { get => noSprite; private set => noSprite = value; }
+        public static Texture2D ShadowSprite { get => shadowSprite; set => shadowSprite = value; }
         public static Vector2 PlayerLocation { get => playerLocation; set => playerLocation = value; }
         public static bool IsAlive { get => isAlive; set => isAlive = value; }
 
@@ -94,12 +96,15 @@ namespace Unicorns_Gaze
             currentState.LoadContent();
 
             NoSprite = Content.Load<Texture2D>("notexture");
+            ShadowSprite = Content.Load<Texture2D>("shadow");
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.LoadContent(Content);
             }
 
+#if DEBUG
             hitboxPixel = Content.Load<Texture2D>("Hitbox pixel");
+#endif
         }
 
 

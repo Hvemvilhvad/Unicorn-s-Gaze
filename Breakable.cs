@@ -52,6 +52,7 @@ namespace Unicorns_Gaze
             Health = 10;
             hasBeenThrown = false;
             throwTime = 0;
+            doShadow = true;
         }
 
 
@@ -60,7 +61,7 @@ namespace Unicorns_Gaze
         /// </summary>
         public void SpawnItem()
         {
-            //60% chance
+            //66% chance???
             if (GameWorld.Random.Next(0, 3 + 1) >= 2)
             {
                 GameWorld.GameObjectsToAdd.Add(Item.GetRandomItem(Position));

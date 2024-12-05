@@ -15,7 +15,7 @@ namespace Unicorns_Gaze
     public abstract class GameObject
     {
         //Fields
-        protected Texture2D sprite;
+        private Texture2D sprite;
         protected Texture2D[] sprites;
         private Rectangle hitbox;
         protected Vector2 position;
@@ -28,6 +28,7 @@ namespace Unicorns_Gaze
         protected float layer;
         protected bool doDynamicLayer = true;
         private float height = 0;
+        protected bool doShadow;
         protected float invincibilityFrames = 0.3f;
         protected float invincibilityTimer;
         protected bool takingDamage = false;
@@ -39,13 +40,14 @@ namespace Unicorns_Gaze
         public Vector2 Position
         {
             get => position;
-            set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2) * scale), (int)((value.Y + Height) - (Hitbox.Height / 2) * scale), (int)(Hitbox.Width * scale), (int)(Hitbox.Height * scale)); }
+            set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2) * scale), (int)(((value.Y + Height) - (Hitbox.Height / 2)) * scale), (int)(Hitbox.Width * scale), (int)(Hitbox.Height * scale)); }
         }
         public float Height { get => height; set => height = value; }
-
+        public Texture2D Sprite { get => sprite; protected set => sprite = value; }
 
         public GameObject()
         {
+            doShadow = false;
         }
 
 
@@ -74,13 +76,13 @@ namespace Unicorns_Gaze
 
         public virtual void LoadContent(ContentManager content)
         {
-            if (sprite is null)
+            if (Sprite is null)
             {
-                sprite = GameWorld.NoSprite;
+                Sprite = GameWorld.NoSprite;
             }
 
-            origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
-            Hitbox = new Rectangle((int)position.X - (int)((sprite.Width / 2) * scale), (int)position.Y - (int)((sprite.Height / 2) * scale), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
+            origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
+            Hitbox = new Rectangle((int)position.X - (int)((Sprite.Width / 2) * scale), (int)position.Y - (int)((Sprite.Height / 2) * scale), (int)(Sprite.Width * scale), (int)(Sprite.Height * scale));
 
         }
 
@@ -121,26 +123,39 @@ namespace Unicorns_Gaze
         /// </summary>
         public virtual void CheckBounds(Vector2 screenSize)
         {
-            if (position.Y - (sprite.Height / 2) < Gameplay.TopBoundary && enteredField)
+            if (position.Y - (Sprite.Height / 2) < Gameplay.TopBoundary && enteredField)
             {
-                position = new Vector2(position.X, Gameplay.TopBoundary + (sprite.Height / 2));
+                position = new Vector2(position.X, Gameplay.TopBoundary + (Sprite.Height / 2));
                 velocity.Y = 0;
             }
 
-            if (position.Y + (sprite.Height / 2) > Gameplay.BottomBoundary && enteredField)
+            if (position.Y + (Sprite.Height / 2) > Gameplay.BottomBoundary && enteredField)
             {
-                position = new Vector2(position.X, Gameplay.BottomBoundary - (sprite.Height / 2));
+                position = new Vector2(position.X, Gameplay.BottomBoundary - (Sprite.Height / 2));
                 velocity.Y = 0;
             }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if (sprite is null)
+            if (Sprite is null)
             {
-                sprite = GameWorld.NoSprite;
+                Sprite = GameWorld.NoSprite;
             }
-            spriteBatch.Draw(sprite, position + new Vector2(0, Height), null, color, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), scale, SpriteEffects.None, layer);
+            spriteBatch.Draw(Sprite, position + new Vector2(0, Height), null, color, 0, origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2), scale, SpriteEffects.None, layer);
+            DrawShadow(spriteBatch);
+        }
+
+        /// <summary>
+        /// Draws a shadow beneath the object if needed.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        public void DrawShadow(SpriteBatch spriteBatch)
+        {
+            if (doShadow)
+            {
+                spriteBatch.Draw(GameWorld.ShadowSprite, position + new Vector2(0, Sprite.Height / 2), null, color, 0, origin = new Vector2(GameWorld.ShadowSprite.Width / 2, GameWorld.ShadowSprite.Height / 2), scale, SpriteEffects.None, layer + 0.0001F);
+            }
         }
 
         /// <summary>

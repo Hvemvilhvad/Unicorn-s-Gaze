@@ -38,8 +38,9 @@ namespace Unicorns_Gaze
             else if (PickedUp)
             {
                 int holdReach = Following.Hitbox.Width / 2 + ((GameObject)this).Hitbox.Width / 2;
-                Position = Following.Position + (Following.IsFacingRight ? new Vector2(holdReach, 0) : new Vector2(-holdReach, 0));
-                Height = -50;
+                float y = Following.Sprite.Height / 2 - ((GameObject)this).Sprite.Height / 2;
+                Position = Following.Position + (Following.IsFacingRight ? new Vector2(holdReach, y) : new Vector2(-holdReach, y));
+                Height = -((Following.Sprite.Height / 3) * 2);
             }
         }
 
@@ -64,8 +65,8 @@ namespace Unicorns_Gaze
 
         public void Throw()
         {
-            StartPosition = Position;
-            Position += new Vector2(0, -50);
+            StartPosition = new Vector2(Position.X, Position.Y);
+            Height -= 50;
             HasBeenThrown = true;
             ThrowTime = 0;
             IsGoingRight = Following.IsFacingRight;

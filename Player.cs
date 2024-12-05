@@ -49,7 +49,7 @@ namespace Unicorns_Gaze
             {
                 sprites[i] = content.Load<Texture2D>("unicorn_sprite");
             }
-            sprite = sprites[0];
+            Sprite = sprites[0];
             base.LoadContent(content);
         }
 
@@ -130,19 +130,29 @@ namespace Unicorns_Gaze
                 }
             }
 
-            if (keyState.IsKeyDown(Keys.O)) // pick up thing
+            if (keyState.IsKeyDown(Keys.O) & attackCooldown <= 0) // pick up thing
             {
-                foreach (GameObject other in GameWorld.GameObjects)
+                if (heldObject is null)
                 {
-                    if (other is IThrowable)
+                    foreach (GameObject other in GameWorld.GameObjects)
                     {
-                        if (Distance(other) <= 100)
+                        if (other is IThrowable)
                         {
-                            (other as IThrowable).PickUp(this);
-                            heldObject = (other as IThrowable);
+                            if (Distance(other) <= 100)
+                            {
+                                (other as IThrowable).PickUp(this);
+                                heldObject = (other as IThrowable);
+                                attackCooldown = 0.5F;
+                            }
                         }
                     }
                 }
+                else
+                {
+                    heldObject.Throw();
+                    heldObject = null;
+                }
+
             }
 
         }
@@ -155,15 +165,15 @@ namespace Unicorns_Gaze
         {
             base.CheckBounds(screenSize);
 
-            if (position.X + (sprite.Width / 2) > screenSize.X && enteredField)
+            if (position.X + (Sprite.Width / 2) > screenSize.X && enteredField)
             {
-                position.X = screenSize.X - (sprite.Width / 2);
+                position.X = screenSize.X - (Sprite.Width / 2);
                 velocity.X = 0;
             }
 
-            if (position.X - (sprite.Width / 2) < 0 && enteredField)
+            if (position.X - (Sprite.Width / 2) < 0 && enteredField)
             {
-                position.X = sprite.Width / 2;
+                position.X = Sprite.Width / 2;
                 velocity.X = 0;
             }
         }
