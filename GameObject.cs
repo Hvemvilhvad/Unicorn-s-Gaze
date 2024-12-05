@@ -45,7 +45,7 @@ namespace Unicorns_Gaze
             set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2) * scale), (int)(((value.Y + Height) - (Hitbox.Height / 2)) * scale), (int)(Hitbox.Width * scale), (int)(Hitbox.Height * scale)); }
         }
         public float Height { get => height; set => height = value; }
-        public Texture2D Sprite { get => sprite; protected set => sprite = value; }
+        public Texture2D Sprite { get => Sprite; protected set => Sprite = value; }
 
         public GameObject()
         {
