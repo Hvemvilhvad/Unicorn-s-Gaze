@@ -22,25 +22,7 @@ namespace Unicorns_Gaze
             base.Use();
         }
 
-        /// <summary>
-        /// Makes a random Powerup.
-        /// </summary>
-        /// <returns>A random Powerup.</returns>
-        public static Powerup GetRandomPowerUp(Vector2 position)
-        {
-            int whichPowerUp = GameWorld.Random.Next(0, 3);
-
-            switch (whichPowerUp)
-            {
-                case 0:
-                    return new HealthPowerup(position);
-                case 1:
-                    return new DamagePowerup(position);
-                case 2:
-                    return new CriticalPowerup(position);
-                default:
-                    return new HealthPowerup(position);
-            }
-        }
+        
+       
     }
 }
