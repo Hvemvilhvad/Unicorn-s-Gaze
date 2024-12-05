@@ -11,6 +11,7 @@ namespace Unicorns_Gaze
     public class Breakable : Environment, IDamagable, IThrowable
     {
         private int health;
+        private int normalHealth;
         private Vector2 startPosition;
         private bool hasBeenThrown;
         private float throwTime;
@@ -32,6 +33,12 @@ namespace Unicorns_Gaze
                     health = value;
                 }
             }
+        }
+
+        //ignore this, it's just for the interface
+        public int NormalHealth
+        {
+            get => normalHealth; set => normalHealth=value;
         }
 
         public Vector2 StartPosition { get => startPosition; set => startPosition = value; }

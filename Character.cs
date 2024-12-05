@@ -19,7 +19,7 @@ namespace Unicorns_Gaze
 
         /// <summary>
         /// A DamageRange is an interval for damage-values.
-        /// Its used to track and make damage-values.
+        /// Is used to track and make damage-values.
         /// </summary>
         /// <param name="lowerBound">The lower inclusive bound of the interval.</param>
         /// <param name="upperBound">The upper inclusive bound of the interval.</param>
@@ -82,12 +82,13 @@ namespace Unicorns_Gaze
         private int health;
         private int normalHealth;
         private int maxHealth;
-        private DamageRange damageRange;
-        private DamageRange normalDamageRange;
+        protected DamageRange damageRange;
+        protected DamageRange normalDamageRange;
         protected bool isFacingRight;
         protected Texture2D attackSprite;
         protected float attackCooldown = 0.5f;
         private int walkState;
+        protected bool beingBuffed;
         private float walkStateUpdateCountdown;
         private float spriteRotation;
         private float spriteYOffset;
@@ -108,7 +109,7 @@ namespace Unicorns_Gaze
                     health = 0;
 
                 }
-                else if (value >= MaxHealth)
+                else if (value >= MaxHealth&&!beingBuffed)
                 {
                     health = MaxHealth;
                 }
@@ -247,7 +248,7 @@ namespace Unicorns_Gaze
             SpriteEffects flip = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Vector2 offset = doWalkAnimation ? new Vector2(0, spriteYOffset) : Vector2.Zero;
             float rotation = doWalkAnimation ? spriteRotation : 0;
-            spriteBatch.Draw(sprite, position + offset, null, Color.White, rotation, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, flip, layer);
+            spriteBatch.Draw(sprite, position + offset, null, color, rotation, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, flip, layer);
         }
 
     }

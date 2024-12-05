@@ -97,6 +97,7 @@ namespace Unicorns_Gaze
             else if(this is not Button)
             {
                 color = normalColor;
+                
             }
         }
 

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Text;
 using System.Linq;
 using System.Text;
@@ -54,7 +55,7 @@ namespace Unicorns_Gaze
                 moveCooldown = 0;
             }
 
-            if (nearbyEnemy==null||nearbyEnemy.Position.X-position.X>buffRange || nearbyEnemy.Position.X - position.X < -buffRange || nearbyEnemy.Position.Y-position.Y>buffRange || nearbyEnemy.Position.Y - position.Y < -buffRange)
+            if (nearbyEnemy==null||nearbyEnemy.Position.X-position.X>(buffRange-100) || nearbyEnemy.Position.X - position.X < -(buffRange - 100) || nearbyEnemy.Position.Y-position.Y> (buffRange - 100) || nearbyEnemy.Position.Y - position.Y < -(buffRange - 100))
             {
                 Chase();
             }
@@ -92,13 +93,14 @@ namespace Unicorns_Gaze
                 {
                     closestEnemy = enemy;
                 }
-                if(enemy.Position.X - position.X < buffRange && enemy.Position.X - position.X > -buffRange && enemy.Position.Y - position.Y < buffRange && enemy.Position.Y - position.Y > -buffRange)
+                if(enemy.Position.X - position.X >= -(buffRange) && enemy.Position.X - position.X <= (buffRange) && enemy.Position.Y - position.Y <= (buffRange) && enemy.Position.Y - position.Y >= -(buffRange - 100))
                 {
                     enemy.BuffEnemy(this);
                 }
                 else
                 {
                     enemy.BeingBuffed = false;
+                    Debug.WriteLine(this + " is not buffed");
                 }
             }
             nearbyEnemy=closestEnemy;

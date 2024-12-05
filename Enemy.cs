@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,8 @@ namespace Unicorns_Gaze
         //Fields
         protected Texture2D rangedAttackSprite;
         protected float moveCooldown;
-        protected bool beingBuffed;
         protected DamageRange baseDamageRange;
+        protected DamageRange buffedDamageRange;
         private Mage buffingMage;
 
         public bool BeingBuffed { get => beingBuffed; set => beingBuffed = value; }
@@ -37,16 +38,17 @@ namespace Unicorns_Gaze
         {
             base.LoadContent(content);
             rangedAttackSprite = content.Load<Texture2D>("notexture");
-            baseDamageRange = DamageRange;
+            baseDamageRange = damageRange;
+            buffedDamageRange=new DamageRange(baseDamageRange.LowerBound +2, baseDamageRange.UpperBound +2);
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
             if (beingBuffed)
             {
-                Health = (int)(NormalHealth*1.5f);
-                DamageRange = new DamageRange((int)(baseDamageRange.LowerBound * 1.5f), (int)(baseDamageRange.UpperBound * 1.5f));
-                normalColor = Color.Black;
+                Health = (int)((MaxHealth*1.5f)-(MaxHealth-NormalHealth));
+                damageRange = buffedDamageRange;
+                base.normalColor = Color.Blue;
 
                 if (buffingMage == null|| buffingMage.Position.X - position.X > 300 || buffingMage.Position.Y - position.Y > 300)
                 {
@@ -108,10 +110,13 @@ namespace Unicorns_Gaze
             {
                 attackCooldown = 1;
                 moveCooldown = 1;
-                takingDamage = false;
             }
         }
 
+        /// <summary>
+        /// For when this enemy is buffed by a mage
+        /// </summary>
+        /// <param name="mage"></param>
         public virtual void BuffEnemy(Mage mage)
         {
             //maybe add effect here?

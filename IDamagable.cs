@@ -10,6 +10,7 @@ namespace Unicorns_Gaze
     public interface IDamagable
     {
         public int Health { get; set; }
+        public int NormalHealth { get; set; }
         public float InvincibilityTimer { get ; set; }
         public float InvincibilityFrames { get; set; }
         public float HurtTimer { get; set; }
@@ -31,6 +32,7 @@ namespace Unicorns_Gaze
             if (InvincibilityTimer <= 0)
             {
                 Health -= damage;
+                NormalHealth-= damage;
                 SplashText damageText = new SplashText(damage + " taken", Color.Red, GameWorld.Player);
                 GameWorld.MakeObject(damageText);
                 if (IsMeleeAttack)
