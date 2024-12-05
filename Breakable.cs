@@ -61,7 +61,7 @@ namespace Unicorns_Gaze
         public void SpawnItem()
         {
             //60% chance
-            if (GameWorld.Random.Next(0, 3 + 1) >= 2)
+            if (GameWorld.Random.Next(0, 3 + 1) >= 2 || true)
             {
                 GameWorld.GameObjectsToAdd.Add(Item.GetRandomItem(Position));
             }
