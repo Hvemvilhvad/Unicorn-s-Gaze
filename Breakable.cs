@@ -38,9 +38,9 @@ namespace Unicorns_Gaze
         public bool HasBeenThrown { get => hasBeenThrown; set => hasBeenThrown = value; }
         public float ThrowTime { get => throwTime; set => throwTime = value; }
         public float InvincibilityTimer { get => invincibilityTimer; set => invincibilityTimer = value; }
-        public float InvincibilityFrames { get ; set ; }
-        public float HurtTimer { get ; set ; }
-        public float HurtTime { get ; set ; }
+        public float InvincibilityFrames { get; set; }
+        public float HurtTimer { get; set; }
+        public float HurtTime { get; set; }
         public bool TakingDamage { get; set; }
         public bool IsGoingRight { get; set; }
         public bool PickedUp { get => pickedUp; set => pickedUp = value; }
@@ -52,6 +52,7 @@ namespace Unicorns_Gaze
             Health = 10;
             hasBeenThrown = false;
             throwTime = 0;
+            doShadow = true;
         }
 
 
@@ -60,8 +61,8 @@ namespace Unicorns_Gaze
         /// </summary>
         public void SpawnItem()
         {
-            //60% chance
-            if (GameWorld.Random.Next(0, 3 + 1) >= 2 || true)
+            //66% chance???
+            if (GameWorld.Random.Next(0, 3 + 1) >= 2)
             {
                 GameWorld.GameObjectsToAdd.Add(Item.GetRandomItem(Position));
             }
@@ -73,13 +74,17 @@ namespace Unicorns_Gaze
             base.Update(gameTime, screenSize);
         }
 
-        public override void OnCollision(GameObject other)
+        public override bool OnCollision(GameObject other)
         {
-            base.OnCollision(other);
-            if (this is IThrowable & this != other & other is not Background)
+            if (base.OnCollision(other))
             {
-                (this as IThrowable).OnThrownCollision(other);
+                if (this is IThrowable)
+                {
+                    (this as IThrowable).OnThrownCollision(other);
+                    return true;
+                }
             }
+            return false;
         }
     }
 }

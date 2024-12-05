@@ -20,7 +20,7 @@ namespace Unicorns_Gaze
         public override void Use()
         {
             base.Use();
-
+            GameWorld.Player.CriticalMultiplier += 0.1F;
 
         }
     }

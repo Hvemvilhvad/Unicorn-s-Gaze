@@ -38,6 +38,7 @@ namespace Unicorns_Gaze
         public Item(Vector2 position) : base()
         {
             Position = position;
+            doShadow = true;
         }
 
         /// <summary>
@@ -52,13 +53,17 @@ namespace Unicorns_Gaze
         }
 
 
-        public override void OnCollision(GameObject other)
+        public override bool OnCollision(GameObject other)
         {
-            base.OnCollision(other);
-            if (other is Player)
+            if (base.OnCollision(other))
             {
-                Use();
+                if (other is Player)
+                {
+                    Use();
+                    return true;
+                }
             }
+            return false;
         }
 
 
@@ -72,11 +77,12 @@ namespace Unicorns_Gaze
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (sprite is null)
+            if (Sprite is null)
             {
-                sprite = GameWorld.NoSprite;
+                Sprite = GameWorld.NoSprite;
             }
-            spriteBatch.Draw(sprite, new Rectangle((int)position.X, (int)position.Y, (int)(sprite.Width * Math.Sin(Rotation)), sprite.Height), null, Color.White, 0, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), doFlip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, layer);
+            spriteBatch.Draw(Sprite, new Rectangle((int)position.X, (int)position.Y, (int)(Sprite.Width * Math.Sin(Rotation)), Sprite.Height), null, Color.White, 0, origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2), doFlip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, layer);
+            DrawShadow(spriteBatch);
         }
 
         public static Item GetRandomItem(Vector2 pos)

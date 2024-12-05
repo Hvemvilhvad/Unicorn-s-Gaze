@@ -41,7 +41,7 @@ namespace Unicorns_Gaze
             {
                 sprites[0] = content.Load<Texture2D>("gummybear");
             }
-            sprite = sprites[0];
+            Sprite = sprites[0];
             base.LoadContent(content);
         }
 
@@ -79,15 +79,20 @@ namespace Unicorns_Gaze
             base.Update(gameTime, screenSize);
         }
 
-        public override void OnCollision(GameObject other)
+        public override bool OnCollision(GameObject other)
         {
-            if (other is Player)
+            if (base.OnCollision(other))
             {
-                velocity = Vector2.Zero;
-                moveCooldown = 2;
+                if (other is Player)
+                {
+                    velocity = Vector2.Zero;
+                    moveCooldown = 2;
+                    return true;
+                }
             }
-            base.OnCollision(other);
+            return false;
         }
+
         /// <summary>
         /// Override of the chase method, allowing the enemy to stop if it collides with the player
         /// </summary>

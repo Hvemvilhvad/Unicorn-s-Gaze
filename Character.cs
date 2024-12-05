@@ -159,6 +159,11 @@ namespace Unicorns_Gaze
         public DamageRange HeavyDamageRange { get => heavyDamageRange; set => heavyDamageRange = value; }
 
 
+        public Character()
+        {
+            doShadow = true;
+        }
+
         //Methods
         public override void LoadContent(ContentManager content)
         {
@@ -171,6 +176,9 @@ namespace Unicorns_Gaze
             base.Update(gameTime, screenSize);
         }
 
+        /// <summary>
+        /// Changes the state of the bobbing when the character is moving.
+        /// </summary>
         private void NextWalkState()
         {
             WalkState++;
@@ -220,14 +228,15 @@ namespace Unicorns_Gaze
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (sprite is null)
+            if (Sprite is null)
             {
-                sprite = GameWorld.NoSprite;
+                Sprite = GameWorld.NoSprite;
             }
             SpriteEffects flip = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Vector2 offset = doWalkAnimation ? new Vector2(0, spriteYOffset) : Vector2.Zero;
             float rotation = doWalkAnimation ? spriteRotation : 0;
-            spriteBatch.Draw(sprite, position + offset, null, Color.White, rotation, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, flip, layer);
+            spriteBatch.Draw(Sprite, position + offset, null, Color.White, rotation, origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2), 1, flip, layer);
+            DrawShadow(spriteBatch);
         }
 
     }
