@@ -12,11 +12,20 @@ using Unicorns_Gaze.states;
 
 namespace Unicorns_Gaze
 {
+    public enum SpriteType
+    {
+        None=0,
+        Standard=1,
+        ChargeAttack=2,
+        Attack=3,
+        Hurt=4,
+    }
+
     public abstract class GameObject
     {
         //Fields
         private Texture2D sprite;
-        protected Texture2D[] sprites;
+        protected Dictionary<SpriteType, Texture2D> Sprites;
         private Rectangle hitbox;
         protected Vector2 position;
         protected Vector2 origin;
@@ -44,7 +53,9 @@ namespace Unicorns_Gaze
             set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2) * scale), (int)(((value.Y + Height) - (Hitbox.Height / 2)) * scale), (int)(Hitbox.Width * scale), (int)(Hitbox.Height * scale)); }
         }
         public float Height { get => height; set => height = value; }
-        public Texture2D Sprite { get => sprite; protected set => sprite = value; }
+        public Texture2D Sprite { get => sprite; private set => sprite = value; }
+
+        
 
         public GameObject()
         {
@@ -77,11 +88,7 @@ namespace Unicorns_Gaze
 
         public virtual void LoadContent(ContentManager content)
         {
-            if (Sprite is null)
-            {
-                Sprite = GameWorld.NoSprite;
-            }
-
+            UpdateSprite();
             origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
             Hitbox = new Rectangle((int)position.X - (int)((Sprite.Width / 2) * scale), (int)position.Y - (int)((Sprite.Height / 2) * scale), (int)(Sprite.Width * scale), (int)(Sprite.Height * scale));
 
@@ -178,6 +185,22 @@ namespace Unicorns_Gaze
             Vector2 difference = other.Position - Position;
             return (float)Math.Sqrt(Math.Pow(difference.X, 2) + Math.Pow(difference.Y, 2));
         }
+
+
+        protected void UpdateSprite()
+        {
+            if (animations.Length == 0)
+            {
+                Sprite = GameWorld.NoSprite;
+            }
+            else
+            {
+                Sprite = animations[selectedAnimation][animationIndex];
+            }
+        }
+
+
+
 
     }
 
