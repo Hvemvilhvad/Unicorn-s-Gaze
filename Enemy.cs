@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +15,16 @@ namespace Unicorns_Gaze
         //Fields
         protected Texture2D rangedAttackSprite;
         protected float moveCooldown;
+        protected DamageRange baseDamageRange;
+        protected DamageRange buffedDamageRange;
+        private Mage buffingMage;
 
+        public bool BeingBuffed { get => beingBuffed; set => beingBuffed = value; }
         //Constructor
         public Enemy(int health, Vector2 position, float speed)
         {
             MaxHealth = 10;
-            Health = health;
+            NormalHealth = health;
             Position = position;
             this.speed = speed;
         }
@@ -33,10 +38,31 @@ namespace Unicorns_Gaze
         {
             base.LoadContent(content);
             rangedAttackSprite = content.Load<Texture2D>("notexture");
+            baseDamageRange = damageRange;
+            buffedDamageRange=new DamageRange(baseDamageRange.LowerBound +2, baseDamageRange.UpperBound +2);
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
+            if (beingBuffed)
+            {
+                Health = (int)((MaxHealth*1.5f)-(MaxHealth-NormalHealth));
+                damageRange = buffedDamageRange;
+                //only used to mark buff, remove if another marker is used
+                normalColor = Color.Blue;
+
+                //if mage is killed or out of range
+                if (buffingMage == null|| buffingMage.Position.X - position.X > 300 || buffingMage.Position.Y - position.Y > 300)
+                {
+                    beingBuffed = false;
+                }
+            }
+            else
+            {
+                Health = NormalHealth;
+                DamageRange = baseDamageRange;
+                normalColor = Color.White;
+            }
             depth = Position.Y / 864;
             Move(gameTime, screenSize);
             Stun();
@@ -64,6 +90,9 @@ namespace Unicorns_Gaze
             GameWorld.GameObjectsToAdd.Add(attack);
         }
 
+        /// <summary>
+        /// Instantiates enemy ranged attack
+        /// </summary>
         public virtual void RangedAttack()
         {
             Projectile projectile = new Projectile(position, DamageRange.GetADamageValue(), false, IsFacingRight, false, rangedAttackSprite, 1.5f);
@@ -95,10 +124,18 @@ namespace Unicorns_Gaze
             {
                 attackCooldown = 1;
                 moveCooldown = 1;
-                takingDamage = false;
             }
         }
 
-        
+        /// <summary>
+        /// Activates buff effect on enemy
+        /// </summary>
+        /// <param name="mage"></param>
+        public virtual void BuffEnemy(Mage mage)
+        {
+            //maybe add effect here?
+            beingBuffed = true;
+            buffingMage = mage;
+        }
     }
 }

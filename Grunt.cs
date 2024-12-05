@@ -26,6 +26,7 @@ namespace Unicorns_Gaze
         public Grunt(Vector2 position) : base(position)
         {
             MaxHealth = 10;
+            NormalHealth = 10;
             Health = 10;
             speed = 150;
             DamageRange = new DamageRange(2, 5);

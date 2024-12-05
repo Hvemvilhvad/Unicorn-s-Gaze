@@ -14,9 +14,12 @@ namespace Unicorns_Gaze
         private int lowerBound;
         private int upperBound;
 
+        public int UpperBound {  get { return upperBound; } }
+        public int LowerBound { get { return lowerBound; } }
+
         /// <summary>
         /// A DamageRange is an interval for damage-values.
-        /// Its used to track and make damage-values.
+        /// Is used to track and make damage-values.
         /// </summary>
         /// <param name="lowerBound">The lower inclusive bound of the interval.</param>
         /// <param name="upperBound">The upper inclusive bound of the interval.</param>
@@ -77,14 +80,17 @@ namespace Unicorns_Gaze
         //Fields
         protected float speed;
         private int health;
+        private int normalHealth;
         private int maxHealth;
-        private DamageRange damageRange;
+        protected DamageRange damageRange;
+        protected DamageRange normalDamageRange;
         private DamageRange heavyDamageRange;
         protected bool isFacingRight;
         protected Texture2D attackSprite;
         protected float attackCooldown;
         protected float heavyAttackCooldown;
         private int walkState;
+        protected bool beingBuffed;
         private float walkStateUpdateCountdown;
         private float spriteRotation;
         private float spriteYOffset;
@@ -105,7 +111,7 @@ namespace Unicorns_Gaze
                     health = 0;
 
                 }
-                else if (value >= MaxHealth)
+                else if (value >= MaxHealth&&!beingBuffed)
                 {
                     health = MaxHealth;
                 }
@@ -115,8 +121,27 @@ namespace Unicorns_Gaze
                 }
             }
         }
+
+        public int NormalHealth
+        {
+            get => normalHealth;
+            set
+            {
+                if (value < 0)
+                {
+                    normalHealth = 0;
+
+                }
+                else
+                {
+                    normalHealth = value;
+                }
+            }
+        }
         public int MaxHealth { get => maxHealth; set => maxHealth = value; }
+
         public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
+        public DamageRange NormalDamageRange { get => damageRange; set => damageRange = value; }
         public float InvincibilityTimer { get => invincibilityTimer; set => invincibilityTimer = value; }
         public float InvincibilityFrames { get => invincibilityFrames; set => invincibilityFrames = value; }
         public float HurtTimer { get => hurtTimer; set => hurtTimer = value; }
@@ -235,7 +260,7 @@ namespace Unicorns_Gaze
             SpriteEffects flip = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Vector2 offset = doWalkAnimation ? new Vector2(0, spriteYOffset) : Vector2.Zero;
             float rotation = doWalkAnimation ? spriteRotation : 0;
-            spriteBatch.Draw(Sprite, position + offset, null, Color.White, rotation, origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2), 1, flip, layer);
+            spriteBatch.Draw(sprite, position + offset, null, color, rotation, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, flip, layer);
             DrawShadow(spriteBatch);
         }
 

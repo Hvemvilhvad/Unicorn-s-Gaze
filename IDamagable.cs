@@ -10,6 +10,7 @@ namespace Unicorns_Gaze
     public interface IDamagable
     {
         public int Health { get; set; }
+        public int NormalHealth { get; set; }
         public float InvincibilityTimer { get ; set; }
         public float InvincibilityFrames { get; set; }
         public float HurtTimer { get; set; }
@@ -31,6 +32,7 @@ namespace Unicorns_Gaze
             if (InvincibilityTimer <= 0)
             {
                 Health -= damage;
+                NormalHealth-= damage;
                 if (damageTarget is not null)
                 {
                     SplashText damageText = new SplashText(damage + " DAMAGE", Color.Red, damageTarget);
