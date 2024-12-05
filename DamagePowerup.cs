@@ -19,7 +19,9 @@ namespace Unicorns_Gaze
 
         public override void Use()
         {
-            GameWorld.Player.DamageRange = GameWorld.Player.DamageRange.OffsetDamageRange(10);
+            SplashText pickupText = new SplashText("DAMAGE UP", Color.Gold, GameWorld.Player);
+            GameWorld.MakeObject(pickupText);
+            GameWorld.Player.DamageRange = GameWorld.Player.DamageRange.OffsetDamageRange(2);
             base.Use();
         }
     }

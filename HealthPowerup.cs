@@ -19,6 +19,8 @@ namespace Unicorns_Gaze
 
         public override void Use()
         {
+            SplashText pickupText = new SplashText( "MAX HEALTH UP", Color.Green, GameWorld.Player);
+            GameWorld.MakeObject(pickupText);
             GameWorld.Player.MaxHealth += 5;
             GameWorld.Player.Heal(5);
             base.Use();

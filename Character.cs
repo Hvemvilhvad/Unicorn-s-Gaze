@@ -84,9 +84,11 @@ namespace Unicorns_Gaze
         private int maxHealth;
         protected DamageRange damageRange;
         protected DamageRange normalDamageRange;
+        private DamageRange heavyDamageRange;
         protected bool isFacingRight;
         protected Texture2D attackSprite;
-        protected float attackCooldown = 0.5f;
+        protected float attackCooldown;
+        protected float heavyAttackCooldown;
         private int walkState;
         protected bool beingBuffed;
         private float walkStateUpdateCountdown;
@@ -179,6 +181,13 @@ namespace Unicorns_Gaze
             }
         }
 
+        public DamageRange HeavyDamageRange { get => heavyDamageRange; set => heavyDamageRange = value; }
+
+
+        public Character()
+        {
+            doShadow = true;
+        }
 
         //Methods
         public override void LoadContent(ContentManager content)
@@ -192,6 +201,9 @@ namespace Unicorns_Gaze
             base.Update(gameTime, screenSize);
         }
 
+        /// <summary>
+        /// Changes the state of the bobbing when the character is moving.
+        /// </summary>
         private void NextWalkState()
         {
             WalkState++;
@@ -241,14 +253,15 @@ namespace Unicorns_Gaze
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (sprite is null)
+            if (Sprite is null)
             {
-                sprite = GameWorld.NoSprite;
+                Sprite = GameWorld.NoSprite;
             }
             SpriteEffects flip = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Vector2 offset = doWalkAnimation ? new Vector2(0, spriteYOffset) : Vector2.Zero;
             float rotation = doWalkAnimation ? spriteRotation : 0;
             spriteBatch.Draw(sprite, position + offset, null, color, rotation, origin = new Vector2(sprite.Width / 2, sprite.Height / 2), 1, flip, layer);
+            DrawShadow(spriteBatch);
         }
 
     }

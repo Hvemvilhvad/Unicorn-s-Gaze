@@ -20,8 +20,13 @@ namespace Unicorns_Gaze
 
         public override void Use()
         {
-            GameWorld.Player.Heal(HealAmount);
-            base.Use();
+            if (GameWorld.Player.Health != GameWorld.Player.MaxHealth)
+            {
+                SplashText pickupText = new SplashText(HealAmount + " HEALED", Color.Green, GameWorld.Player);
+                GameWorld.MakeObject(pickupText);
+                GameWorld.Player.Heal(HealAmount);
+                base.Use();
+            }
         }
     }
 }

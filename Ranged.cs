@@ -39,7 +39,7 @@ namespace Unicorns_Gaze
             {
                 sprites[0] = content.Load<Texture2D>("notexture");
             }
-            sprite = sprites[0];
+            Sprite = sprites[0];
             base.LoadContent(content);
         }
 
@@ -73,20 +73,21 @@ namespace Unicorns_Gaze
 
             if (attackCooldown <= 0&& GameWorld.Player.Position.Y > position.Y - aimRange&& GameWorld.Player.Position.Y < position.Y + aimRange) 
             {
-                RangedAttack();
+                RangedAttack(gameTime);
             }
 
             base.Update(gameTime, screenSize);
         }
 
-        public override void OnCollision(GameObject other)
+        public override bool OnCollision(GameObject other)
         {
-            if (other is Player)
+            if (base.OnCollision(other) & other is Player)
             {
                 velocity = Vector2.Zero;
                 moveCooldown = 2;
+                return true;
             }
-            base.OnCollision(other);
+            return false;
         }
         /// <summary>
         /// Override of the chase method, which makes this enemy only move up & down
