@@ -34,6 +34,8 @@ namespace Unicorns_Gaze
             this.speed = speed;
             IsFacingRight = true;
             DamageRange = new DamageRange(2, 5);
+            criticalChance = 10;
+            criticalMultiplier = 1.5F;
             HeavyDamageRange = new DamageRange(5, 10);
         }
 
@@ -48,7 +50,7 @@ namespace Unicorns_Gaze
             {
                 sprites[i] = content.Load<Texture2D>("unicorn_sprite");
             }
-            sprite = sprites[0];
+            Sprite = sprites[0];
             base.LoadContent(content);
         }
 
@@ -108,9 +110,9 @@ namespace Unicorns_Gaze
                 }
                 else
                 {
+                    attackCooldown = 0.5F;
                     heldObject.Throw();
                     heldObject = null;
-                    attackCooldown = 0.1F;
                 }
             }
 
@@ -132,9 +134,9 @@ namespace Unicorns_Gaze
                 }
                 else
                 {
+                    attackCooldown = 0.5F;
                     heldObject.Throw();
                     heldObject = null;
-                    attackCooldown = 0.1F;
                 }
             }
 
@@ -161,6 +163,7 @@ namespace Unicorns_Gaze
                     heldObject.Throw();
                     heldObject = null;
                 }
+
             }
 
         }
@@ -173,15 +176,15 @@ namespace Unicorns_Gaze
         {
             base.CheckBounds(screenSize);
 
-            if (position.X + (sprite.Width / 2) > screenSize.X && enteredField)
+            if (position.X + (Sprite.Width / 2) > screenSize.X && enteredField)
             {
-                position.X = screenSize.X - (sprite.Width / 2);
+                position.X = screenSize.X - (Sprite.Width / 2);
                 velocity.X = 0;
             }
 
-            if (position.X - (sprite.Width / 2) < 0 && enteredField)
+            if (position.X - (Sprite.Width / 2) < 0 && enteredField)
             {
-                position.X = sprite.Width / 2;
+                position.X = Sprite.Width / 2;
                 velocity.X = 0;
             }
         }

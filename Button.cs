@@ -30,18 +30,19 @@ namespace Unicorns_Gaze
         {
             get
             {
-                return new Vector2(sprite.Width / 2, sprite.Height / 2);
+                return new Vector2(Sprite.Width / 2, Sprite.Height / 2);
             }
         }
 
         //Constructors
         public Button(Texture2D texture,GameWorld game,State.ButtonPurpose purpose)
         {
-            this.sprite = texture;
+            this.Sprite = texture;
             buttonPurpose = purpose;
             this.game = game;
             contentManager = game.Content;
             layer = 0;
+            doDynamicLayer = false;
             scale = 0.1f;
         }
 

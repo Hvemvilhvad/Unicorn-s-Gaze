@@ -41,7 +41,7 @@ namespace Unicorns_Gaze
             Hitbox = new Rectangle(0, 0, 100, 100);
             this.isPlayerAttack = isPlayerAttack;
 
-            this.sprite = sprite;
+            this.Sprite = sprite;
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
@@ -56,16 +56,18 @@ namespace Unicorns_Gaze
             }
         }
 
-        public override void OnCollision(GameObject other)
+        public override bool OnCollision(GameObject other)
         {
-            if (other is IDamagable)
+            if (base.OnCollision(other))
             {
-                if ((isPlayerAttack && other is Enemy) || (!isPlayerAttack && other is Player) || ((isPlayerAttack && other is Breakable)))
+                if (other is IDamagable)
                 {
                     ((IDamagable)other).TakeDamage(damage, true, other);
-                    base.OnCollision(other);
+                    return true;
+
                 }
             }
+            return false;
         }
     }
 }
