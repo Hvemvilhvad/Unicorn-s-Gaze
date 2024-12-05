@@ -62,9 +62,11 @@ namespace Unicorns_Gaze
             {
                 if (other is IDamagable)
                 {
-                    ((IDamagable)other).TakeDamage(damage, true, other);
-                    return true;
-
+                    if ((isPlayerAttack && other is Enemy) | (!isPlayerAttack && other is Player) | ((isPlayerAttack && other is Breakable)))
+                    {
+                        ((IDamagable)other).TakeDamage(damage, true, other);
+                        return true;
+                    }
                 }
             }
             return false;

@@ -32,7 +32,7 @@ namespace Unicorns_Gaze
             this.isHeavyAttack = isHeavyAttack;
             Cooldown = cooldown;
             Hitbox = new Rectangle(0, 0, 50, 100);
-            this.sprite = sprite;
+            Sprite = sprite;
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
@@ -49,19 +49,20 @@ namespace Unicorns_Gaze
 
         }
 
-        public override void OnCollision(GameObject other)
+        public override bool OnCollision(GameObject other)
         {
-            if (other is Player)
+            if (base.OnCollision(other) & other is Player)
             {
                 ((IDamagable)other).TakeDamage(damage, true);
-                base.OnCollision(other);
                 RemoveThis();
+                return true;
             }
+            return false;
         }
 
         public override void CheckBounds(Vector2 screenSize)
         {
-            if (position.X - (sprite.Width / 2) < 0 || position.X + (sprite.Width / 2) > screenSize.X || position.Y - (sprite.Height / 2) < 0|| position.Y + (sprite.Height / 2) > screenSize.Y)
+            if (position.X - (Sprite.Width / 2) < 0 || position.X + (Sprite.Width / 2) > screenSize.X || position.Y - (Sprite.Height / 2) < 0|| position.Y + (Sprite.Height / 2) > screenSize.Y)
             {
                 RemoveThis();
             }
