@@ -34,6 +34,7 @@ namespace Unicorns_Gaze
         protected bool takingDamage = false;
         protected float hurtTimer;
         protected float hurtTime = 0.15f;
+        protected float depth;
 
         //Properties
         public Rectangle Hitbox { get => hitbox; set => hitbox = value; }
@@ -88,6 +89,7 @@ namespace Unicorns_Gaze
 
         public virtual void Update(GameTime gameTime, Vector2 screenSize)
         {
+            depth = Position.Y / 864;
             if (this is not Background)
             {
                 CheckBounds(screenSize);

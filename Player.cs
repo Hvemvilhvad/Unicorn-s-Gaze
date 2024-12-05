@@ -36,6 +36,7 @@ namespace Unicorns_Gaze
             DamageRange = new DamageRange(2, 5);
             criticalChance = 10;
             criticalMultiplier = 1.5F;
+            HeavyDamageRange = new DamageRange(5, 10);
         }
 
 
@@ -58,6 +59,7 @@ namespace Unicorns_Gaze
             HandleInput();
             Move(gameTime, screenSize);
             attackCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            heavyAttackCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             base.Update(gameTime, screenSize);
         }
 
@@ -98,11 +100,11 @@ namespace Unicorns_Gaze
             }
 
 
-            if (keyState.IsKeyDown(Keys.J) & attackCooldown <= 0) //small adac
+            if (keyState.IsKeyDown(Keys.J) & attackCooldown <= 0) //small attack
             {
                 if (heldObject is null)
                 {
-                    MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, IsFacingRight, false, attackSprite, 0.2F);
+                    MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, IsFacingRight, false, attackSprite, 0.5F, true);
                     attackCooldown = attack.ExistanceTime + attack.Cooldown;
                     GameWorld.GameObjectsToAdd.Add(attack);
                 }
@@ -114,13 +116,21 @@ namespace Unicorns_Gaze
                 }
             }
 
-            if (keyState.IsKeyDown(Keys.I) & attackCooldown <= 0) //bick adac
+            if (keyState.IsKeyDown(Keys.I) & heavyAttackCooldown <= 0) //big attack
             {
                 if (heldObject is null)
                 {
-                    MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, IsFacingRight, true, attackSprite, 0.5F);
-                    attackCooldown = attack.ExistanceTime + attack.Cooldown;
+                    MeleeAttack attack = new MeleeAttack(this, HeavyDamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, IsFacingRight, true, attackSprite, 1f, true);
+                    heavyAttackCooldown = attack.ExistanceTime + attack.Cooldown;
                     GameWorld.GameObjectsToAdd.Add(attack);
+                    if (isFacingRight)
+                    {
+                        velocity = new Vector2(50, 0);
+                    }
+                    else
+                    {
+                        velocity = new Vector2(-50, 0);
+                    }
                 }
                 else
                 {
@@ -142,9 +152,10 @@ namespace Unicorns_Gaze
                             {
                                 (other as IThrowable).PickUp(this);
                                 heldObject = (other as IThrowable);
-                                attackCooldown = 0.5F;
+                                attackCooldown = 0.5f;
                             }
                         }
+                    
                     }
                 }
                 else

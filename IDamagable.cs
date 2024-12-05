@@ -26,11 +26,16 @@ namespace Unicorns_Gaze
         /// Lowers the health of the Damagable when it takes damage.
         /// </summary>
         /// <param name="damage">The amount to lower it by.</param>
-        virtual void TakeDamage(int damage, bool IsMeleeAttack)
+        virtual void TakeDamage(int damage, bool IsMeleeAttack, GameObject damageTarget = null)
         {
             if (InvincibilityTimer <= 0)
             {
                 Health -= damage;
+                if (damageTarget is not null)
+                {
+                    SplashText damageText = new SplashText(damage + " DAMAGE", Color.Red, damageTarget);
+                    GameWorld.MakeObject(damageText);
+                }
                 if (IsMeleeAttack)
                 {
                     GiveInvincibilityFrames();

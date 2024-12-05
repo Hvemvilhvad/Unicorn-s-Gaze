@@ -79,9 +79,11 @@ namespace Unicorns_Gaze
         private int health;
         private int maxHealth;
         private DamageRange damageRange;
+        private DamageRange heavyDamageRange;
         protected bool isFacingRight;
         protected Texture2D attackSprite;
-        protected float attackCooldown = 0.5f;
+        protected float attackCooldown;
+        protected float heavyAttackCooldown;
         private int walkState;
         private float walkStateUpdateCountdown;
         private float spriteRotation;
@@ -153,6 +155,8 @@ namespace Unicorns_Gaze
 
             }
         }
+
+        public DamageRange HeavyDamageRange { get => heavyDamageRange; set => heavyDamageRange = value; }
 
 
         public Character()

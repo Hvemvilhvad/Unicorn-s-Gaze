@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Content;
-using System.Drawing;
 using System.Reflection.Metadata;
 
 namespace Unicorns_Gaze.states
@@ -25,6 +24,7 @@ namespace Unicorns_Gaze.states
         private static int[] waves;
         private static int nextWave;
         private int waveNr;
+        private SpriteFont uiFont;
         //Properties
         public bool ScreenMoving { get => screenMoving; set => screenMoving = value; }
         public static int TopBoundary { get => topBoundary; }
@@ -47,6 +47,7 @@ namespace Unicorns_Gaze.states
             Vector2 playerPosition = new Vector2(GameWorld.ScreenSize.X / 2, GameWorld.ScreenSize.Y / 2);
             player = new Player(10, playerPosition, 500);
             GameWorld.Player = player;
+            uiFont = contentmanager.Load<SpriteFont>("textfont_ui");
 
             //defines the bounds of where the player/enemies/other gameobjects can be
             topBoundary = (int)GameWorld.ScreenSize.Y / 3;
@@ -108,7 +109,7 @@ namespace Unicorns_Gaze.states
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-
+            spriteBatch.DrawString(uiFont, "Health: " + player.Health, new Vector2(10, 5), Color.Gold);
         }
 
         /// <summary>
@@ -136,7 +137,8 @@ namespace Unicorns_Gaze.states
                             //enemies & items spawn here
                             Grunt grunt = new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
                             GameWorld.MakeObject(grunt);
-
+                            Ranged ranged = new Ranged(new Vector2(GameWorld.ScreenSize.X-50, GameWorld.ScreenSize.Y / 2));
+                            GameWorld.MakeObject(ranged);
 
                             Breakable breakable = new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 20));
                             GameWorld.MakeObject(breakable);
@@ -146,6 +148,8 @@ namespace Unicorns_Gaze.states
                             //enemies & items spawn here
                             Grunt grunt1 = new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
                             GameWorld.MakeObject(grunt1);
+                            Brute brute = new Brute(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
+                            GameWorld.MakeObject(brute);
                             break;
                         case 2:
                             //enemies & items spawn here
