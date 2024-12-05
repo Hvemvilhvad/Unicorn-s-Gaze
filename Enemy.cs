@@ -48,8 +48,10 @@ namespace Unicorns_Gaze
             {
                 Health = (int)((MaxHealth*1.5f)-(MaxHealth-NormalHealth));
                 damageRange = buffedDamageRange;
-                base.normalColor = Color.Blue;
+                //only used to mark buff, remove if another marker is used
+                normalColor = Color.Blue;
 
+                //if mage is killed or out of range
                 if (buffingMage == null|| buffingMage.Position.X - position.X > 300 || buffingMage.Position.Y - position.Y > 300)
                 {
                     beingBuffed = false;
@@ -79,6 +81,9 @@ namespace Unicorns_Gaze
             GameWorld.GameObjectsToAdd.Add(attack);
         }
 
+        /// <summary>
+        /// Instantiates enemy ranged attack
+        /// </summary>
         public virtual void RangedAttack()
         {
             Projectile projectile = new Projectile(position, DamageRange.GetADamageValue(), false, IsFacingRight, false, rangedAttackSprite, 1.5f);
@@ -114,7 +119,7 @@ namespace Unicorns_Gaze
         }
 
         /// <summary>
-        /// For when this enemy is buffed by a mage
+        /// Activates buff effect on enemy
         /// </summary>
         /// <param name="mage"></param>
         public virtual void BuffEnemy(Mage mage)

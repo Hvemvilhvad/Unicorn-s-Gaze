@@ -37,7 +37,9 @@ namespace Unicorns_Gaze
         {
             DamageRange = new DamageRange(2, 5);
             sprites = new Texture2D[1];
+            //not currently in use, could be used instead of changing colour of buffed enemies
             buffSprite = content.Load<Texture2D>("notexture");
+
             for (int i = 0; i < sprites.Length; i++)
             {
                 sprites[0] = content.Load<Texture2D>("notexture");
@@ -73,10 +75,11 @@ namespace Unicorns_Gaze
             base.OnCollision(other);
         }
         /// <summary>
-        /// Override of the chase method, which makes this enemy chase other enemies
+        /// Override of the chase method, which makes this enemy chase other enemies, also adds buff to enemies within buff range
         /// </summary>
         public override void Chase()
         {
+            //gets all enemies
             List<Enemy> enemyList = new List<Enemy>();
             foreach(GameObject item in GameWorld.GameObjects)
             {
@@ -85,6 +88,7 @@ namespace Unicorns_Gaze
                     enemyList.Add((Enemy)item);
                 }
             }
+            //goes through list to find closest enemy
             Enemy closestEnemy = enemyList[0];
             Vector2 direction = new Vector2(closestEnemy.Position.X - position.X, closestEnemy.Position.Y - position.Y);
             foreach (Enemy enemy in enemyList)
@@ -93,6 +97,7 @@ namespace Unicorns_Gaze
                 {
                     closestEnemy = enemy;
                 }
+                //buffs all enemies within buff range (except self)
                 if(enemy.Position.X - position.X >= -(buffRange) && enemy.Position.X - position.X <= (buffRange) && enemy.Position.Y - position.Y <= (buffRange) && enemy.Position.Y - position.Y >= -(buffRange - 100))
                 {
                     enemy.BuffEnemy(this);
@@ -100,9 +105,9 @@ namespace Unicorns_Gaze
                 else
                 {
                     enemy.BeingBuffed = false;
-                    Debug.WriteLine(this + " is not buffed");
                 }
             }
+            //moves toward closest enemy
             nearbyEnemy=closestEnemy;
             direction = new Vector2(closestEnemy.Position.X - position.X, closestEnemy.Position.Y - position.Y);
             double test = Math.Atan2(direction.Y, direction.X);
