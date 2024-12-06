@@ -69,15 +69,18 @@ namespace Unicorns_Gaze
                 {
                     GruntAttack(gameTime);
                 }
-              
                 
+                if (attackTime <= 0 & !TakingDamage)
+                {
+                    spriteType = SpriteType.ChargeAttack;
+                }
             }
 
             if (attackCooldown <= 0)
             {
                 attackCooldown = 0;
             }
-
+            
             
             
             base.Update(gameTime, screenSize);
@@ -90,7 +93,7 @@ namespace Unicorns_Gaze
                 if (other is Player)
                 {
                     velocity = Vector2.Zero;
-                    moveCooldown = 2;
+                    moveCooldown = 1;
                     return true;
                 }
             }
@@ -115,7 +118,6 @@ namespace Unicorns_Gaze
         public void GruntAttack(GameTime gameTime)
         {
             Attack();
-            
             attackCooldown = 1;
         }
 

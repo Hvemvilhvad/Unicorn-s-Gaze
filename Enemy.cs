@@ -39,20 +39,20 @@ namespace Unicorns_Gaze
             base.LoadContent(content);
             rangedAttackSprite = content.Load<Texture2D>("notexture");
             baseDamageRange = damageRange;
-            buffedDamageRange=new DamageRange(baseDamageRange.LowerBound +2, baseDamageRange.UpperBound +2);
+            buffedDamageRange = new DamageRange(baseDamageRange.LowerBound + 2, baseDamageRange.UpperBound + 2);
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
             if (beingBuffed)
             {
-                Health = (int)((MaxHealth*1.5f)-(MaxHealth-NormalHealth));
+                Health = (int)((MaxHealth * 1.5f) - (MaxHealth - NormalHealth));
                 damageRange = buffedDamageRange;
                 //only used to mark buff, remove if another marker is used
-                normalColor = Color.Blue;
+                normalColor = Color.LightBlue;
 
                 //if mage is killed or out of range
-                if (buffingMage == null|| buffingMage.Position.X - position.X > 300 || buffingMage.Position.Y - position.Y > 300)
+                if (buffingMage == null || buffingMage.Position.X - position.X > 300 || buffingMage.Position.Y - position.Y > 300)
                 {
                     beingBuffed = false;
                 }
@@ -87,6 +87,7 @@ namespace Unicorns_Gaze
         {
             MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(), false, IsFacingRight, false, attackSprite, 1, false);
             attackCooldown = attack.ExistanceTime + attack.Cooldown;
+            attackTime = attack.ExistanceTime;
             GameWorld.GameObjectsToAdd.Add(attack);
             spriteType = SpriteType.Attack;
         }
@@ -99,8 +100,9 @@ namespace Unicorns_Gaze
             Projectile projectile = new Projectile(position, DamageRange.GetADamageValue(), false, IsFacingRight, false, rangedAttackSprite, 1.5f);
             attackCooldown = projectile.Cooldown;
             GameWorld.GameObjectsToAdd.Add(projectile);
+            spriteType = SpriteType.Attack;
         }
-        
+
         /// <summary>
         /// Allows enemies to move in the direction of the player
         /// </summary>
@@ -125,7 +127,6 @@ namespace Unicorns_Gaze
             {
                 attackCooldown = 1;
                 moveCooldown = 1;
-                takingDamage = false;
                 spriteType = SpriteType.Hurt;
             }
         }
