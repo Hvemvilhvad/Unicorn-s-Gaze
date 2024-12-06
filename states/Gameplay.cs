@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Content;
 using System.Reflection.Metadata;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Unicorns_Gaze.states
 {
@@ -25,11 +26,14 @@ namespace Unicorns_Gaze.states
         private static int nextWave;
         private int waveNr;
         private SpriteFont uiFont;
+        private static SoundEffect hurtSound;
+
         //Properties
         public bool ScreenMoving { get => screenMoving; set => screenMoving = value; }
         public static int TopBoundary { get => topBoundary; }
         public static int BottomBoundary { get => bottomBoundary; }
 
+        public static SoundEffect Hurt_Sound { get => hurtSound; set => hurtSound = value; }
 
         //Constructors
         public Gameplay(GameWorld gameworld, ContentManager contentmanager) : base(gameworld, contentmanager)
@@ -64,6 +68,8 @@ namespace Unicorns_Gaze.states
             GameWorld.GameObjectsToAdd.Add(player);
             GameWorld.GameObjectsToAdd.Add(background);
             GameWorld.GameObjectsToAdd.Add(background2);
+
+            hurtSound = contentmanager.Load<SoundEffect>("swordswing");
 
             foreach (GameObject item in GameWorld.GameObjectsToAdd)
             {

@@ -289,6 +289,12 @@
 /processorParam:TextureFormat=Color
 /build:Hitbox pixel.png
 
+#begin Megaman X - Storm Eagle Stage.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Megaman X - Storm Eagle Stage.mp3
+
 #begin notexture.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -312,6 +318,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:shadow.png
+
+#begin swordswing.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:swordswing.mp3
 
 #begin tempBackgroundLol.jpg
 /importer:TextureImporter
