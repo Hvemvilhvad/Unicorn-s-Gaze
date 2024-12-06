@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -96,7 +97,6 @@ namespace Unicorns_Gaze
         private float spriteYOffset;
         private bool doWalkAnimation;
 
-
         //Properties
         /// <summary>
         /// Checks if MaxHealth is exceeded
@@ -192,6 +192,7 @@ namespace Unicorns_Gaze
         //Methods
         public override void LoadContent(ContentManager content)
         {
+            
             base.LoadContent(content);
             attackSprite = content.Load<Texture2D>("tile_arara_azul");
         }
