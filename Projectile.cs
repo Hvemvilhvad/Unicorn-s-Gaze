@@ -32,7 +32,7 @@ namespace Unicorns_Gaze
             this.isHeavyAttack = isHeavyAttack;
             Cooldown = cooldown;
             Hitbox = new Rectangle(0, 0, 50, 100);
-            Sprite = sprite;
+            sprites[SpriteType.Standard] = sprite;
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)

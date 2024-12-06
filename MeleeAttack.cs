@@ -41,7 +41,7 @@ namespace Unicorns_Gaze
             Hitbox = new Rectangle(0, 0, 100, 100);
             this.isPlayerAttack = isPlayerAttack;
 
-            this.Sprite = sprite;
+            sprites[SpriteType.Standard] = sprite;
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)

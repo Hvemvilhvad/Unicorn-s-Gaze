@@ -62,6 +62,7 @@ namespace Unicorns_Gaze
             MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(), false, IsFacingRight, false, attackSprite, 1, false);
             attackCooldown = attack.ExistanceTime + attack.Cooldown;
             GameWorld.GameObjectsToAdd.Add(attack);
+            spriteType = SpriteType.Attack;
         }
 
         public virtual void RangedAttack()
@@ -83,7 +84,7 @@ namespace Unicorns_Gaze
             direction = new Vector2(XDirection, YDirection);
             velocity = (direction);
             velocity.Normalize();
-            
+            spriteType = SpriteType.Standard;
         }
 
         /// <summary>
@@ -96,6 +97,7 @@ namespace Unicorns_Gaze
                 attackCooldown = 1;
                 moveCooldown = 1;
                 takingDamage = false;
+                spriteType = SpriteType.Hurt;
             }
         }
 

@@ -92,12 +92,13 @@ namespace Unicorns_Gaze
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            NoSprite = Content.Load<Texture2D>("notexture");
+            ShadowSprite = Content.Load<Texture2D>("shadow");
            
             currentState = new Menu(this,Content);
             currentState.LoadContent();
 
-            NoSprite = Content.Load<Texture2D>("notexture");
-            ShadowSprite = Content.Load<Texture2D>("shadow");
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.LoadContent(Content);

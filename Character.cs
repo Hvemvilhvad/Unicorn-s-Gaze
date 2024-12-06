@@ -228,14 +228,10 @@ namespace Unicorns_Gaze
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Sprite is null)
-            {
-                Sprite = GameWorld.NoSprite;
-            }
-            SpriteEffects flip = isFacingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects flip = isFacingRight ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Vector2 offset = doWalkAnimation ? new Vector2(0, spriteYOffset) : Vector2.Zero;
             float rotation = doWalkAnimation ? spriteRotation : 0;
-            spriteBatch.Draw(Sprite, position + offset, null, Color.White, rotation, origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2), 1, flip, layer);
+            spriteBatch.Draw(Sprite, position + offset, null, Color.White, rotation, origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2), scale, flip, layer);
             DrawShadow(spriteBatch);
         }
 

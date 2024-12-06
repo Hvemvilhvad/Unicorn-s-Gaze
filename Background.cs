@@ -11,9 +11,9 @@ namespace Unicorns_Gaze
     public class Background : Environment 
     {
         public Background(Texture2D sprite) 
-        { 
-            this.Sprite = sprite;
-            scale = GameWorld.ScreenSize.Y / this.Sprite.Height;
+        {
+            sprites[SpriteType.Standard] = sprite;
+            scale = GameWorld.ScreenSize.Y / sprite.Height;
             layer = 1f;
             doDynamicLayer = false;
         }

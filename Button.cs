@@ -37,7 +37,7 @@ namespace Unicorns_Gaze
         //Constructors
         public Button(Texture2D texture,GameWorld game,State.ButtonPurpose purpose)
         {
-            this.Sprite = texture;
+            sprites[SpriteType.Standard] = texture;
             buttonPurpose = purpose;
             this.game = game;
             contentManager = game.Content;
