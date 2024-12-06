@@ -47,11 +47,19 @@ namespace Unicorns_Gaze
         protected float depth;
 
         //Properties
-        public Rectangle Hitbox { get => hitbox; set => hitbox = value; }
+        public Rectangle Hitbox 
+        {
+            get => hitbox;
+            set => hitbox = value;
+        }
         public Vector2 Position
         {
             get => position;
-            set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2) * scale), (int)(((value.Y + Height) - (Hitbox.Height / 2)) * scale), (int)(Hitbox.Width * scale), (int)(Hitbox.Height * scale)); }
+            set 
+            { 
+                position = value;
+                Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2)), (int)(((value.Y + Height) - (Hitbox.Height / 2))), (int)(Hitbox.Width), (int)(Hitbox.Height));
+            }
         }
         public float Height { get => height; set => height = value; }
         public Texture2D Sprite { get => sprite = sprites.GetValueOrDefault(spriteType, GameWorld.NoSprite); private set => sprite = value; }
@@ -91,7 +99,7 @@ namespace Unicorns_Gaze
 
         public virtual void LoadContent(ContentManager content)
         {
-            origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
+            origin = new Vector2((Sprite.Width / 2) * scale, (Sprite.Height / 2) * scale);
             Hitbox = new Rectangle((int)position.X - (int)((Sprite.Width / 2) * scale), (int)position.Y - (int)((Sprite.Height / 2) * scale), (int)(Sprite.Width * scale), (int)(Sprite.Height * scale));
         }
 
@@ -133,15 +141,15 @@ namespace Unicorns_Gaze
         /// </summary>
         public virtual void CheckBounds(Vector2 screenSize)
         {
-            if (position.Y - (Sprite.Height / 2) < Gameplay.TopBoundary && enteredField)
+            if (position.Y - (Sprite.Height / 2) * scale < Gameplay.TopBoundary && enteredField)
             {
-                position = new Vector2(position.X, Gameplay.TopBoundary + (Sprite.Height / 2));
+                position = new Vector2(position.X, Gameplay.TopBoundary + (Sprite.Height / 2) * scale);
                 velocity.Y = 0;
             }
 
-            if (position.Y + (Sprite.Height / 2) > Gameplay.BottomBoundary && enteredField)
+            if (position.Y + (Sprite.Height / 2) * scale > Gameplay.BottomBoundary && enteredField)
             {
-                position = new Vector2(position.X, Gameplay.BottomBoundary - (Sprite.Height / 2));
+                position = new Vector2(position.X, Gameplay.BottomBoundary - (Sprite.Height / 2) * scale);
                 velocity.Y = 0;
             }
         }
@@ -160,7 +168,8 @@ namespace Unicorns_Gaze
         {
             if (doShadow)
             {
-                spriteBatch.Draw(GameWorld.ShadowSprite, position + new Vector2(0, Sprite.Height / 2), null, color, 0, origin = new Vector2(GameWorld.ShadowSprite.Width / 2, GameWorld.ShadowSprite.Height / 2), scale, SpriteEffects.None, layer + 0.0001F);
+                float scaling = Sprite.Width * scale/GameWorld.ShadowSprite.Width;
+                spriteBatch.Draw(GameWorld.ShadowSprite, position + new Vector2(0, (Sprite.Height / 2) * scale), null, color, 0, origin = new Vector2(GameWorld.ShadowSprite.Width / 2, GameWorld.ShadowSprite.Height / 2), scaling, SpriteEffects.None, layer + 0.0001F);
             }
         }
 
@@ -182,11 +191,6 @@ namespace Unicorns_Gaze
             Vector2 difference = other.Position - Position;
             return (float)Math.Sqrt(Math.Pow(difference.X, 2) + Math.Pow(difference.Y, 2));
         }
-
-
-
-
-
 
     }
 
