@@ -11,7 +11,6 @@ namespace Unicorns_Gaze
 {
     public class Projectile : GameObject
     {
-        private Vector2 characterPositionOffset;
         private int damage;
         private float speed=5;
         private bool isCrit;

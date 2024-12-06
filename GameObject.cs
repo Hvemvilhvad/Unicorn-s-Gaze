@@ -31,6 +31,7 @@ namespace Unicorns_Gaze
         protected Vector2 origin;
         protected Vector2 velocity;
         protected bool enteredField;
+        protected Color normalColor= Color.White;
         protected Color color = Color.White;
         protected float scale;
         //layer on which the sprite is drawn (higher means further back)
@@ -54,7 +55,6 @@ namespace Unicorns_Gaze
         }
         public float Height { get => height; set => height = value; }
         public Texture2D Sprite { get => sprite = sprites.GetValueOrDefault(spriteType, GameWorld.NoSprite); private set => sprite = value; }
-
 
 
         public GameObject()
@@ -119,7 +119,7 @@ namespace Unicorns_Gaze
             }
             else if (this is not Button)
             {
-                color = Color.White;
+                color = normalColor;
             }
 
             if (doDynamicLayer)

@@ -27,6 +27,7 @@ namespace Unicorns_Gaze
         public Grunt(Vector2 position) : base(position)
         {
             MaxHealth = 10;
+            NormalHealth = 10;
             Health = 10;
             speed = 150;
             DamageRange = new DamageRange(2, 5);
@@ -37,14 +38,14 @@ namespace Unicorns_Gaze
         public override void LoadContent(ContentManager content)
         {
             DamageRange = new DamageRange(2, 5);
-            string[] colors = new string[] { "yellow", "blue", "red", "green", "pink" };
-            string color = colors[GameWorld.Random.Next(0, colors.Length)];
+            string[] colours = new string[] { "yellow", "blue", "red", "green", "pink" };
+            string colour = colours[GameWorld.Random.Next(0, colours.Length)];
             string fileName = "Gummybear/gummy bear ";
 
-            sprites[SpriteType.Standard] = content.Load<Texture2D>(fileName + color);
-            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>(fileName + "ready " + color);
-            sprites[SpriteType.Attack] = content.Load<Texture2D>(fileName + "hit " + color);
-            sprites[SpriteType.Hurt] = content.Load<Texture2D>(fileName + "attacked " + color);
+            sprites[SpriteType.Standard] = content.Load<Texture2D>(fileName + colour);
+            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>(fileName + "ready " + colour);
+            sprites[SpriteType.Attack] = content.Load<Texture2D>(fileName + "hit " + colour);
+            sprites[SpriteType.Hurt] = content.Load<Texture2D>(fileName + "attacked " + colour);
             base.LoadContent(content);
         }
 
