@@ -36,15 +36,10 @@ namespace Unicorns_Gaze
         public override void LoadContent(ContentManager content)
         {
             DamageRange = new DamageRange(2, 5);
-            sprites = new Texture2D[1];
-            //not currently in use, could be used instead of changing colour of buffed enemies
-            buffSprite = content.Load<Texture2D>("notexture");
-
-            for (int i = 0; i < sprites.Length; i++)
-            {
-                sprites[0] = content.Load<Texture2D>("notexture");
-            }
-            Sprite = sprites[0];
+            sprites[SpriteType.Standard] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.Attack] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.Hurt] = content.Load<Texture2D>("notexture");
             base.LoadContent(content);
         }
 
