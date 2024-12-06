@@ -62,7 +62,7 @@ namespace Unicorns_Gaze
             doShadow = false;
             spriteType = SpriteType.Standard;
             sprites = new Dictionary<SpriteType, Texture2D>();
-            //scale = 1;
+            scale = 1;
         }
 
 
