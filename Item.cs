@@ -83,7 +83,7 @@ namespace Unicorns_Gaze
 
         public static Item GetRandomItem(Vector2 pos)
         {
-            switch (3)//GameWorld.Random.Next(0, 4))
+            switch (GameWorld.Random.Next(0, 4))
             {
                 case 0:
                     return new HealthPickup(pos);
