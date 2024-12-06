@@ -12,11 +12,20 @@ using Unicorns_Gaze.states;
 
 namespace Unicorns_Gaze
 {
+    public enum SpriteType
+    {
+        Standard = 1,
+        ChargeAttack = 2,
+        Attack = 3,
+        Hurt = 4,
+    }
+
     public abstract class GameObject
     {
         //Fields
         private Texture2D sprite;
-        protected Texture2D[] sprites;
+        protected Dictionary<SpriteType, Texture2D> sprites;
+        protected SpriteType spriteType;
         private Rectangle hitbox;
         protected Vector2 position;
         protected Vector2 origin;
@@ -24,7 +33,7 @@ namespace Unicorns_Gaze
         protected bool enteredField;
         protected Color normalColor= Color.White;
         protected Color color = Color.White;
-        protected float scale = 1;
+        protected float scale;
         //layer on which the sprite is drawn (higher means further back)
         protected float layer;
         protected bool doDynamicLayer = true;
@@ -45,11 +54,15 @@ namespace Unicorns_Gaze
             set { position = value; Hitbox = new Rectangle((int)(value.X - (Hitbox.Width / 2) * scale), (int)(((value.Y + Height) - (Hitbox.Height / 2)) * scale), (int)(Hitbox.Width * scale), (int)(Hitbox.Height * scale)); }
         }
         public float Height { get => height; set => height = value; }
-        public Texture2D Sprite { get => Sprite; protected set => Sprite = value; }
+        public Texture2D Sprite { get => sprite = sprites.GetValueOrDefault(spriteType, GameWorld.NoSprite); private set => sprite = value; }
+
 
         public GameObject()
         {
             doShadow = false;
+            spriteType = SpriteType.Standard;
+            sprites = new Dictionary<SpriteType, Texture2D>();
+            scale = 1;
         }
 
 
@@ -78,11 +91,6 @@ namespace Unicorns_Gaze
 
         public virtual void LoadContent(ContentManager content)
         {
-            if (Sprite is null)
-            {
-                Sprite = GameWorld.NoSprite;
-            }
-
             origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
             Hitbox = new Rectangle((int)position.X - (int)((Sprite.Width / 2) * scale), (int)position.Y - (int)((Sprite.Height / 2) * scale), (int)(Sprite.Width * scale), (int)(Sprite.Height * scale));
 
@@ -141,10 +149,6 @@ namespace Unicorns_Gaze
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if (Sprite is null)
-            {
-                Sprite = GameWorld.NoSprite;
-            }
             spriteBatch.Draw(Sprite, position + new Vector2(0, Height), null, color, 0, origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2), scale, SpriteEffects.None, layer);
             DrawShadow(spriteBatch);
         }
@@ -179,6 +183,11 @@ namespace Unicorns_Gaze
             Vector2 difference = other.Position - Position;
             return (float)Math.Sqrt(Math.Pow(difference.X, 2) + Math.Pow(difference.Y, 2));
         }
+
+
+
+
+
 
     }
 

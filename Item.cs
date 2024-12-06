@@ -77,10 +77,6 @@ namespace Unicorns_Gaze
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Sprite is null)
-            {
-                Sprite = GameWorld.NoSprite;
-            }
             spriteBatch.Draw(Sprite, new Rectangle((int)position.X, (int)position.Y, (int)(Sprite.Width * Math.Sin(Rotation)), Sprite.Height), null, Color.White, 0, origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2), doFlip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, layer);
             DrawShadow(spriteBatch);
         }

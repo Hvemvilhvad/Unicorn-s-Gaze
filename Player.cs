@@ -44,13 +44,11 @@ namespace Unicorns_Gaze
         //Methods
         public override void LoadContent(ContentManager content)
         {
-            sprites = new Texture2D[1];
+            sprites[SpriteType.Standard] = content.Load<Texture2D>("unicorn_sprite");
+            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.Attack] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.Hurt] = content.Load<Texture2D>("notexture");
 
-            for (int i = 0; i < sprites.Length; i++)
-            {
-                sprites[i] = content.Load<Texture2D>("unicorn_sprite");
-            }
-            Sprite = sprites[0];
             base.LoadContent(content);
         }
 

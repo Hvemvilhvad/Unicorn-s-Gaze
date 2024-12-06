@@ -26,17 +26,16 @@ namespace Unicorns_Gaze
             Health = 20;
             speed = 100;
         }
-        
+
         public override void LoadContent(ContentManager content)
         {
             DamageRange = new DamageRange(4, 8);
-            sprites = new Texture2D[1];
+            sprites[SpriteType.Standard] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.Attack] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.Hurt] = content.Load<Texture2D>("notexture");
 
-            for (int i = 0; i < sprites.Length; i++)
-            {
-                sprites[0] = content.Load<Texture2D>("notexture");
-            }
-            Sprite = sprites[0];
+
             base.LoadContent(content);
         }
 
