@@ -93,7 +93,6 @@ namespace Unicorns_Gaze
         {
             origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
             Hitbox = new Rectangle((int)position.X - (int)((Sprite.Width / 2) * scale), (int)position.Y - (int)((Sprite.Height / 2) * scale), (int)(Sprite.Width * scale), (int)(Sprite.Height * scale));
-
         }
 
         public virtual void Update(GameTime gameTime, Vector2 screenSize)
