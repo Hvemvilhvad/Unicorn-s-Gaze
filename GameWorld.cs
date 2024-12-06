@@ -7,6 +7,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.Reflection.Metadata;
 using Unicorns_Gaze.states;
+using Microsoft.Xna.Framework.Media;
 
 namespace Unicorns_Gaze
 {
@@ -29,6 +30,7 @@ namespace Unicorns_Gaze
         //states
         private State currentState;
         private State nextState;
+        private Song backgroundMusic;
 
 
 #if DEBUG
@@ -95,6 +97,11 @@ namespace Unicorns_Gaze
 
             NoSprite = Content.Load<Texture2D>("notexture");
             ShadowSprite = Content.Load<Texture2D>("shadow");
+
+            backgroundMusic = Content.Load<Song>("Megaman X - Storm Eagle Stage");
+            MediaPlayer.Play(backgroundMusic);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.05f;
            
             currentState = new Menu(this,Content);
             currentState.LoadContent();

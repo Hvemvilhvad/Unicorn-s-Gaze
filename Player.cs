@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,6 +20,7 @@ namespace Unicorns_Gaze
         private float criticalMultiplier;
         private byte criticalChance;
         private IThrowable heldObject;
+        private SoundEffect player_attack_sound;
 
 
         //Properties
@@ -48,6 +50,8 @@ namespace Unicorns_Gaze
             sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>("notexture");
             sprites[SpriteType.Attack] = content.Load<Texture2D>("notexture");
             sprites[SpriteType.Hurt] = content.Load<Texture2D>("notexture");
+
+            player_attack_sound = content.Load<SoundEffect>("swordswing");
 
             base.LoadContent(content);
         }
@@ -105,6 +109,7 @@ namespace Unicorns_Gaze
                     MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, IsFacingRight, false, attackSprite, 0.5F, true);
                     attackCooldown = attack.ExistanceTime + attack.Cooldown;
                     GameWorld.GameObjectsToAdd.Add(attack);
+                    player_attack_sound.Play();
                 }
                 else
                 {
