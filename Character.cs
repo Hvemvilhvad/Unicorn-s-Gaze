@@ -87,6 +87,7 @@ namespace Unicorns_Gaze
         private DamageRange heavyDamageRange;
         protected bool isFacingRight;
         protected Texture2D attackSprite;
+        protected float attackTime;
         protected float attackCooldown;
         protected float heavyAttackCooldown;
         private int walkState;
@@ -198,6 +199,12 @@ namespace Unicorns_Gaze
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
+            if (attackTime > 0)
+            {
+                attackTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                spriteType = SpriteType.Attack;
+            }
+
             base.Update(gameTime, screenSize);
         }
 
