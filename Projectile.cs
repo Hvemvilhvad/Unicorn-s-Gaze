@@ -32,6 +32,7 @@ namespace Unicorns_Gaze
             Cooldown = cooldown;
             Hitbox = new Rectangle(0, 0, 50, 100);
             sprites[SpriteType.Standard] = sprite;
+            doShadow = true;
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)

@@ -32,7 +32,7 @@ namespace Unicorns_Gaze
             if (InvincibilityTimer <= 0)
             {
                 Health -= damage;
-                NormalHealth-= damage;
+                NormalHealth -= damage;
                 if (damageTarget is not null)
                 {
                     SplashText damageText = new SplashText(damage + " DAMAGE", Color.Red, damageTarget);

@@ -19,6 +19,7 @@ namespace Unicorns_Gaze
         //Fields
         private float criticalMultiplier;
         private byte criticalChance;
+        private bool isDoingHeavyAttack;
         private IThrowable heldObject;
         private SoundEffect player_attack_sound;
 
@@ -39,6 +40,7 @@ namespace Unicorns_Gaze
             criticalChance = 10;
             criticalMultiplier = 1.5F;
             HeavyDamageRange = new DamageRange(5, 10);
+            isDoingHeavyAttack = false;
         }
 
 
@@ -59,6 +61,12 @@ namespace Unicorns_Gaze
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
             HandleInput();
+            if (isDoingHeavyAttack)
+            {
+                heavyAttackTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                isDoingHeavyAttack = heavyAttackTime > 0;
+                velocity = new Vector2((isFacingRight ? 5 : -5), 0);
+            }
             Move(gameTime, screenSize);
             attackCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             heavyAttackCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -74,23 +82,23 @@ namespace Unicorns_Gaze
 
             KeyboardState keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.W))
+            if (keyState.IsKeyDown(Keys.W) & !isDoingHeavyAttack)
             {
                 velocity += new Vector2(0, -1);
             }
 
-            if (keyState.IsKeyDown(Keys.S))
+            if (keyState.IsKeyDown(Keys.S) & !isDoingHeavyAttack)
             {
                 velocity += new Vector2(0, 1);
             }
 
-            if (keyState.IsKeyDown(Keys.A))
+            if (keyState.IsKeyDown(Keys.A) & !isDoingHeavyAttack)
             {
                 velocity += new Vector2(-1, 0);
                 IsFacingRight = false;
             }
 
-            if (keyState.IsKeyDown(Keys.D))
+            if (keyState.IsKeyDown(Keys.D) & !isDoingHeavyAttack)
             {
                 IsFacingRight = true;
                 velocity += new Vector2(1, 0);
@@ -123,17 +131,11 @@ namespace Unicorns_Gaze
             {
                 if (heldObject is null)
                 {
-                    MeleeAttack attack = new MeleeAttack(this, HeavyDamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, IsFacingRight, true, attackSprite, 1f, true);
-                    heavyAttackCooldown = attack.ExistanceTime + attack.Cooldown;
+                    MeleeAttack attack = new MeleeAttack(this, HeavyDamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, IsFacingRight, true, attackSprite, 2f, true);
                     GameWorld.GameObjectsToAdd.Add(attack);
-                    if (isFacingRight)
-                    {
-                        velocity = new Vector2(50, 0);
-                    }
-                    else
-                    {
-                        velocity = new Vector2(-50, 0);
-                    }
+                    heavyAttackCooldown = attack.ExistanceTime + attack.Cooldown;
+                    heavyAttackTime = attack.ExistanceTime;
+                    isDoingHeavyAttack = true;
                 }
                 else
                 {
@@ -158,7 +160,7 @@ namespace Unicorns_Gaze
                                 attackCooldown = 0.5f;
                             }
                         }
-                    
+
                     }
                 }
                 else
