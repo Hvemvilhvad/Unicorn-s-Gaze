@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -136,6 +136,7 @@ namespace Unicorns_Gaze
                     heavyAttackCooldown = attack.ExistanceTime + attack.Cooldown;
                     heavyAttackTime = attack.ExistanceTime;
                     isDoingHeavyAttack = true;
+                    player_attack_sound.Play();
                 }
                 else
                 {

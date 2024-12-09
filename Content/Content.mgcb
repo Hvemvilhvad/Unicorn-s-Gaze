@@ -397,6 +397,48 @@
 /processorParam:TextureFormat=Color
 /build:Hitbox pixel.png
 
+#begin hurt1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:hurt1.mp3
+
+#begin hurt2.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:hurt2.mp3
+
+#begin hurt3.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:hurt3.mp3
+
+#begin hurt4.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:hurt4.mp3
+
+#begin hurt5.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:hurt5.mp3
+
+#begin hurt6.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:hurt6.mp3
+
+#begin hurt7.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:hurt7.mp3
+
 #begin Marshmellow/marshmallow attacked.png
 /importer:TextureImporter
 /processor:TextureProcessor
