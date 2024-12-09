@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Unicorns_Gaze
         public float HurtTimer { get; set; }
         public float HurtTime { get; set; }
         public bool TakingDamage { get; set; }
+        public SoundEffect HurtSound { get ; }
 
         public virtual void GiveInvincibilityFrames(float invincibilityTime = 0)
         {
@@ -31,8 +33,12 @@ namespace Unicorns_Gaze
         {
             if (InvincibilityTimer <= 0)
             {
+                if (damageTarget is not Breakable)
+                {
+                    HurtSound.Play();
+                }
                 Health -= damage;
-                NormalHealth-= damage;
+                NormalHealth -= damage;
                 if (damageTarget is not null)
                 {
                     SplashText damageText = new SplashText(damage + " DAMAGE", Color.Red, damageTarget);
@@ -44,7 +50,7 @@ namespace Unicorns_Gaze
                 }
                 TakingDamage = true;
                 HurtTimer = HurtTime;
-                
+
                 if (Health <= 0)
                 {
                     if (this is Enemy || this is Breakable)
@@ -57,10 +63,13 @@ namespace Unicorns_Gaze
                         GameWorld.IsAlive = false;
                     }
                 }
-                
-                
+
+
             }
         }
 
     }
 }
+
+    
+

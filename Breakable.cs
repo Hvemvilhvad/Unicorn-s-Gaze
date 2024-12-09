@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic.Logging;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,7 @@ namespace Unicorns_Gaze
         public bool IsGoingRight { get; set; }
         public bool PickedUp { get => pickedUp; set => pickedUp = value; }
         public Character Following { get => following; set => following = value; }
+        public SoundEffect HurtSound { get; set; }
 
         public Breakable(Vector2 position) : base()
         {

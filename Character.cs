@@ -97,6 +97,7 @@ namespace Unicorns_Gaze
         private float spriteRotation;
         private float spriteYOffset;
         private bool doWalkAnimation;
+        private static SoundEffect[] hurtSounds;
 
         //Properties
         /// <summary>
@@ -183,7 +184,7 @@ namespace Unicorns_Gaze
         }
 
         public DamageRange HeavyDamageRange { get => heavyDamageRange; set => heavyDamageRange = value; }
-
+        public SoundEffect HurtSound { get => hurtSounds[GameWorld.Random.Next(0, hurtSounds.Length)]; }
 
         public Character()
         {
@@ -193,9 +194,15 @@ namespace Unicorns_Gaze
         //Methods
         public override void LoadContent(ContentManager content)
         {
+            hurtSounds = new SoundEffect[7];
             
-            base.LoadContent(content);
+            for (int i = 0; i <hurtSounds.Length; i++)
+            {
+                hurtSounds[i] = content.Load<SoundEffect>("hurt" + (1 + i));
+            }
+
             attackSprite = content.Load<Texture2D>("tile_arara_azul");
+            base.LoadContent(content);
         }
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
@@ -268,6 +275,7 @@ namespace Unicorns_Gaze
 
             DrawShadow(spriteBatch);
         }
+
 
     }
 }
