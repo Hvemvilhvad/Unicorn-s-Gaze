@@ -74,6 +74,12 @@ namespace Unicorns_Gaze
                 RangedAttack(gameTime);
             }
 
+            if (attackTime <= 0 & !TakingDamage)
+            {
+                spriteType = SpriteType.ChargeAttack;
+            }
+
+
             base.Update(gameTime, screenSize);
         }
 
