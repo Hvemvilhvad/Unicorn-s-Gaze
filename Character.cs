@@ -108,7 +108,7 @@ namespace Unicorns_Gaze
             get => health;
             set
             {
-                if (value < 0)
+                if (value <= 0)
                 {
                     health = 0;
 

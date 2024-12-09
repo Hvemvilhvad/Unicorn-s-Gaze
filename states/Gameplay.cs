@@ -146,7 +146,10 @@ namespace Unicorns_Gaze.states
                             Mage mage = new Mage(new Vector2(GameWorld.ScreenSize.X-50, GameWorld.ScreenSize.Y / 2));
                             GameWorld.MakeObject(mage);
 
-                            Breakable breakable = new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 20));
+                            Ranged shooter = new Ranged(new Vector2(GameWorld.ScreenSize.X - 80, GameWorld.ScreenSize.Y / 2 - 200));
+                            GameWorld.MakeObject(shooter);
+
+                            Breakable breakable = new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 80));
                             GameWorld.MakeObject(breakable);
 
                             break;
