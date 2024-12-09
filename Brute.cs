@@ -15,7 +15,6 @@ namespace Unicorns_Gaze
         {
             Position = position;
             Health = health;
-            Position = position;
             this.speed = speed;
         }
 
@@ -23,6 +22,7 @@ namespace Unicorns_Gaze
         {
             Position = position;
             MaxHealth = 20;
+            NormalHealth = 20;
             Health = 20;
             speed = 100;
             scale = 0.2F;

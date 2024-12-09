@@ -29,6 +29,9 @@ namespace Unicorns_Gaze
 
         public Mage(Vector2 position) : base(position)
         {
+            MaxHealth = 5;
+            Health = 5;
+            NormalHealth = Health;
             Position = position;
             speed = 150;
         }

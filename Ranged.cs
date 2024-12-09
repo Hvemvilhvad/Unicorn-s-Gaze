@@ -26,6 +26,7 @@ namespace Unicorns_Gaze
         {
             Position = position;
             MaxHealth = 10;
+            NormalHealth = 10;
             Health = 10;
             speed = 150;
         }
@@ -86,6 +87,7 @@ namespace Unicorns_Gaze
             }
             return false;
         }
+
         /// <summary>
         /// Override of the chase method, which makes this enemy only move up & down
         /// </summary>

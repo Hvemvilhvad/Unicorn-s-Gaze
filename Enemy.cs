@@ -23,7 +23,6 @@ namespace Unicorns_Gaze
         //Constructor
         public Enemy(int health, Vector2 position, float speed)
         {
-            MaxHealth = 10;
             NormalHealth = health;
             Position = position;
             this.speed = speed;
