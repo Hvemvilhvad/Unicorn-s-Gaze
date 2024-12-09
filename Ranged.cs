@@ -29,15 +29,18 @@ namespace Unicorns_Gaze
             NormalHealth = 10;
             Health = 10;
             speed = 150;
+            scale = 0.2F;
         }
 
         public override void LoadContent(ContentManager content)
         {
             DamageRange = new DamageRange(2, 5);
-            sprites[SpriteType.Standard] = content.Load<Texture2D>("notexture");
-            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>("notexture");
-            sprites[SpriteType.Attack] = content.Load<Texture2D>("notexture");
-            sprites[SpriteType.Hurt] = content.Load<Texture2D>("notexture");
+
+            string fileName = "Gumballer/gumball machine ";
+            sprites[SpriteType.Standard] = content.Load<Texture2D>(fileName + "idle");
+            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>(fileName + "ready");
+            sprites[SpriteType.Attack] = content.Load<Texture2D>(fileName + "hit");
+            sprites[SpriteType.Hurt] = content.Load<Texture2D>(fileName + "attacked");
             base.LoadContent(content);
         }
 
@@ -71,7 +74,7 @@ namespace Unicorns_Gaze
 
             if (attackCooldown <= 0 && GameWorld.Player.Position.Y > position.Y - aimRange && GameWorld.Player.Position.Y < position.Y + aimRange)
             {
-                RangedAttack(gameTime);
+                RangedAttack();
             }
 
             if (attackTime <= 0 & !TakingDamage)
@@ -109,17 +112,6 @@ namespace Unicorns_Gaze
                 velocity.Normalize();
             }
         }
-
-        /// <summary>
-        /// Runs the attack and resets attackCooldown
-        /// </summary>
-        /// <param name="gameTime"></param>
-        public void RangedAttack(GameTime gameTime)
-        {
-            Attack();
-            attackCooldown = 2;
-        }
-
 
 
     }
