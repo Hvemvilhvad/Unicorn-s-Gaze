@@ -141,5 +141,6 @@ namespace Unicorns_Gaze
             beingBuffed = true;
             buffingMage = mage;
         }
+
     }
 }

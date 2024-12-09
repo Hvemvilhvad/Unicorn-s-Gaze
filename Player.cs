@@ -134,6 +134,7 @@ namespace Unicorns_Gaze
                     {
                         velocity = new Vector2(-50, 0);
                     }
+                    player_attack_sound.Play();
                 }
                 else
                 {
