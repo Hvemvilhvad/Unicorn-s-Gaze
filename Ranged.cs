@@ -55,20 +55,20 @@ namespace Unicorns_Gaze
                 attackCooldown = 0;
             }
 
-            if (GameWorld.Player.Position.Y > position.Y+aimRange|| GameWorld.Player.Position.Y < position.Y - aimRange) 
+            if (GameWorld.Player.Position.Y > position.Y + aimRange || GameWorld.Player.Position.Y < position.Y - aimRange)
             {
                 Chase();
-                if (GameWorld.Player.Position.X > position.X) 
-                { 
+                if (GameWorld.Player.Position.X > position.X)
+                {
                     IsFacingRight = true;
                 }
-                else if(GameWorld.Player.Position.X < position.X)
+                else if (GameWorld.Player.Position.X < position.X)
                 {
-                    IsFacingRight = false; 
+                    IsFacingRight = false;
                 }
             }
 
-            if (attackCooldown <= 0&& GameWorld.Player.Position.Y > position.Y - aimRange&& GameWorld.Player.Position.Y < position.Y + aimRange) 
+            if (attackCooldown <= 0 && GameWorld.Player.Position.Y > position.Y - aimRange && GameWorld.Player.Position.Y < position.Y + aimRange)
             {
                 RangedAttack(gameTime);
             }
@@ -93,7 +93,7 @@ namespace Unicorns_Gaze
         {
             if (moveCooldown <= 0)
             {
-                Vector2 direction = new Vector2(GameWorld.Player.Position.X-position.Y, GameWorld.Player.Position.Y - position.Y);
+                Vector2 direction = new Vector2(GameWorld.Player.Position.X - position.Y, GameWorld.Player.Position.Y - position.Y);
                 double test = Math.Atan2(direction.Y, direction.X);
                 float YDirection = (float)Math.Sin(test);
                 direction = new Vector2(0, YDirection);

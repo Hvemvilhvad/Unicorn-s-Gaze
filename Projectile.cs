@@ -38,7 +38,7 @@ namespace Unicorns_Gaze
         {
             if (isFacingRight)
             {
-                position = new Vector2(position.X+speed,position.Y);
+                position = new Vector2(position.X + speed,position.Y);
             }
             else
             {

@@ -25,15 +25,17 @@ namespace Unicorns_Gaze
             MaxHealth = 20;
             Health = 20;
             speed = 100;
+            scale = 0.2F;
         }
 
         public override void LoadContent(ContentManager content)
         {
             DamageRange = new DamageRange(4, 8);
-            sprites[SpriteType.Standard] = content.Load<Texture2D>("notexture");
-            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>("notexture");
-            sprites[SpriteType.Attack] = content.Load<Texture2D>("notexture");
-            sprites[SpriteType.Hurt] = content.Load<Texture2D>("notexture");
+            string fileName = "Marshmellow/marshmallow ";
+            sprites[SpriteType.Standard] = content.Load<Texture2D>(fileName + "idle");
+            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>(fileName + "ready");
+            sprites[SpriteType.Attack] = content.Load<Texture2D>(fileName + "hit");
+            sprites[SpriteType.Hurt] = content.Load<Texture2D>(fileName + "attacked");
 
 
             base.LoadContent(content);
