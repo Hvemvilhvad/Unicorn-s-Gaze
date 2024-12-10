@@ -20,9 +20,9 @@ namespace Unicorns_Gaze
 
         public override void Update(GameTime gameTime, Vector2 screenSize)
         {
-            if (position.X <= -(Sprite.Width/2))
+            if (position.X <= -(Sprite.Width*scale/2))
             {
-                Position = new Vector2(screenSize.X+(Sprite.Width/2), screenSize.Y/2);
+                Position = new Vector2((int)(Sprite.Width * scale*2.5f), screenSize.Y/2);
             }
             base.Update(gameTime, screenSize);
         }

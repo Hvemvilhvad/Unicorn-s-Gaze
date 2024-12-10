@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -16,6 +17,11 @@ namespace Unicorns_Gaze
 
         }
 
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+            sprite = hpPowerupSprite;
+        }
 
         public override void Use()
         {

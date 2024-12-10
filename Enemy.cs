@@ -60,8 +60,18 @@ namespace Unicorns_Gaze
                 //only used to mark buff, remove if another marker is used
                 normalColor = Color.LightBlue;
 
+                bool mageAlive = false;
+                foreach (GameObject item in GameWorld.GameObjects)
+                {
+                    if (item == buffingMage)
+                    {
+                        mageAlive = true;
+                        break;
+                    }
+                }
+
                 //if mage is killed or out of range
-                if (buffingMage == null || buffingMage.Position.X - position.X > 300 || buffingMage.Position.Y - position.Y > 300)
+                if (!mageAlive || buffingMage.Position.X - position.X > 300 || buffingMage.Position.Y - position.Y > 300)
                 {
                     beingBuffed = false;
                 }

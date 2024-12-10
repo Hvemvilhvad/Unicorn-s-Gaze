@@ -39,10 +39,10 @@ namespace Unicorns_Gaze
         public override void LoadContent(ContentManager content)
         {
             DamageRange = new DamageRange(2, 5);
-            sprites[SpriteType.Standard] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.Standard] = content.Load<Texture2D>("lollipop idle");
             sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>("notexture");
             sprites[SpriteType.Attack] = content.Load<Texture2D>("notexture");
-            sprites[SpriteType.Hurt] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.Hurt] = content.Load<Texture2D>("lollipop attacked");
             base.LoadContent(content);
         }
 

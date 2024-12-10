@@ -40,6 +40,7 @@ namespace Unicorns_Gaze
             criticalChance = 10;
             criticalMultiplier = 1.5F;
             HeavyDamageRange = new DamageRange(5, 10);
+            scale = 0.2f;
             isDoingHeavyAttack = false;
         }
 
@@ -48,10 +49,10 @@ namespace Unicorns_Gaze
         //Methods
         public override void LoadContent(ContentManager content)
         {
-            sprites[SpriteType.Standard] = content.Load<Texture2D>("unicorn_sprite");
-            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>("notexture");
-            sprites[SpriteType.Attack] = content.Load<Texture2D>("notexture");
-            sprites[SpriteType.Hurt] = content.Load<Texture2D>("notexture");
+            sprites[SpriteType.Standard] = content.Load<Texture2D>("unicorn idle");
+            sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>("unicorn idle");
+            sprites[SpriteType.Attack] = content.Load<Texture2D>("unicorn hit");
+            sprites[SpriteType.Hurt] = content.Load<Texture2D>("unicorn attacked");
 
             player_attack_sound = content.Load<SoundEffect>("swordswing");
 
@@ -182,15 +183,15 @@ namespace Unicorns_Gaze
         {
             base.CheckBounds(screenSize);
 
-            if (position.X + (Sprite.Width / 2) > screenSize.X && enteredField)
+            if (position.X + ((Sprite.Width*scale) / 2) > screenSize.X && enteredField)
             {
-                position.X = screenSize.X - (Sprite.Width / 2);
+                position.X = screenSize.X - ((Sprite.Width * scale) / 2);
                 velocity.X = 0;
             }
 
-            if (position.X - (Sprite.Width / 2) < 0 && enteredField)
+            if (position.X - ((Sprite.Width * scale) / 2) < 0 && enteredField)
             {
-                position.X = Sprite.Width / 2;
+                position.X = (Sprite.Width * scale) / 2;
                 velocity.X = 0;
             }
         }

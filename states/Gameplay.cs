@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.Xna.Framework.Content;
 using System.Reflection.Metadata;
 using Microsoft.Xna.Framework.Audio;
+using SharpDX.Direct3D9;
 
 namespace Unicorns_Gaze.states
 {
@@ -58,16 +59,19 @@ namespace Unicorns_Gaze.states
             bottomBoundary = (int)GameWorld.ScreenSize.Y - ((int)GameWorld.ScreenSize.Y / 5);
             screenMoving = true;
 
-            backgroundSprite = contentmanager.Load<Texture2D>("tempBackgroundLol");
+            backgroundSprite = contentmanager.Load<Texture2D>("background");
             Background background = new Background(backgroundSprite);
             background.Position = new Vector2(0, GameWorld.ScreenSize.Y / 2);
             Background background2 = new Background(backgroundSprite);
-            background2.Position = new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2);
+            background2.Position = new Vector2((int)(backgroundSprite.Width*(GameWorld.ScreenSize.Y / backgroundSprite.Height)), GameWorld.ScreenSize.Y / 2);
+            Background background3 = new Background(backgroundSprite);
+            background3.Position = new Vector2((int)(backgroundSprite.Width * (GameWorld.ScreenSize.Y / backgroundSprite.Height))*2, GameWorld.ScreenSize.Y / 2);
 
 
             GameWorld.GameObjectsToAdd.Add(player);
             GameWorld.GameObjectsToAdd.Add(background);
             GameWorld.GameObjectsToAdd.Add(background2);
+            GameWorld.GameObjectsToAdd.Add(background3);
 
             hurtSound = contentmanager.Load<SoundEffect>("swordswing");
 
