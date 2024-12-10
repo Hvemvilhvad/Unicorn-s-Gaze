@@ -185,7 +185,6 @@ namespace Unicorns_Gaze
             }
         }
 
-        public DamageRange HeavyDamageRange { get => heavyDamageRange; set => heavyDamageRange = value; }
         public SoundEffect HurtSound
         {
             get
@@ -193,8 +192,6 @@ namespace Unicorns_Gaze
                 return hurtSounds[GameWorld.Random.Next(0, hurtSounds.Length)];
             }
         }
-        
-        public SoundEffect HurtSound { get => hurtSounds[GameWorld.Random.Next(0, hurtSounds.Length)]; }
 
         public Character()
         {
