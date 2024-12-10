@@ -39,7 +39,7 @@ namespace Unicorns_Gaze
             criticalChance = 10;
             criticalMultiplier = 1.5F;
             HeavyDamageRange = new DamageRange(5, 10);
-            scale = 0.2f;
+            scale = 0.15f;
         }
 
 
