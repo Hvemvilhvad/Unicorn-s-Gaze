@@ -15,7 +15,7 @@ namespace Unicorns_Gaze
         private int lowerBound;
         private int upperBound;
 
-        public int UpperBound {  get { return upperBound; } }
+        public int UpperBound { get { return upperBound; } }
         public int LowerBound { get { return lowerBound; } }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Unicorns_Gaze
                     health = 0;
 
                 }
-                else if (value >= MaxHealth&&!beingBuffed)
+                else if (value >= MaxHealth && !beingBuffed)
                 {
                     health = MaxHealth;
                 }
@@ -184,7 +184,13 @@ namespace Unicorns_Gaze
         }
 
         public DamageRange HeavyDamageRange { get => heavyDamageRange; set => heavyDamageRange = value; }
-        public SoundEffect HurtSound { get => hurtSounds[GameWorld.Random.Next(0, hurtSounds.Length)]; }
+        public SoundEffect HurtSound
+        {
+            get
+            {
+                return hurtSounds[GameWorld.Random.Next(0, hurtSounds.Length)];
+            }
+        }
 
         public Character()
         {
@@ -195,8 +201,8 @@ namespace Unicorns_Gaze
         public override void LoadContent(ContentManager content)
         {
             hurtSounds = new SoundEffect[7];
-            
-            for (int i = 0; i <hurtSounds.Length; i++)
+
+            for (int i = 0; i < hurtSounds.Length; i++)
             {
                 hurtSounds[i] = content.Load<SoundEffect>("hurt" + (1 + i));
             }
