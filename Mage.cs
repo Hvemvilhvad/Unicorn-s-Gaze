@@ -98,7 +98,7 @@ namespace Unicorns_Gaze
                     closestEnemy = enemy;
                 }
                 //buffs all enemies within buff range (except self)
-                if(enemy.Position.X - position.X >= -(buffRange) && enemy.Position.X - position.X <= (buffRange) && enemy.Position.Y - position.Y <= (buffRange) && enemy.Position.Y - position.Y >= -(buffRange - 100))
+                if(enemy.Position.X - position.X >= -(buffRange) && enemy.Position.X - position.X <= (buffRange) && enemy.Position.Y - position.Y <= (buffRange) && enemy.Position.Y - position.Y >= -(buffRange))
                 {
                     enemy.BuffEnemy(this);
                 }
