@@ -17,6 +17,12 @@ namespace Unicorns_Gaze
 
         }
 
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+            sprite = dmgPowerupSprite;
+        }
+
         public override void Use()
         {
             SplashText pickupText = new SplashText("DAMAGE UP", Color.Gold, GameWorld.Player);

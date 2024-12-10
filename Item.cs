@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,10 @@ namespace Unicorns_Gaze
     {
         private float rotation;
         private bool doFlip;
+        protected Texture2D critPowerupSprite;
+        protected Texture2D dmgPowerupSprite;
+        protected Texture2D hpPowerupSprite;
+        protected Texture2D hpPickupSprite;
 
         public float Rotation
         {
@@ -39,6 +44,15 @@ namespace Unicorns_Gaze
         {
             Position = position;
             doShadow = true;
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            critPowerupSprite = content.Load<Texture2D>("powerup purple");
+            dmgPowerupSprite = content.Load<Texture2D>("powerup orange");
+            hpPowerupSprite = content.Load<Texture2D>("powerup teal");
+            hpPickupSprite = content.Load<Texture2D>("powerup green");
+            base.LoadContent(content);
         }
 
         /// <summary>
