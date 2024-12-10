@@ -33,14 +33,17 @@ namespace Unicorns_Gaze
         {
             if (InvincibilityTimer <= 0)
             {
-                if (damageTarget is not Breakable)
-                {
-                    HurtSound.Play();
-                }
                 Health -= damage;
                 NormalHealth -= damage;
+
+
                 if (damageTarget is not null)
                 {
+                    if (damageTarget is not Breakable)
+                    {
+                        HurtSound.Play();
+                    }
+
                     SplashText damageText = new SplashText(damage + " DAMAGE", Color.Red, damageTarget);
                     GameWorld.MakeObject(damageText);
                 }
