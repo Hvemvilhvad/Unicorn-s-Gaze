@@ -27,7 +27,6 @@ namespace Unicorns_Gaze
         //Properties
         public float CriticalMultiplier { get => criticalMultiplier; set => criticalMultiplier = value; }
 
-
         //Constructor
         public Player(int health, Vector2 position, float speed)
         {
@@ -107,6 +106,7 @@ namespace Unicorns_Gaze
 
             if (velocity != Vector2.Zero)
             {
+                spriteType = SpriteType.Standard;
                 velocity.Normalize();
             }
 
@@ -116,6 +116,7 @@ namespace Unicorns_Gaze
                 if (heldObject is null)
                 {
                     MeleeAttack attack = new MeleeAttack(this, DamageRange.GetADamageValue(criticalMultiplier, criticalChance, out bool isCrit), isCrit, IsFacingRight, false, attackSprite, 0.5F, true);
+                    spriteType = SpriteType.Attack;
                     attackCooldown = attack.ExistanceTime + attack.Cooldown;
                     GameWorld.GameObjectsToAdd.Add(attack);
                     player_attack_sound.Play();

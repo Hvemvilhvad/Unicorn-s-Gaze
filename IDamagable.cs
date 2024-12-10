@@ -36,6 +36,7 @@ namespace Unicorns_Gaze
                 if (damageTarget is not Breakable)
                 {
                     HurtSound.Play();
+
                 }
                 Health -= damage;
                 NormalHealth -= damage;
