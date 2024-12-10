@@ -37,6 +37,12 @@
 /processorParam:TextureFormat=Color
 /build:game over temp img.jpg
 
+#begin glass-breaking-224091.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:glass-breaking-224091.mp3
+
 #begin gumball blue.png
 /importer:TextureImporter
 /processor:TextureProcessor

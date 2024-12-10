@@ -192,7 +192,11 @@ namespace Unicorns_Gaze
                 return hurtSounds[GameWorld.Random.Next(0, hurtSounds.Length)];
             }
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> master
         public Character()
         {
             doShadow = true;

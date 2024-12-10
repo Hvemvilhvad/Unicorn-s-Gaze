@@ -123,6 +123,10 @@ namespace Unicorns_Gaze
             }
             if (takingDamage)
             {
+                if(this is Character)
+                {
+                    spriteType = SpriteType.Hurt;
+                }
                 color = Color.Red;
             }
             else if (this is not Button)
