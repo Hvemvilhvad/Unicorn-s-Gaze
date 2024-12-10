@@ -17,6 +17,12 @@ namespace Unicorns_Gaze
 
         }
 
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+            sprite = critPowerupSprite;
+        }
+
         public override void Use()
         {
             base.Use();

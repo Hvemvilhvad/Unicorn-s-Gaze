@@ -18,6 +18,12 @@ namespace Unicorns_Gaze
             HealAmount = 7;
         }
 
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+            sprite = hpPickupSprite;
+        }
+
         public override void Use()
         {
             if (GameWorld.Player.Health != GameWorld.Player.MaxHealth)

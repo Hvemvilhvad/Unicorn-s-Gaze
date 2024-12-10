@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -15,7 +16,6 @@ namespace Unicorns_Gaze
         {
             Position = position;
             Health = health;
-            Position = position;
             this.speed = speed;
         }
 
@@ -23,6 +23,7 @@ namespace Unicorns_Gaze
         {
             Position = position;
             MaxHealth = 20;
+            NormalHealth = 20;
             Health = 20;
             speed = 100;
             scale = 0.2F;
@@ -52,7 +53,7 @@ namespace Unicorns_Gaze
 
             //Checks the distance between the player and the enemy, and runs appropriate methods
             float distance = Distance(GameWorld.Player);
-            if (distance <= 150)
+            if (distance <= 180)
             {
                 moveCooldown = 2;
                 attackCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -62,7 +63,10 @@ namespace Unicorns_Gaze
                     BruteAttack(gameTime);
                 }
 
-
+                if (attackTime <= 0 & !TakingDamage)
+                {
+                    spriteType = SpriteType.ChargeAttack;
+                }
             }
 
             if (attackCooldown <= 0)
@@ -85,6 +89,7 @@ namespace Unicorns_Gaze
             }
             return false;
         }
+
         /// <summary>
         /// Override of the chase method, allowing the enemy to stop if it collides with the player
         /// </summary>

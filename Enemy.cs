@@ -13,17 +13,18 @@ namespace Unicorns_Gaze
     public class Enemy : Character
     {
         //Fields
-        protected Texture2D rangedAttackSprite;
+        private static Texture2D[] rangedAttackSprites;
         protected float moveCooldown;
         protected DamageRange baseDamageRange;
         protected DamageRange buffedDamageRange;
         private Mage buffingMage;
 
         public bool BeingBuffed { get => beingBuffed; set => beingBuffed = value; }
+        private static Texture2D RangedAttackSprite { get => rangedAttackSprites[GameWorld.Random.Next(0, rangedAttackSprites.Length)]; }
+
         //Constructor
         public Enemy(int health, Vector2 position, float speed)
         {
-            MaxHealth = 10;
             NormalHealth = health;
             Position = position;
             this.speed = speed;
@@ -37,7 +38,15 @@ namespace Unicorns_Gaze
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
-            rangedAttackSprite = content.Load<Texture2D>("notexture");
+            string fileName = "Gumballer/Projektile/gumball ";
+            rangedAttackSprites = new Texture2D[]
+            {
+                content.Load<Texture2D>(fileName + "yellow"),
+                content.Load<Texture2D>(fileName + "blue"),
+                content.Load<Texture2D>(fileName + "red"),
+                content.Load<Texture2D>(fileName + "green"),
+                content.Load<Texture2D>(fileName + "pink"),
+            };
             baseDamageRange = damageRange;
             buffedDamageRange = new DamageRange(baseDamageRange.LowerBound + 2, baseDamageRange.UpperBound + 2);
         }
@@ -51,8 +60,18 @@ namespace Unicorns_Gaze
                 //only used to mark buff, remove if another marker is used
                 normalColor = Color.LightBlue;
 
+                bool mageAlive = false;
+                foreach (GameObject item in GameWorld.GameObjects)
+                {
+                    if (item == buffingMage)
+                    {
+                        mageAlive = true;
+                        break;
+                    }
+                }
+
                 //if mage is killed or out of range
-                if (buffingMage == null || buffingMage.Position.X - position.X > 300 || buffingMage.Position.Y - position.Y > 300)
+                if (!mageAlive || buffingMage.Position.X - position.X > 300 || buffingMage.Position.Y - position.Y > 300)
                 {
                     beingBuffed = false;
                 }
@@ -97,7 +116,7 @@ namespace Unicorns_Gaze
         /// </summary>
         public virtual void RangedAttack()
         {
-            Projectile projectile = new Projectile(position, DamageRange.GetADamageValue(), false, IsFacingRight, false, rangedAttackSprite, 1.5f);
+            Projectile projectile = new Projectile(Position + new Vector2(-40,20), DamageRange.GetADamageValue(), false, IsFacingRight, false, RangedAttackSprite, 1.5f);
             attackCooldown = projectile.Cooldown;
             GameWorld.GameObjectsToAdd.Add(projectile);
             spriteType = SpriteType.Attack;

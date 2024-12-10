@@ -90,6 +90,7 @@ namespace Unicorns_Gaze
         protected Texture2D attackSprite;
         protected float attackTime;
         protected float attackCooldown;
+        protected float heavyAttackTime;
         protected float heavyAttackCooldown;
         private int walkState;
         protected bool beingBuffed;
@@ -108,7 +109,7 @@ namespace Unicorns_Gaze
             get => health;
             set
             {
-                if (value < 0)
+                if (value <= 0)
                 {
                     health = 0;
 
@@ -144,6 +145,7 @@ namespace Unicorns_Gaze
 
         public DamageRange DamageRange { get => damageRange; set => damageRange = value; }
         public DamageRange NormalDamageRange { get => damageRange; set => damageRange = value; }
+        public DamageRange HeavyDamageRange { get => heavyDamageRange; set => heavyDamageRange = value; }
         public float InvincibilityTimer { get => invincibilityTimer; set => invincibilityTimer = value; }
         public float InvincibilityFrames { get => invincibilityFrames; set => invincibilityFrames = value; }
         public float HurtTimer { get => hurtTimer; set => hurtTimer = value; }
@@ -191,6 +193,8 @@ namespace Unicorns_Gaze
                 return hurtSounds[GameWorld.Random.Next(0, hurtSounds.Length)];
             }
         }
+        
+        public SoundEffect HurtSound { get => hurtSounds[GameWorld.Random.Next(0, hurtSounds.Length)]; }
 
         public Character()
         {

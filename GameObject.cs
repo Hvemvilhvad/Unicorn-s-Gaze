@@ -23,7 +23,7 @@ namespace Unicorns_Gaze
     public abstract class GameObject
     {
         //Fields
-        private Texture2D sprite;
+        protected Texture2D sprite;
         protected Dictionary<SpriteType, Texture2D> sprites;
         protected SpriteType spriteType;
         private Rectangle hitbox;
