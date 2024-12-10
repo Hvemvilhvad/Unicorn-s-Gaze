@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace Unicorns_Gaze
         private float throwTime;
         private bool pickedUp;
         private Character following;
+        private static SoundEffect breakSound;
 
         public int Health
         {
@@ -64,6 +66,11 @@ namespace Unicorns_Gaze
             doShadow = true;
         }
 
+        public override void LoadContent(ContentManager content)
+        {
+            HurtSound = content.Load<SoundEffect>("glass-breaking-224091");
+            base.LoadContent(content);
+        }
 
         /// <summary>
         /// When a breakable is broken there is a chance it will spawn an item.

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
@@ -39,8 +39,15 @@ namespace Unicorns_Gaze
                 }
                 Health -= damage;
                 NormalHealth -= damage;
+
+
                 if (damageTarget is not null)
                 {
+                    if (damageTarget is not Breakable)
+                    {
+                        HurtSound.Play();
+                    }
+
                     SplashText damageText = new SplashText(damage + " DAMAGE", Color.Red, damageTarget);
                     GameWorld.MakeObject(damageText);
                 }
