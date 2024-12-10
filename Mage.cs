@@ -38,6 +38,7 @@ namespace Unicorns_Gaze
 
         public override void LoadContent(ContentManager content)
         {
+            scale= 0.2f;
             DamageRange = new DamageRange(2, 5);
             sprites[SpriteType.Standard] = content.Load<Texture2D>("lollipop idle");
             sprites[SpriteType.ChargeAttack] = content.Load<Texture2D>("notexture");
