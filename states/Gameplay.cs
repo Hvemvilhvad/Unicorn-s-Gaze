@@ -130,7 +130,7 @@ namespace Unicorns_Gaze.states
             if (progress == 0)
             {
                 //where the waves happen
-                waves = new int[] { 50, 1000 };
+                waves = new int[] { 2000, 4000, 4400, 10000, 12000,15000,18000 ,18800,19000,26000,30000,30500,30600,30800,38000};
                 nextWave = waves[0];
             }
             else
@@ -138,38 +138,87 @@ namespace Unicorns_Gaze.states
                 //if we've reached the point where a wave should spawn
                 if (waveNr != -1 && waveNr <= waves.Length - 1)
                 {
-                    screenMoving = false;
+                    
                     switch (waveNr)
                     {
                         //remember to adjust 'waves'
                         //also set screenMoving to false if the screen should stop during a wave
                         case 0:
                             //enemies & items spawn here
-                            Grunt grunt = new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
-                            GameWorld.MakeObject(grunt);
-                            Mage mage = new Mage(new Vector2(GameWorld.ScreenSize.X-50, GameWorld.ScreenSize.Y / 2));
-                            GameWorld.MakeObject(mage);
-
-                            Ranged shooter = new Ranged(new Vector2(GameWorld.ScreenSize.X - 80, GameWorld.ScreenSize.Y / 2 - 200));
-                            GameWorld.MakeObject(shooter);
-
-                            Breakable breakable = new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 80));
-                            GameWorld.MakeObject(breakable);
+                            screenMoving = false;
+                            GameWorld.MakeObject(new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2)));
 
                             break;
                         case 1:
                             //enemies & items spawn here
-                            Grunt grunt1 = new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
-                            GameWorld.MakeObject(grunt1);
-                            Brute brute = new Brute(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2));
-                            GameWorld.MakeObject(brute);
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, 700)));
+                            
                             break;
                         case 2:
                             //enemies & items spawn here
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, 900)));
                             break;
                         case 3:
                             //enemies & items spawn here
+                            screenMoving = false;
+                            GameWorld.MakeObject(new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2+100)));
+                            GameWorld.MakeObject(new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2-100)));
+                            GameWorld.MakeObject(new Brute(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2)));
                             break;
+                        case 4:
+                            screenMoving = false;
+                            GameWorld.MakeObject(new Mage(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 + 100)));
+                            GameWorld.MakeObject(new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2)));
+                            break;
+                        case 5:
+                            screenMoving = false;
+                            GameWorld.MakeObject(new Ranged(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 + 200)));
+                            GameWorld.MakeObject(new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 100)));
+                            break;
+                        case 6:
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2+150)));
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2-50)));
+                            break;
+                        case 7:
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 )));
+                            break;
+                        case 8:
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2+70)));
+                            break;
+                        case 9:
+                            screenMoving = false;
+                            GameWorld.MakeObject(new Ranged(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 + 200)));
+                            GameWorld.MakeObject(new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 100)));
+                            GameWorld.MakeObject(new Mage(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 + 100)));
+                            break;
+                        case 10:
+                            screenMoving = false;
+                            GameWorld.MakeObject(new Ranged(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 + 200)));
+                            GameWorld.MakeObject(new Brute(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2+60)));
+                            GameWorld.MakeObject(new Brute(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2-60)));
+                            GameWorld.MakeObject(new Ranged(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 200)));
+                            break;
+                        case 11:
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 + 70)));
+                            break;
+                        case 12:
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 + 150)));
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 50)));
+                            break;
+                        case 13:
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2)));
+                            break;
+                        case 14:
+                            //final wave
+                            screenMoving = false;
+                            GameWorld.MakeObject(new Ranged(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 + 200)));
+                            GameWorld.MakeObject(new Ranged(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 + 250)));
+                            GameWorld.MakeObject(new Mage(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 + 100)));
+                            GameWorld.MakeObject(new Brute(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 60)));
+                            GameWorld.MakeObject(new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 200)));
+                            GameWorld.MakeObject(new Grunt(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2 - 100)));
+                            break;
+                        
                         default:
                             break;
                     }

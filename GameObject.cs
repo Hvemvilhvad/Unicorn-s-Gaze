@@ -33,7 +33,7 @@ namespace Unicorns_Gaze
         protected bool enteredField;
         protected Color normalColor= Color.White;
         protected Color color = Color.White;
-        protected float scale;
+        protected float scale=1;
         //layer on which the sprite is drawn (higher means further back)
         protected float layer;
         protected bool doDynamicLayer = true;
@@ -70,7 +70,6 @@ namespace Unicorns_Gaze
             doShadow = false;
             spriteType = SpriteType.Standard;
             sprites = new Dictionary<SpriteType, Texture2D>();
-            scale = 1;
         }
 
 
@@ -160,6 +159,7 @@ namespace Unicorns_Gaze
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+
             spriteBatch.Draw(Sprite, position + new Vector2(0, Height), null, color, 0, origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2), scale, SpriteEffects.None, layer);
             DrawShadow(spriteBatch);
         }
