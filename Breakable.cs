@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualBasic.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +64,23 @@ namespace Unicorns_Gaze
             hasBeenThrown = false;
             throwTime = 0;
             doShadow = true;
+            scale = 0.2f;
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            //randomly decides the displayed sprite
+            if (new Random().Next(0, 2) == 1)
+            {
+                sprite = content.Load<Texture2D>("barrel");
+                sprites[SpriteType.Standard] = content.Load<Texture2D>("barrel");
+            }
+            else
+            {
+                sprite = content.Load<Texture2D>("box");
+                sprites[SpriteType.Standard] = content.Load<Texture2D>("box");
+            }
+            base.LoadContent(content);
         }
 
 
@@ -73,7 +92,7 @@ namespace Unicorns_Gaze
             //66% chance???
             if (GameWorld.Random.Next(0, 3 + 1) >= 2)
             {
-                GameWorld.GameObjectsToAdd.Add(Item.GetRandomItem(Position));
+                GameWorld.MakeObject(Item.GetRandomItem(Position));
             }
         }
 
