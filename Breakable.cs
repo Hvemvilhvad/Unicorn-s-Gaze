@@ -20,6 +20,7 @@ namespace Unicorns_Gaze
         private float throwTime;
         private bool pickedUp;
         private Character following;
+        private static SoundEffect breakSound;
 
         public int Health
         {
@@ -83,6 +84,11 @@ namespace Unicorns_Gaze
             base.LoadContent(content);
         }
 
+        public override void LoadContent(ContentManager content)
+        {
+            HurtSound = content.Load<SoundEffect>("glass-breaking-224091");
+            base.LoadContent(content);
+        }
 
         /// <summary>
         /// When a breakable is broken there is a chance it will spawn an item.
