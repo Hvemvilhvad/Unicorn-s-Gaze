@@ -13,10 +13,6 @@ namespace Unicorns_Gaze
     {
         private float rotation;
         private bool doFlip;
-        protected Texture2D critPowerupSprite;
-        protected Texture2D dmgPowerupSprite;
-        protected Texture2D hpPowerupSprite;
-        protected Texture2D hpPickupSprite;
 
         public float Rotation
         {
@@ -48,10 +44,6 @@ namespace Unicorns_Gaze
 
         public override void LoadContent(ContentManager content)
         {
-            critPowerupSprite = content.Load<Texture2D>("powerup purple");
-            dmgPowerupSprite = content.Load<Texture2D>("powerup orange");
-            hpPowerupSprite = content.Load<Texture2D>("powerup teal");
-            hpPickupSprite = content.Load<Texture2D>("powerup green");
             base.LoadContent(content);
         }
 

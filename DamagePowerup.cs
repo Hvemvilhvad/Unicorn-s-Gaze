@@ -20,7 +20,8 @@ namespace Unicorns_Gaze
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
-            sprite = dmgPowerupSprite;
+            sprites[SpriteType.Standard] = content.Load<Texture2D>("powerup orange");
+            sprite = content.Load<Texture2D>("powerup orange");
         }
 
         public override void Use()
