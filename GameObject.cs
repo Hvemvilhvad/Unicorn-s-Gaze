@@ -52,7 +52,7 @@ namespace Unicorns_Gaze
             get => hitbox;
             set => hitbox = value;
         }
-        public Vector2 Position
+        public virtual Vector2 Position
         {
             get => position;
             set 
