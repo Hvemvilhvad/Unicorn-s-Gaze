@@ -83,6 +83,7 @@ namespace Unicorns_Gaze
                 sprite = content.Load<Texture2D>("box");
                 sprites[SpriteType.Standard] = content.Load<Texture2D>("box");
             }
+            HurtSound = content.Load<SoundEffect>("glass-breaking-224091");
             base.LoadContent(content);
         }
 

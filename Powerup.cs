@@ -18,7 +18,7 @@ namespace Unicorns_Gaze
 
         public override void LoadContent(ContentManager content)
         {
-            scale = 0.2f;
+            
             base.LoadContent(content);
         }
 
