@@ -70,6 +70,8 @@ namespace Unicorns_Gaze
 
         public override void LoadContent(ContentManager content)
         {
+            HurtSound = content.Load<SoundEffect>("glass-breaking-224091");
+
             //randomly decides the displayed sprite
             if (new Random().Next(0, 2) == 1)
             {
@@ -82,7 +84,6 @@ namespace Unicorns_Gaze
                 sprites[SpriteType.Standard] = content.Load<Texture2D>("box");
             }
             HurtSound = content.Load<SoundEffect>("glass-breaking-224091");
-            
             base.LoadContent(content);
         }
 
