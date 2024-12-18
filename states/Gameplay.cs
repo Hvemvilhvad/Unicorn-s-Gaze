@@ -142,12 +142,12 @@ namespace Unicorns_Gaze.states
                             break;
                         case 1:
                             //enemies & items spawn here
-                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, 700)));
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2+30)));
                             
                             break;
                         case 2:
                             //enemies & items spawn here
-                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, 900)));
+                            GameWorld.MakeObject(new Breakable(new Vector2(GameWorld.ScreenSize.X, GameWorld.ScreenSize.Y / 2-80)));
                             break;
                         case 3:
                             //enemies & items spawn here
