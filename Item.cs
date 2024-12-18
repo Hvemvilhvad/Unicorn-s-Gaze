@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -91,9 +91,7 @@ namespace Unicorns_Gaze
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Sprite, new Rectangle((int)position.X, (int)position.Y, (int)(Sprite.Width * Math.Sin(Rotation)), Sprite.Height),
-                null, Color.White, 0, origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2),
-                doFlip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, layer);
+            spriteBatch.Draw(Sprite, new Rectangle((int)position.X, (int)position.Y, (int)((Sprite.Width * Math.Sin(Rotation)*scale)), (int)(Sprite.Height*scale)), null, Color.White, 0, origin = new Vector2((Sprite.Width*scale) / 2, (Sprite.Height*scale) / 2), doFlip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, layer);
             DrawShadow(spriteBatch);
         }
 

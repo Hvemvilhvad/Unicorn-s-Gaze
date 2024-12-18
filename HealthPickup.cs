@@ -20,8 +20,9 @@ namespace Unicorns_Gaze
 
         public override void LoadContent(ContentManager content)
         {
-            base.LoadContent(content);
-            sprite = hpPickupSprite;
+            sprites[SpriteType.Standard] = content.Load<Texture2D>("powerup green");
+            sprite = content.Load<Texture2D>("powerup green");
+            base.LoadContent(content);           
         }
 
         public override void Use()

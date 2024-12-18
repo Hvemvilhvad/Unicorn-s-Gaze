@@ -116,7 +116,7 @@ namespace Unicorns_Gaze
         /// </summary>
         public virtual void RangedAttack()
         {
-            Projectile projectile = new Projectile(Position + new Vector2(-40,20), DamageRange.GetADamageValue(), false, IsFacingRight, false, RangedAttackSprite, 1.5f);
+            Projectile projectile = new Projectile(Position + new Vector2(-40,20), DamageRange.GetADamageValue(), false, IsFacingRight, false, RangedAttackSprite, 2.5f);
             attackCooldown = projectile.Cooldown;
             GameWorld.GameObjectsToAdd.Add(projectile);
             spriteType = SpriteType.Attack;

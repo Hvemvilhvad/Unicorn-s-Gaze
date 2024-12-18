@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace Unicorns_Gaze
             this.isFacingRight = isFacingRight;
             this.isHeavyAttack = isHeavyAttack;
             Cooldown = cooldown;
-            Hitbox = new Rectangle(0, 0, 50, 100);
+            Hitbox = new Rectangle((int)position.X, (int)position.Y, (int)(sprite.Width*scale), (int)(sprite.Height * scale));
             sprites[SpriteType.Standard] = sprite;
             doShadow = true;
         }
@@ -45,8 +46,8 @@ namespace Unicorns_Gaze
             {
                 position = new Vector2(position.X - speed, position.Y);
             }
+            Hitbox = new Rectangle((int)(position.X - (Hitbox.Width / 2)), (int)(((position.Y + Height) - (Hitbox.Height / 2))), (int)(Hitbox.Width), (int)(Hitbox.Height));
             base.Update(gameTime, screenSize);
-
         }
 
         public override bool OnCollision(GameObject other)

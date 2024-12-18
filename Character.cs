@@ -192,7 +192,6 @@ namespace Unicorns_Gaze
                 return hurtSounds[GameWorld.Random.Next(0, hurtSounds.Length)];
             }
         }
-        
         public Character()
         {
             doShadow = true;
