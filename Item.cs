@@ -44,6 +44,7 @@ namespace Unicorns_Gaze
         {
             Position = position;
             doShadow = true;
+            scale=0.2f;
         }
 
         public override void LoadContent(ContentManager content)
